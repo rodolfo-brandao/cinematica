@@ -11,5 +11,5 @@ public class ApiResult<TResponse>(int statusCode = (int)HttpStatusCode.OK)
 {
     public int StatusCode { get; set; } = statusCode;
     public TResponse Response { get; set; } = default;
-    public string ErrorMessage { get; set; } = default;
+    public string ErrorMessage { get; set; } = null;
 }
