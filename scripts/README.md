@@ -1,6 +1,6 @@
-# Database Instructions
+# Database
 
-## About
+## Instructions
 
 To create the database, simply run the script [database-creation.sql](DDL/database-creation.sql), located in the *DDL* folder, in a [SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads) instance. This script contains the definition of all tables, their indexes and relationships that make up the schema of this project, structured in the correct order.
 
@@ -21,4 +21,6 @@ PS: *The DML scripts have been broken into several files to avoid centralizing a
 
 ## Entity Relationship Diagram
 
-<img src="../assets/movie-library-erd.png" alt="The Entity Relationship Diagram" width="500" />
+<p align="center">
+  <img src="../assets/movie-library-erd.png" alt="The Entity Relationship Diagram" width="950" />
+</p>
