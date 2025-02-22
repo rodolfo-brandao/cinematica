@@ -1,4 +1,3 @@
-using MovieLibrary.Core.Enums;
 using MovieLibrary.Core.Models.Abstract;
 
 namespace MovieLibrary.Core.Models;
@@ -7,20 +6,21 @@ public class Movie : TrackableEntity
 {
     public virtual Guid DirectorId { get; protected internal set; }
     public virtual Guid CountryId { get; protected internal set; }
-    public virtual string EnglishName { get; protected internal set; }
+    public virtual string Name { get; protected internal set; }
     public virtual string OriginalName { get; protected internal set; }
     public virtual string ReleaseYear { get; protected internal set; }
     public virtual ushort RuntimeInMinutes { get; protected internal set; }
-    public virtual Genres Genres { get; protected internal set; }
+    public virtual string Synopsis { get; protected internal set; }
 
     #region Navigation Properties
 
     public virtual Director Director { get; protected internal set; }
     public virtual Country Country { get; protected internal set; }
+    public virtual ICollection<MovieGenre> MovieGenres { get; protected internal set; }
 
     #endregion
 
-    public virtual Movie ChangeDirectorId(Guid directorId)
+    public virtual Movie ChangeDirector(Guid directorId)
     {
         DirectorId = directorId;
         return this;
@@ -32,9 +32,9 @@ public class Movie : TrackableEntity
         return this;
     }
 
-    public virtual Movie ChangeEnglishName(string englishName)
+    public virtual Movie ChangeName(string name)
     {
-        EnglishName = englishName;
+        Name = name;
         return this;
     }
 
@@ -56,9 +56,21 @@ public class Movie : TrackableEntity
         return this;
     }
 
-    public virtual Movie ChangeGenres(Genres genres)
+    public virtual Movie ChangeSynopsis(string synopsis)
     {
-        Genres = genres;
+        Synopsis = synopsis;
+        return this;
+    }
+
+    public virtual Movie AddGenre(MovieGenre movieGenre)
+    {
+        MovieGenres.Add(movieGenre);
+        return this;
+    }
+
+    public virtual Movie RemoveGenre(MovieGenre movieGenre)
+    {
+        MovieGenres.Remove(movieGenre);
         return this;
     }
 
@@ -70,7 +82,7 @@ public class Movie : TrackableEntity
 
     public override TrackableEntity Enable()
     {
-        IsDisabled = default;
+        IsDisabled = false;
         return this;
     }
 
