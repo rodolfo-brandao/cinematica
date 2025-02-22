@@ -14,28 +14,28 @@ public class MovieEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
 
         builder.Property(movie => movie.Id)
             .HasColumnName("id")
-            .HasColumnType("UUID")
+            .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
         builder.Property(movie => movie.DirectorId)
             .HasColumnName("director_id")
-            .HasColumnType("UUID")
+            .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
         builder.Property(movie => movie.CountryId)
             .HasColumnName("country_id")
-            .HasColumnType("UUID")
+            .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
-        builder.Property(movie => movie.EnglishName)
-            .HasColumnName("english_name")
+        builder.Property(movie => movie.Name)
+            .HasColumnName("name")
             .HasColumnType("VARCHAR(255)")
             .IsRequired();
 
         builder.Property(movie => movie.OriginalName)
             .HasColumnName("original_name")
-            .HasColumnType("VARCHAR(255)")
-            .IsRequired(required: default);
+            .HasColumnType("NVARCHAR(255)")
+            .IsRequired(required: false);
 
         builder.Property(movie => movie.ReleaseYear)
             .HasColumnName("release_year")
@@ -46,25 +46,41 @@ public class MovieEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
             .HasColumnName("runtime_in_minutes")
             .HasColumnType("SMALLINT")
             .IsRequired();
-
-        builder.Property(movie => movie.Genres)
-            .HasColumnName("genres")
-            .HasColumnType("SMALLINT")
+        
+        builder.Property(movie => movie.Synopsis)
+            .HasColumnName("synopsis")
+            .HasColumnType("VARCHAR(500)")
             .IsRequired();
 
         builder.Property(movie => movie.CreatedOn)
             .HasColumnName("created_on")
-            .HasColumnType("TIMESTAMPTZ")
+            .HasColumnType("DATETIME2")
             .IsRequired();
 
         builder.Property(movie => movie.UpdatedOn)
             .HasColumnName("updated_on")
-            .HasColumnType("TIMESTAMPTZ")
-            .IsRequired(required: default);
+            .HasColumnType("DATETIME2")
+            .IsRequired(required: false);
 
         builder.Property(movie => movie.IsDisabled)
             .HasColumnName("is_disabled")
-            .HasColumnType("BOOLEAN")
+            .HasColumnType("BIT")
             .IsRequired();
+
+        #region Navigation Properties Cardinality
+
+        builder.HasOne(movie => movie.Director)
+            .WithMany(director => director.Movies)
+            .HasForeignKey(movie => movie.DirectorId)
+            .HasConstraintName("FK_director_movie")
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(movie => movie.Country)
+            .WithMany(country => country.Movies)
+            .HasForeignKey(movie => movie.CountryId)
+            .HasConstraintName("FK_country_movie")
+            .OnDelete(DeleteBehavior.Restrict);
+
+        #endregion
     }
 }

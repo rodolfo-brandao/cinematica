@@ -14,7 +14,7 @@ public class CountryEntityTypeConfiguration : IEntityTypeConfiguration<Country>
 
         builder.Property(country => country.Id)
             .HasColumnName("id")
-            .HasColumnType("UUID")
+            .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
         builder.Property(country => country.Name)
@@ -29,17 +29,17 @@ public class CountryEntityTypeConfiguration : IEntityTypeConfiguration<Country>
 
         builder.Property(country => country.CreatedOn)
             .HasColumnName("created_on")
-            .HasColumnType("TIMESTAMPTZ")
+            .HasColumnType("DATETIME2")
             .IsRequired();
 
         builder.Property(country => country.UpdatedOn)
             .HasColumnName("updated_on")
-            .HasColumnType("TIMESTAMPTZ")
-            .IsRequired(required: default);
+            .HasColumnType("DATETIME2")
+            .IsRequired(required: false);
 
         builder.Property(country => country.IsDisabled)
             .HasColumnName("is_disabled")
-            .HasColumnType("BOOLEAN")
+            .HasColumnType("BIT")
             .IsRequired();
     }
 }

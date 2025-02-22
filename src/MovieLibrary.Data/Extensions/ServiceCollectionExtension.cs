@@ -22,7 +22,7 @@ public static class ServiceCollectionExtension
         var connectionString = configuration.GetConnectionString(name: connectionStringKey);
         return serviceCollection.AddDbContext<MovieLibraryDbContext>(options =>
         {
-            options.UseNpgsql(connectionString);
+            options.UseSqlServer(connectionString);
         });
     }
 
