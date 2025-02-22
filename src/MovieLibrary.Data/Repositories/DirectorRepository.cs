@@ -5,6 +5,4 @@ using MovieLibrary.Data.DbContexts;
 namespace MovieLibrary.Data.Repositories;
 
 public class DirectorRepository(MovieLibraryDbContext movieLibraryDbContext)
-    : Repository<Director>(movieLibraryDbContext), IDirectorRepository
-{
-}
+    : Repository<Director>(movieLibraryDbContext), IDirectorRepository;
