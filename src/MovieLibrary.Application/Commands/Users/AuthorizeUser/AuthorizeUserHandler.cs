@@ -12,8 +12,7 @@ public class AuthorizeUserHandler(IUserRepository userRepository, ISecurityServi
     {
         var apiResult = new ApiResult<AuthorizedUserResponse>();
 
-        var user = userRepository.Query(user => user.Username.Equals(request.Username), isReadOnly: true)
-            .FirstOrDefault() ?? new NullUser();
+        var user = await userRepository.GetByUsernameAsync(request.Username);
 
         if (user is NullUser)
         {
@@ -23,18 +22,18 @@ public class AuthorizeUserHandler(IUserRepository userRepository, ISecurityServi
         else if (!securityService.ValidatePassword(request.Password, user.Password, user.PasswordSalt))
         {
             apiResult.StatusCode = (int)HttpStatusCode.BadRequest;
-            apiResult.ErrorMessage = $"Wrong password.";
+            apiResult.ErrorMessage = "Wrong password.";
         }
         else
         {
-            var expirationTime = new TimeOnly(hour: 2, minute: byte.MinValue);
+            var expirationTime = new TimeOnly(hour: 2, minute: 0);
             var token = securityService.CreateJsonWebToken(user, expirationTime);
             apiResult.Response = new AuthorizedUserResponse
             {
                 Username = user.Username,
                 Token = token,
                 Type = "Bearer",
-                ExpiresOn = DateTime.UtcNow.AddHours(expirationTime.Hour).ToString(format: "yyyy-MM-dd HH:mm:ss")
+                ExpiresOn = $"{DateTime.UtcNow.AddHours(expirationTime.Hour):yyyy-MM-dd HH:mm:ss} UTC"
             };
         }
 

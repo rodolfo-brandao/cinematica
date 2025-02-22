@@ -9,7 +9,7 @@ namespace MovieLibrary.Data.Repositories;
 public class Repository<TEntity>(MovieLibraryDbContext movieLibraryDbContext) : IRepository<TEntity>
     where TEntity : Entity
 {
-    private readonly DbSet<TEntity> _dbSet = movieLibraryDbContext.Set<TEntity>();
+    protected readonly DbSet<TEntity> DbSet = movieLibraryDbContext.Set<TEntity>();
 
     public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression)
     {
@@ -18,23 +18,22 @@ public class Repository<TEntity>(MovieLibraryDbContext movieLibraryDbContext) : 
 
     public async Task<TEntity> GetByKeyAsync(params object[] keys)
     {
-        return await _dbSet.FindAsync(keys);
+        return await DbSet.FindAsync(keys);
     }
 
     public async Task<TEntity> InsertAsync(TEntity entity)
     {
-        return (await _dbSet.AddAsync(entity)).Entity;
+        return (await DbSet.AddAsync(entity)).Entity;
     }
 
     public async Task InsertRangeAsync(params TEntity[] entities)
     {
-        await _dbSet.AddRangeAsync(entities);
+        await DbSet.AddRangeAsync(entities);
     }
 
-    public IQueryable<TEntity> Query(
-        Expression<Func<TEntity, bool>> expression, string includes = "", bool isReadOnly = default)
+    public IQueryable<TEntity> Query(Expression<Func<TEntity, bool>> expression, string includes = "", bool isReadOnly = false)
     {
-        var query = isReadOnly ? _dbSet.AsNoTracking() : _dbSet;
+        var query = isReadOnly ? DbSet.AsNoTracking() : DbSet;
 
         foreach (var included in includes.Split(',', StringSplitOptions.RemoveEmptyEntries))
         {
@@ -46,21 +45,21 @@ public class Repository<TEntity>(MovieLibraryDbContext movieLibraryDbContext) : 
 
     public TEntity Remove(TEntity entity)
     {
-        return _dbSet.Remove(entity).Entity;
+        return DbSet.Remove(entity).Entity;
     }
 
     public void RemoveRange(params TEntity[] entities)
     {
-        _dbSet.RemoveRange(entities);
+        DbSet.RemoveRange(entities);
     }
 
     public TEntity Update(TEntity entity)
     {
-        return _dbSet.Update(entity).Entity;
+        return DbSet.Update(entity).Entity;
     }
 
     public void UpdateRange(params TEntity[] entities)
     {
-        _dbSet.UpdateRange(entities);
+        DbSet.UpdateRange(entities);
     }
 }
