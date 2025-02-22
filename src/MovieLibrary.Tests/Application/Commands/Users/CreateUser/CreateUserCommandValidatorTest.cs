@@ -26,9 +26,10 @@ public class CreateUserCommandValidatorTest()
         var sut = await createUserCommandValidator.ValidateAsync(command);
 
         // Assert:
-        sut.Should().NotBeNull().And.BeOfType<ValidationResult>();
-        sut.IsValid.Should().BeTrue();
-        sut.Errors.Should().BeEmpty();
+        Assert.NotNull(sut);
+        Assert.IsType<ValidationResult>(sut);
+        Assert.True(sut.IsValid);
+        Assert.Empty(sut.Errors);
     }
 
     #endregion
@@ -52,9 +53,10 @@ public class CreateUserCommandValidatorTest()
         var sut = await createUserCommandValidator.ValidateAsync(command);
 
         // Assert:
-        sut.Should().NotBeNull().And.BeOfType<ValidationResult>();
-        sut.IsValid.Should().BeFalse();
-        sut.Errors.Should().NotBeEmpty();
+        Assert.NotNull(sut);
+        Assert.IsType<ValidationResult>(sut);
+        Assert.False(sut.IsValid);
+        Assert.NotEmpty(sut.Errors);
     }
 
     [Theory(DisplayName = "ValidateAsync() - Failure cases: Command object properties have invalid values")]
@@ -73,9 +75,10 @@ public class CreateUserCommandValidatorTest()
         var sut = await createUserCommandValidator.ValidateAsync(command);
 
         // Assert:
-        sut.Should().NotBeNull().And.BeOfType<ValidationResult>();
-        sut.IsValid.Should().BeFalse();
-        sut.Errors.Should().NotBeEmpty();
+        Assert.NotNull(sut);
+        Assert.IsType<ValidationResult>(sut);
+        Assert.False(sut.IsValid);
+        Assert.NotEmpty(sut.Errors);
     }
 
     #endregion
