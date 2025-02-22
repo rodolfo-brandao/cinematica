@@ -19,16 +19,19 @@ public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
                 !await userRepository.ExistsAsync(user => user.Username.Equals(username) && !user.IsDisabled))
             .WithMessage(command => $"User with username '{command.Username}' already exists.");
 
-        RuleFor(command => command.Username.Length)
-            .InclusiveBetween(from: UsernameMinLength, to: UsernameMaxLength)
-            .WithMessage($"The username must be between {UsernameMinLength} and {UsernameMaxLength} characters.");
+        When(command => command.Username is not null, () =>
+        {
+            RuleFor(command => command.Username.Length)
+                .InclusiveBetween(from: UsernameMinLength, to: UsernameMaxLength)
+                .WithMessage($"The username must be between {UsernameMinLength} and {UsernameMaxLength} characters.");
+        });
 
         RuleFor(command => command.Email)
             .NotEmpty()
             .WithMessage("The e-mail cannot be empty, null or whitespace.")
             .MaximumLength(maximumLength: EmailMaxLength)
             .WithMessage($"The e-mail must not exceed {EmailMaxLength} characters.")
-            .Must(email => MailAddress.TryCreate(email, out var _))
+            .Must(email => MailAddress.TryCreate(email, out _))
             .WithMessage("The e-mail address is not valid.")
             .MustAsync(async (email, _) =>
                 !await userRepository.ExistsAsync(user => user.Email.Equals(email) && !user.IsDisabled))
