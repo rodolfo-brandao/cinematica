@@ -8,9 +8,9 @@ internal class CreateUserCommandFake : IEnumerable<object[]>
     private const byte MaxUsernameLength = 50;
     private const byte MinPasswordLength = 6;
 
-    private static string?[] InvalidStringTypeValues => [" ", string.Empty, default];
+    private static string?[] InvalidStringTypeValues => [" ", string.Empty, null];
 
-    public static CreateUserCommand Valid(bool? isAdmin = default) => new Faker<CreateUserCommand>()
+    public static CreateUserCommand Valid(bool? isAdmin = null) => new Faker<CreateUserCommand>()
         .RuleFor(command => command.Username, faker => faker.Internet.UserName())
         .RuleFor(command => command.Email, faker => faker.Internet.Email())
         .RuleFor(command => command.Password, faker => faker.Random.Hash())
