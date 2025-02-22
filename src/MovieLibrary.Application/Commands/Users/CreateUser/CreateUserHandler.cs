@@ -8,23 +8,21 @@ using MovieLibrary.Core.Contracts.Units;
 
 namespace MovieLibrary.Application.Commands.Users.CreateUser;
 
-public class CreateUserHandler(IUserRepository userRepository, ISecurityService securityService, IUnitOfWork unitOfWork, IModelFactory modelFactory)
+public class CreateUserHandler(
+    IUserRepository userRepository,
+    ISecurityService securityService,
+    IUnitOfWork unitOfWork,
+    IModelFactory modelFactory)
     : IRequestHandler<CreateUserCommand, ApiResult<CreatedUserResponse>>
 {
-    public async Task<ApiResult<CreatedUserResponse>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<CreatedUserResponse>> Handle(CreateUserCommand request,
+        CancellationToken cancellationToken)
     {
         var apiResult = new ApiResult<CreatedUserResponse>();
-        var validation = await new CreateUserCommandValidator(userRepository)
-        {
-            ClassLevelCascadeMode = CascadeMode.Stop
-        }.ValidateAsync(request, cancellationToken);
+        var validationResult = await new CreateUserCommandValidator(userRepository)
+            .ValidateAsync(request, cancellationToken);
 
-        if (!validation.IsValid)
-        {
-            apiResult.StatusCode = (int)HttpStatusCode.BadRequest;
-            apiResult.ErrorMessage = validation.Errors.First().ErrorMessage;
-        }
-        else
+        if (validationResult.IsValid)
         {
             var (password, passwordSalt) = securityService.CreatePasswordHash(request.Password);
             var user = modelFactory.CreateUser(
@@ -43,6 +41,11 @@ public class CreateUserHandler(IUserRepository userRepository, ISecurityService 
                 Role = createdUser.Role,
                 CreatedOn = createdUser.CreatedOn.ToLongDateString()
             };
+        }
+        else
+        {
+            apiResult.StatusCode = (int)HttpStatusCode.BadRequest;
+            apiResult.ErrorMessage = validationResult.Errors.First().ErrorMessage;
         }
 
         return apiResult;
