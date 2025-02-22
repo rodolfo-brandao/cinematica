@@ -51,7 +51,7 @@ public class Director : TrackableEntity
 
     public override TrackableEntity Enable()
     {
-        IsDisabled = default;
+        IsDisabled = false;
         return this;
     }
 

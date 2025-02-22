@@ -39,7 +39,7 @@ public class Country : TrackableEntity
 
     public override TrackableEntity Enable()
     {
-        IsDisabled = default;
+        IsDisabled = false;
         return this;
     }
 

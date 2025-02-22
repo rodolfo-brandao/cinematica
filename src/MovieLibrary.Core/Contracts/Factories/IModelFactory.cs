@@ -1,4 +1,3 @@
-using MovieLibrary.Core.Enums;
 using MovieLibrary.Core.Models;
 
 namespace MovieLibrary.Core.Contracts.Factories;
@@ -10,7 +9,8 @@ public interface IModelFactory
 {
     Country CreateCountry(string name, string isoAlpha3Code);
     Director CreateDirector(string name, DateOnly dateOfBirth);
-    Movie CreateMovie(Guid directorId, Guid countryId, string englishName, string originalName,
-        string releaseYear, ushort runtimeInMinutes, Genres genres);
+    Genre CreateGenre(string name);
+    Movie CreateMovie(Guid directorId, Guid countryId, string name, string originalName,
+        string releaseYear, ushort runtimeInMinutes, string synopsis);
     User CreateUser(string username, string email, string password, string passwordSalt, string role);
 }
