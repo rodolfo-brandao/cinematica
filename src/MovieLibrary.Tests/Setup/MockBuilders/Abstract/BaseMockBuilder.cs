@@ -23,6 +23,6 @@ internal abstract class BaseMockBuilder<TMockBuilder, TMockTarget>
     /// <summary>
     /// Initializes an instance of the mock builder.
     /// </summary>
-    /// <returns>An instance of the mock builder itself.</returns>
+    /// <returns>An instance of <see cref="TMockBuilder"/>.</returns>
     public static TMockBuilder Create() => new();
 }
