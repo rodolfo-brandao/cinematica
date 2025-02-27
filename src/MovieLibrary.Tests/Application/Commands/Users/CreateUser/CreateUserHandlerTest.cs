@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using MovieLibrary.Application.Commands.Users.CreateUser;
 using MovieLibrary.Application.Responses.Users;
 using MovieLibrary.Application.Utils;
@@ -50,5 +51,7 @@ public class CreateUserHandlerTest
         // Assert:
         Assert.IsType<ApiResult<CreatedUserResponse>>(sut);
         Assert.NotNull(sut);
+        Assert.Equal(StatusCodes.Status200OK, sut.StatusCode);
+        Assert.NotNull(sut.Response);
     }
 }
