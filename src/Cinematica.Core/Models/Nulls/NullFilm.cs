@@ -2,6 +2,4 @@ using Cinematica.Core.Models.Abstract;
 
 namespace Cinematica.Core.Models.Nulls;
 
-public sealed class NullMovie : Movie, INullObject
-{
-}
+public sealed class NullFilm : Film, INullObject;

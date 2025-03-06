@@ -6,7 +6,7 @@ namespace Cinematica.Data.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ByteArrayExtension
 {
-    public static string ParseToString(this byte[] bytes, string format = default)
+    public static string ParseToString(this byte[] bytes, string format = null)
     {
         var stringBuilder = new StringBuilder();
 

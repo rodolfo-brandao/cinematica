@@ -16,7 +16,7 @@ public interface ISecurityService
     (string PasswordHash, string PasswordSalt) CreatePasswordHash(string rawPassword);
 
     /// <summary>
-    /// Generates a JSON Web Token (JWT) based on the given user role.
+    /// Issues a JSON Web Token (JWT) based on the given user role.
     /// </summary>
     /// <param name="user">The respective user to have the access token created based on their access level.</param>
     /// <param name="expirationTime">The duration at which the token should expire, preferably in UTC.</param>
