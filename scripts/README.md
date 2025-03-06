@@ -13,7 +13,7 @@ After creation, to populate the database, run the seed scripts located in the *D
 3. [directors-seed.sql](DML/directors-seed.sql)
 4. [films-seed.sql](DML/films-seed.sql)
 5. [genres-seed.sql](DML/genres-seed.sql)
-6. [movie-genre-seed.sql](DML/movie-genre-seed.sql)
+6. [film-genre-seed.sql](DML/film-genre-seed.sql)
 
 It is important to follow the order provided to avoid errors and ensure that the data will be inserted correctly, respecting the table relationships.
 

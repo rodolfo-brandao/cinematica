@@ -1,6 +1,6 @@
 USE Cinematica;
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '34478c13-e385-467b-a8bd-b127b1113720',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -15,7 +15,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '9f27568d-9b6f-48e2-8bd4-f0aa9d9fead4',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -30,7 +30,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '86270dc9-e820-4c9c-8920-870028a93337',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -45,7 +45,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '0015f5e0-aead-4017-99a3-5d189f184fd8',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -60,7 +60,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     'd54465ac-f078-4131-829b-e16c8967dff1',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -75,7 +75,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     'fabc749b-8eff-42c1-9b4e-f0980a8eb914',
     'c11bfa47-b6a9-471e-a797-b9189d78d3bd',
@@ -92,7 +92,7 @@ VALUES (
 
 ---
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '9edf0381-b758-4c52-a984-6be6d2361f37',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -107,7 +107,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '0717dd95-307d-438c-afa0-e8d1f19d1b30',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -122,7 +122,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '8502369d-7554-4a20-8f8d-b3e9cda04573',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -137,7 +137,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '2197bc6c-c63f-4b15-97a9-d51facdea2bc',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -152,7 +152,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     'f0ee4777-a56d-4b49-a2f1-da2a2f8f69b8',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -167,7 +167,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     'b9b1e1ab-de70-4a7d-b729-25dc24d2a1f2',
     '9e456246-54e9-48c0-9334-2c6eea386d6b',
@@ -184,7 +184,7 @@ VALUES (
 
 ---
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '2661fc29-b95c-40b1-bcb2-de57101c0890',
     'c462cd8e-fc9f-444b-b540-6e6145b62de4',
@@ -199,7 +199,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '7f629faa-19be-41ef-8be6-f9b1e489ce77',
     'c462cd8e-fc9f-444b-b540-6e6145b62de4',
@@ -216,7 +216,7 @@ VALUES (
 
 ---
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     'ded9f865-b447-4937-b827-ecb2328c1ad0',
     'aa4318b4-9f2b-49da-a47a-6616f7b6c94a',
@@ -233,7 +233,7 @@ VALUES (
 
 ---
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '9dafbab3-b38d-40cd-8b23-2293861d7e2c',
     'c34a7a57-b11d-4f36-a4c9-e3807f34f101',
@@ -248,7 +248,7 @@ VALUES (
     0
 );
 
-INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
+INSERT INTO film (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (
     '2b22343e-b122-4b46-bd68-d0bad2a0a309',
     '5be41757-37b9-4563-8d6d-f3c5399cb282',
