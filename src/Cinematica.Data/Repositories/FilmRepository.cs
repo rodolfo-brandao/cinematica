@@ -4,5 +4,5 @@ using Cinematica.Data.DbContexts;
 
 namespace Cinematica.Data.Repositories;
 
-public class MovieRepository(CinematicaDbContext CinematicaDbContext)
-    : Repository<Movie>(CinematicaDbContext), IMovieRepository;
+public class FilmRepository(CinematicaDbContext cinematicaDbContext)
+    : Repository<Film>(cinematicaDbContext), IFilmRepository;
