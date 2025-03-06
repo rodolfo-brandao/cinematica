@@ -34,7 +34,7 @@ public sealed class ModelFactory : IModelFactory
         IsDisabled = false
     };
 
-    public Movie CreateMovie(Guid directorId, Guid countryId, string name, string originalNane,
+    public Film CreateFilm(Guid directorId, Guid countryId, string name, string originalNane,
         string releaseYear, ushort runtimeInMinutes, string synopsis) => new()
     {
         Id = Guid.NewGuid(),

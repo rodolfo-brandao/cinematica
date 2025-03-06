@@ -37,7 +37,7 @@ public static class ServiceCollectionExtension
             .AddScoped(typeof(IRepository<>), typeof(Repository<>))
             .AddScoped<ICountryRepository, CountryRepository>()
             .AddScoped<IDirectorRepository, DirectorRepository>()
-            .AddScoped<IMovieRepository, MovieRepository>()
+            .AddScoped<IFilmRepository, FilmRepository>()
             .AddScoped<IUserRepository, UserRepository>();
     }
 

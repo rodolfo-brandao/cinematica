@@ -15,7 +15,7 @@ public class Country : TrackableEntity
     #region Navigation Properties
 
     public virtual ICollection<Director> Directors { get; protected internal set; }
-    public virtual ICollection<Movie> Movies { get; protected internal set; }
+    public virtual ICollection<Film> Films { get; protected internal set; }
 
     #endregion
 

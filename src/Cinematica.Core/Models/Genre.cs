@@ -9,7 +9,7 @@ public class Genre : TrackableEntity
 
     #region Navigation Properties
 
-    public virtual ICollection<MovieGenre> MovieGenres { get; protected internal set; }
+    public virtual ICollection<FilmGenre> FilmGenres { get; protected internal set; }
 
     #endregion
 

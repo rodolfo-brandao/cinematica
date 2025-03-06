@@ -11,7 +11,7 @@ public class Director : TrackableEntity
     #region Navigation Properties
 
     public virtual Country Country { get; protected internal set; }
-    public virtual ICollection<Movie> Movies { get; protected internal set; }
+    public virtual ICollection<Film> Films { get; protected internal set; }
 
     #endregion
 
@@ -33,14 +33,14 @@ public class Director : TrackableEntity
         return this;
     }
 
-    public virtual void AddMovie(Movie movie)
+    public virtual void AddFilm(Film film)
     {
-        Movies.Add(movie);
+        Films.Add(film);
     }
 
-    public virtual void RemoveMovie(Movie movie)
+    public virtual void RemoveFilm(Film film)
     {
-        Movies.Remove(movie);
+        Films.Remove(film);
     }
 
     public override TrackableEntity Disable()
