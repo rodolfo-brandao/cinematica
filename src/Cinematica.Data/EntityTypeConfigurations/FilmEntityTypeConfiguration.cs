@@ -4,81 +4,81 @@ using Cinematica.Core.Models;
 
 namespace Cinematica.Data.EntityTypeConfigurations;
 
-public class MovieEntityTypeConfiguration : IEntityTypeConfiguration<Movie>
+public class FilmEntityTypeConfiguration : IEntityTypeConfiguration<Film>
 {
-    public void Configure(EntityTypeBuilder<Movie> builder)
+    public void Configure(EntityTypeBuilder<Film> builder)
     {
-        builder.ToTable("movie");
+        builder.ToTable("film");
 
-        builder.HasKey(movie => movie.Id);
+        builder.HasKey(film => film.Id);
 
-        builder.Property(movie => movie.Id)
+        builder.Property(film => film.Id)
             .HasColumnName("id")
             .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
-        builder.Property(movie => movie.DirectorId)
+        builder.Property(film => film.DirectorId)
             .HasColumnName("director_id")
             .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
-        builder.Property(movie => movie.CountryId)
+        builder.Property(film => film.CountryId)
             .HasColumnName("country_id")
             .HasColumnType("UNIQUEIDENTIFIER")
             .IsRequired();
 
-        builder.Property(movie => movie.Name)
+        builder.Property(film => film.Name)
             .HasColumnName("name")
             .HasColumnType("VARCHAR(255)")
             .IsRequired();
 
-        builder.Property(movie => movie.OriginalName)
+        builder.Property(film => film.OriginalName)
             .HasColumnName("original_name")
             .HasColumnType("NVARCHAR(255)")
             .IsRequired(required: false);
 
-        builder.Property(movie => movie.ReleaseYear)
+        builder.Property(film => film.ReleaseYear)
             .HasColumnName("release_year")
             .HasColumnType("CHAR(4)")
             .IsRequired();
 
-        builder.Property(movie => movie.RuntimeInMinutes)
+        builder.Property(film => film.RuntimeInMinutes)
             .HasColumnName("runtime_in_minutes")
             .HasColumnType("SMALLINT")
             .IsRequired();
         
-        builder.Property(movie => movie.Synopsis)
+        builder.Property(film => film.Synopsis)
             .HasColumnName("synopsis")
             .HasColumnType("VARCHAR(500)")
             .IsRequired();
 
-        builder.Property(movie => movie.CreatedOn)
+        builder.Property(film => film.CreatedOn)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(movie => movie.UpdatedOn)
+        builder.Property(film => film.UpdatedOn)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);
 
-        builder.Property(movie => movie.IsDisabled)
+        builder.Property(film => film.IsDisabled)
             .HasColumnName("is_disabled")
             .HasColumnType("BIT")
             .IsRequired();
 
         #region Navigation Properties Cardinality
 
-        builder.HasOne(movie => movie.Director)
-            .WithMany(director => director.Movies)
-            .HasForeignKey(movie => movie.DirectorId)
-            .HasConstraintName("FK_director_movie")
+        builder.HasOne(film => film.Director)
+            .WithMany(director => director.Films)
+            .HasForeignKey(film => film.DirectorId)
+            .HasConstraintName("FK_director_film")
             .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(movie => movie.Country)
-            .WithMany(country => country.Movies)
-            .HasForeignKey(movie => movie.CountryId)
-            .HasConstraintName("FK_country_movie")
+        builder.HasOne(film => film.Country)
+            .WithMany(country => country.Films)
+            .HasForeignKey(film => film.CountryId)
+            .HasConstraintName("FK_country_film")
             .OnDelete(DeleteBehavior.Restrict);
 
         #endregion

@@ -2,7 +2,7 @@ using Cinematica.Core.Models.Abstract;
 
 namespace Cinematica.Core.Models;
 
-public class Movie : TrackableEntity
+public class Film : TrackableEntity
 {
     public virtual Guid DirectorId { get; protected internal set; }
     public virtual Guid CountryId { get; protected internal set; }
@@ -16,61 +16,61 @@ public class Movie : TrackableEntity
 
     public virtual Director Director { get; protected internal set; }
     public virtual Country Country { get; protected internal set; }
-    public virtual ICollection<MovieGenre> MovieGenres { get; protected internal set; }
+    public virtual ICollection<FilmGenre> FilmGenres { get; protected internal set; }
 
     #endregion
 
-    public virtual Movie ChangeDirector(Guid directorId)
+    public virtual Film ChangeDirector(Guid directorId)
     {
         DirectorId = directorId;
         return this;
     }
 
-    public virtual Movie ChangeCountry(Guid countryId)
+    public virtual Film ChangeCountry(Guid countryId)
     {
         CountryId = countryId;
         return this;
     }
 
-    public virtual Movie ChangeName(string name)
+    public virtual Film ChangeName(string name)
     {
         Name = name;
         return this;
     }
 
-    public virtual Movie ChangeOriginalName(string originalName)
+    public virtual Film ChangeOriginalName(string originalName)
     {
         OriginalName = originalName;
         return this;
     }
 
-    public virtual Movie ChangeReleaseYear(string releaseYear)
+    public virtual Film ChangeReleaseYear(string releaseYear)
     {
         ReleaseYear = releaseYear;
         return this;
     }
 
-    public virtual Movie ChangeRuntime(ushort runtimeInMinutes)
+    public virtual Film ChangeRuntime(ushort runtimeInMinutes)
     {
         RuntimeInMinutes = runtimeInMinutes;
         return this;
     }
 
-    public virtual Movie ChangeSynopsis(string synopsis)
+    public virtual Film ChangeSynopsis(string synopsis)
     {
         Synopsis = synopsis;
         return this;
     }
 
-    public virtual Movie AddGenre(MovieGenre movieGenre)
+    public virtual Film AddGenre(FilmGenre filmGenre)
     {
-        MovieGenres.Add(movieGenre);
+        FilmGenres.Add(filmGenre);
         return this;
     }
 
-    public virtual Movie RemoveGenre(MovieGenre movieGenre)
+    public virtual Film RemoveGenre(FilmGenre filmGenre)
     {
-        MovieGenres.Remove(movieGenre);
+        FilmGenres.Remove(filmGenre);
         return this;
     }
 

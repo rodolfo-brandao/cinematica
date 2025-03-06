@@ -1,6 +1,6 @@
-namespace Cinematica.Application.Responses.Movies;
+namespace Cinematica.Application.Responses.Films;
 
-public class DefaultMovieResponse
+public class DefaultFilmResponse
 {
     public Guid Id { get; init; }
     public string Name { get; init; }
