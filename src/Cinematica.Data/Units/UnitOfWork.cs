@@ -3,7 +3,7 @@ using Cinematica.Data.DbContexts;
 
 namespace Cinematica.Data.Units;
 
-public sealed class UnitOfWork(CinematicaDbContext CinematicaDbContext) : IUnitOfWork
+public sealed class UnitOfWork(CinematicaDbContext cinematicaDbContext) : IUnitOfWork
 {
-    public async Task<int> SaveChangesAsync() => await CinematicaDbContext.SaveChangesAsync();
+    public async Task<int> SaveChangesAsync() => await cinematicaDbContext.SaveChangesAsync();
 }

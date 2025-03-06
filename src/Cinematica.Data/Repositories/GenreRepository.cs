@@ -4,5 +4,5 @@ using Cinematica.Data.DbContexts;
 
 namespace Cinematica.Data.Repositories;
 
-public class GenreRepository(CinematicaDbContext CinematicaDbContextdbContext)
-    : Repository<Genre>(CinematicaDbContextdbContext), IGenreRepository;
+public class GenreRepository(CinematicaDbContext cinematicaDbContext)
+    : Repository<Genre>(cinematicaDbContext), IGenreRepository;

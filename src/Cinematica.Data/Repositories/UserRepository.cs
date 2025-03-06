@@ -6,8 +6,8 @@ using Cinematica.Data.DbContexts;
 
 namespace Cinematica.Data.Repositories;
 
-public class UserRepository(CinematicaDbContext CinematicaDbContext)
-    : Repository<User>(CinematicaDbContext), IUserRepository
+public class UserRepository(CinematicaDbContext cinematicaDbContext)
+    : Repository<User>(cinematicaDbContext), IUserRepository
 {
     public async Task<User> GetByUsernameAsync(string username)
     {

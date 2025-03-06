@@ -6,10 +6,10 @@ using Cinematica.Data.DbContexts;
 
 namespace Cinematica.Data.Repositories;
 
-public class Repository<TEntity>(CinematicaDbContext CinematicaDbContext) : IRepository<TEntity>
+public class Repository<TEntity>(CinematicaDbContext cinematicaDbContext) : IRepository<TEntity>
     where TEntity : Entity
 {
-    protected readonly DbSet<TEntity> DbSet = CinematicaDbContext.Set<TEntity>();
+    protected readonly DbSet<TEntity> DbSet = cinematicaDbContext.Set<TEntity>();
 
     public async Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> expression)
     {
