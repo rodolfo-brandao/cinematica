@@ -2,10 +2,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "C#: MovieLibrary.Presentation Debug",
+            "name": "C#: Cinematica.Presentation Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/src/MovieLibrary.Presentation/MovieLibrary.Presentation.csproj"
+            "projectPath": "${workspaceFolder}/src/Cinematica.Presentation/Cinematica.Presentation.csproj"
         }
     ]
 }
