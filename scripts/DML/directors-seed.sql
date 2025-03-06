@@ -1,4 +1,4 @@
-USE MovieLibrary;
+USE Cinematica;
 
 INSERT INTO director (id, country_id, [name], date_of_birth, created_on, updated_on, is_disabled)
 VALUES ('c11bfa47-b6a9-471e-a797-b9189d78d3bd', '989adb5a-3434-4239-bfaa-8752dcd18e9b', 'Francis Ford Coppola', '1939-04-07', GETDATE(), NULL, 0);

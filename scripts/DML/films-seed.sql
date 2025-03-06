@@ -1,4 +1,4 @@
-USE MovieLibrary;
+USE Cinematica;
 
 INSERT INTO movie (id, director_id, country_id, [name], original_name, release_year, runtime_in_minutes, synopsis, created_on, updated_on, is_disabled)
 VALUES (

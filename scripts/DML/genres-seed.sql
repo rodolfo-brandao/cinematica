@@ -1,4 +1,4 @@
-USE MovieLibrary;
+USE Cinematica;
 
 -- (All genre names were taken as reference from Letterboxd)
 INSERT INTO genre (id, [name], created_on, updated_on, is_disabled)

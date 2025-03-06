@@ -1,4 +1,4 @@
-USE MovieLibrary;
+USE Cinematica;
 
 -- (for testing purposes only, the raw password is "12345678")
 INSERT INTO [user] (id, username, email, [password], password_salt, [role], created_on, updated_on, is_disabled)

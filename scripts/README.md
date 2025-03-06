@@ -11,7 +11,7 @@ After creation, to populate the database, run the seed scripts located in the *D
 1. [users-seed.sql](DML/users-seed.sql)
 2. [countries-seed.sql](DML/countries-seed.sql)
 3. [directors-seed.sql](DML/directors-seed.sql)
-4. [movies-seed.sql](DML/movies-seed.sql)
+4. [films-seed.sql](DML/films-seed.sql)
 5. [genres-seed.sql](DML/genres-seed.sql)
 6. [movie-genre-seed.sql](DML/movie-genre-seed.sql)
 
@@ -22,5 +22,5 @@ PS: *The DML scripts have been broken into several files to avoid centralizing a
 ## Entity Relationship Diagram
 
 <p align="center">
-  <img src="../assets/movie-library-erd.png" alt="The Entity Relationship Diagram" width="950" />
+  <img src="../assets/cinematica-erd.png" alt="The Entity Relationship Diagram" width="950" />
 </p>

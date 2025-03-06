@@ -1,6 +1,6 @@
 -- Junction table to represent the many-to-many relationship between "Movie" and "Genre" tables.
 
-USE MovieLibrary;
+USE Cinematica;
 
 -- The Godfather <> Crime
 INSERT INTO movie_genre (movie_id, genre_id)

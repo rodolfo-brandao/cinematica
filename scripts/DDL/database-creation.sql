@@ -1,6 +1,6 @@
-CREATE DATABASE MovieLibrary;
+CREATE DATABASE Cinematica;
 
-USE MovieLibrary;
+USE Cinematica;
 
 CREATE TABLE [user] (
     id UNIQUEIDENTIFIER NOT NULL CONSTRAINT PK_user PRIMARY KEY,
@@ -46,8 +46,8 @@ CREATE TABLE director (
 
 ---
 
-CREATE TABLE movie (
-    id UNIQUEIDENTIFIER NOT NULL CONSTRAINT PK_movie PRIMARY KEY,
+CREATE TABLE film (
+    id UNIQUEIDENTIFIER NOT NULL CONSTRAINT PK_film PRIMARY KEY,
     director_id UNIQUEIDENTIFIER NOT NULL,
     country_id UNIQUEIDENTIFIER NOT NULL,
     [name] VARCHAR(255) NOT NULL,
@@ -59,17 +59,17 @@ CREATE TABLE movie (
     updated_on DATETIME2 NULL,
     is_disabled BIT NOT NULL,
 
-    CONSTRAINT FK_director_movie
+    CONSTRAINT FK_director_film
         FOREIGN KEY (director_id)
             REFERENCES director(id),
 
-    CONSTRAINT FK_country_movie
+    CONSTRAINT FK_country_film
         FOREIGN KEY (country_id)
             REFERENCES country(id)
 );
 
-CREATE INDEX idx_movie_name
-ON [movie]([name]);
+CREATE INDEX idx_film_name
+ON [film]([name]);
 
 ---
 
@@ -83,19 +83,19 @@ CREATE TABLE genre (
 
 ---
 
--- Junction table for many-to-many relationship between "movie" and "genre" tables
-CREATE TABLE movie_genre (
-    movie_id UNIQUEIDENTIFIER NOT NULL,
+-- Junction table for many-to-many relationship between "film" and "genre" tables
+CREATE TABLE film_genre (
+    film_id UNIQUEIDENTIFIER NOT NULL,
     genre_id UNIQUEIDENTIFIER NOT NULL,
 
-    CONSTRAINT PK_movie_genre
-        PRIMARY KEY (movie_id, genre_id),
+    CONSTRAINT PK_film_genre
+        PRIMARY KEY (film_id, genre_id),
 
-    CONSTRAINT FK_movie_movie_genre
-        FOREIGN KEY (movie_id)
-            REFERENCES movie(id),
+    CONSTRAINT FK_film_film_genre
+        FOREIGN KEY (film_id)
+            REFERENCES film(id),
 
-    CONSTRAINT FK_genre_movie_genre
+    CONSTRAINT FK_genre_film_genre
         FOREIGN KEY (genre_id)
             REFERENCES genre(id)
 );
