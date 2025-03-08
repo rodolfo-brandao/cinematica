@@ -19,4 +19,16 @@ internal sealed class SecurityServiceMockBuilder : BaseMockBuilder<SecurityServi
         Mock.Setup(service => service.CreatePasswordHash(It.IsAny<string>())).Returns((passwordHash, passwordSalt));
         return this;
     }
+
+    /// <summary>
+    /// Mocks the 'ValidatePassword()' method.
+    /// </summary>
+    /// <param name="isValid">Defines when the method should indicate whether the password is valid or not.</param>
+    /// <returns>The <see cref="SecurityServiceMockBuilder"/> so that additional calls can be chained.</returns>
+    public SecurityServiceMockBuilder SetupValidatePassword(bool isValid = true)
+    {
+        Mock.Setup(service => service.ValidatePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Returns(isValid);
+        return this;
+    }
 }
