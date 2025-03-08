@@ -6,12 +6,13 @@ using Cinematica.Core.Models.Nulls;
 
 namespace Cinematica.Application.Commands.Users.AuthorizeUser;
 
-public class AuthorizeUserHandler(IUserRepository userRepository, ISecurityService securityService) : IRequestHandler<AuthorizeUserCommand, ApiResult<AuthorizedUserResponse>>
+public class AuthorizeUserHandler(IUserRepository userRepository, ISecurityService securityService)
+    : IRequestHandler<AuthorizeUserCommand, ApiResult<AuthorizedUserResponse>>
 {
-    public async Task<ApiResult<AuthorizedUserResponse>> Handle(AuthorizeUserCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResult<AuthorizedUserResponse>> Handle(AuthorizeUserCommand request,
+        CancellationToken cancellationToken)
     {
         var apiResult = new ApiResult<AuthorizedUserResponse>();
-
         var user = await userRepository.GetByUsernameAsync(request.Username);
 
         if (user is NullUser)
@@ -37,6 +38,6 @@ public class AuthorizeUserHandler(IUserRepository userRepository, ISecurityServi
             };
         }
 
-        return await Task.FromResult(apiResult);
+        return apiResult;
     }
 }
