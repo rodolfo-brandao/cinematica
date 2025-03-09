@@ -21,7 +21,7 @@ public interface IRepository<TEntity> where TEntity : Entity
     /// Gets a single entity by its key(s).
     /// </summary>
     /// <param name="keys">The value(s) of the entity key(s).</param>
-    /// <returns>The entity if it exists, otherwise its respective null object.</returns>
+    /// <returns>The entity if it exists, otherwise null.</returns>
     Task<TEntity> GetByKeyAsync(params object[] keys);
 
     /// <summary>
