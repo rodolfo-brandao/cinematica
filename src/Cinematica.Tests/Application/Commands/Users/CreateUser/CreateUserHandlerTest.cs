@@ -19,7 +19,7 @@ public class CreateUserHandlerTest
     {
         // Arrange:
         var command = CreateUserCommandFake.Valid();
-        var cancellationToken = new CancellationTokenSource().Token;
+        var cancellationToken = CancellationToken.None;
         var user = UserFake.Valid();
 
         var userRepository = UserRepositoryMockBuilder

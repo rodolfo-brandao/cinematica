@@ -17,7 +17,7 @@ public class AuthorizeUserHandlerTest
     {
         // Arrange:
         var command = AuthorizeUserCommandFake.Valid();
-        var cancellationToken = new CancellationTokenSource().Token;
+        var cancellationToken = CancellationToken.None;
         var user = UserFake.Valid(command.Username);
 
         var userRepository = UserRepositoryMockBuilder
