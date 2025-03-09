@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using Cinematica.Core.Contracts.Repositories;
 using Cinematica.Core.Models;
 using Cinematica.Core.Models.Nulls;
+using Cinematica.Tests.Setup.Fakers.Models;
 using Cinematica.Tests.Setup.MockBuilders.Abstract;
 
 namespace Cinematica.Tests.Setup.MockBuilders.Repositories;
@@ -23,6 +24,20 @@ internal sealed class UserRepositoryMockBuilder : BaseMockBuilder<UserRepository
     }
 
     /// <summary>
+    /// Mocks the 'GetByKeyAsync()' method.
+    /// </summary>
+    /// <param name="user">
+    /// The model to be used as the existing user.
+    /// If no model is given, a fake instance of <see cref="User"/> will be returned.
+    /// </param>
+    /// <returns>The <see cref="UserRepositoryMockBuilder"/> so that additional calls can be chained.</returns>
+    public UserRepositoryMockBuilder SetupGetByKeyAsync(User user = null)
+    {
+        Mock.Setup(repository => repository.GetByKeyAsync(It.IsAny<object[]>())).ReturnsAsync(user ?? UserFake.Valid());
+        return this;
+    }
+
+    /// <summary>
     /// Mocks the 'GetByUsernameAsync()' method.
     /// </summary>
     /// <param name="user">
@@ -30,9 +45,10 @@ internal sealed class UserRepositoryMockBuilder : BaseMockBuilder<UserRepository
     /// If no model is given, an instance of <see cref="NullUser"/> will be returned.
     /// </param>
     /// <returns>The <see cref="UserRepositoryMockBuilder"/> so that additional calls can be chained.</returns>
-    public UserRepositoryMockBuilder SetupGetByUsernameAsync(User? user = null)
+    public UserRepositoryMockBuilder SetupGetByUsernameAsync(User user = null)
     {
-        Mock.Setup(repository => repository.GetByUsernameAsync(It.IsAny<string>())).ReturnsAsync(user ?? new NullUser());
+        Mock.Setup(repository => repository.GetByUsernameAsync(It.IsAny<string>()))
+            .ReturnsAsync(user ?? new NullUser());
         return this;
     }
 
@@ -44,6 +60,20 @@ internal sealed class UserRepositoryMockBuilder : BaseMockBuilder<UserRepository
     public UserRepositoryMockBuilder SetupInsertAsync(User user)
     {
         Mock.Setup(repository => repository.InsertAsync(It.IsAny<User>())).ReturnsAsync(user);
+        return this;
+    }
+
+    /// <summary>
+    /// Mocks the 'Remove()' method.
+    /// </summary>
+    /// <param name="user">
+    /// The model to represent the removed user.
+    /// If no model is given, a fake instance of <see cref="User"/> will be returned.
+    /// </param>
+    /// <returns>The <see cref="UserRepositoryMockBuilder"/> so that additional calls can be chained.</returns>
+    public UserRepositoryMockBuilder SetupRemove(User user = null)
+    {
+        Mock.Setup(repository => repository.Remove(It.IsAny<User>())).Returns(user ?? UserFake.Valid());
         return this;
     }
 }

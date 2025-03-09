@@ -1,5 +1,6 @@
 using Cinematica.Application.Commands.Users.AuthorizeUser;
 using Cinematica.Application.Commands.Users.CreateUser;
+using Cinematica.Application.Commands.Users.DeleteUser;
 using Cinematica.Application.Responses.Users;
 
 namespace Cinematica.Presentation.Controllers;
@@ -24,6 +25,22 @@ public class UsersController(IMediator mediator) : ApiResultController
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserCommand command,
         CancellationToken cancellationToken)
     {
+        return BuildStatusCodeObject(await mediator.Send(command, cancellationToken));
+    }
+
+    /// <summary>
+    /// Performs a physical deletion on a single user.
+    /// </summary>
+    /// <param name="id">The user's unique identifier.</param>
+    /// <param name="cancellationToken">A token that propagates notification that this request should be canceled.</param>
+    /// <response code="204">User deleted successfully.</response>
+    /// <response code="401">Either you are not authenticated or you don't have access level for this resource.</response>
+    /// <response code="404">The user was not found.</response>
+    [Authorize(Roles = AuthorizationRoles.AdminUser)]
+    [HttpDelete("{id:guid}", Name = "delete-user")]
+    public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteUserCommand(id);
         return BuildStatusCodeObject(await mediator.Send(command, cancellationToken));
     }
 
