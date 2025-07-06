@@ -2,7 +2,7 @@ using Cinematica.Core.Models;
 
 namespace Cinematica.Tests.Setup.Fakers.Models;
 
-internal class UserFake
+internal static class UserFake
 {
     private const byte PasswordHashLength = 32;
     private const byte PasswordSaltHashLength = 16;
