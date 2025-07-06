@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Cinematica.Application.Queries.Films.ListFilms;
 
-public class ListFilmsQuery : BaseQueryParams, IRequest<ApiResult<IEnumerable<DefaultFilmResponse>>>
+public class ListFilmsQuery : BaseQueryParams,
+    IRequest<ApiResult<IEnumerable<DefaultFilmResponse>>>
 {
     /// <summary>
     /// The name, or a substring, of a film (case-insensitive).

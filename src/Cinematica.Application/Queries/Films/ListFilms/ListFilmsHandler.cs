@@ -2,7 +2,6 @@ using Cinematica.Application.Responses.Films;
 using Cinematica.Application.Utils;
 using Cinematica.Core.Contracts.Repositories;
 using Cinematica.Core.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Cinematica.Application.Queries.Films.ListFilms;
 
@@ -12,33 +11,43 @@ public class ListFilmsHandler(IFilmRepository filmRepository)
     public async Task<ApiResult<IEnumerable<DefaultFilmResponse>>> Handle(ListFilmsQuery request,
         CancellationToken cancellationToken)
     {
-        var apiResult = new ApiResult<IEnumerable<DefaultFilmResponse>>();
-        const string included =
-            $"{nameof(Country)},{nameof(Director)},{nameof(FilmGenre)}s,{nameof(FilmGenre)}s.{nameof(Genre)}";
-        var movies = filmRepository.Query(_ => true, isReadOnly: true, includes: included);
-        var filteredFilms = await ApplyFilters(request, movies);
-        apiResult.Response = filteredFilms.Select(film => new DefaultFilmResponse
+        const string included = $"{nameof(Country)}" +
+                                $",{nameof(Director)}" +
+                                $",{nameof(FilmGenre)}s" +
+                                $",{nameof(FilmGenre)}s.{nameof(Genre)}";
+
+        var films = filmRepository.Query(
+            expression: _ => true,
+            isReadOnly: true,
+            includes: included);
+
+        var filteredFilms = ApplyFilters(request, films);
+        var apiResult = new ApiResult<IEnumerable<DefaultFilmResponse>>
         {
-            Id = film.Id,
-            Name = film.Name,
-            OriginalName = film.OriginalName,
-            Year = film.ReleaseYear,
-            Runtime = $"{film.RuntimeInMinutes}min",
-            Synopsis = film.Synopsis,
-            Director = film.Director.Name,
-            Country = film.Country.IsoAlpha3Code,
-            Genres = string.Join(separator: ", ", values: film.FilmGenres.Select(filmGenre => filmGenre.Genre.Name))
-        });
-        return apiResult;
+            Response = [.. filteredFilms.Select(film => new DefaultFilmResponse
+            {
+                Id = film.Id,
+                Name = film.Name,
+                OriginalName = film.OriginalName,
+                Year = film.ReleaseYear,
+                Runtime = $"{film.RuntimeInMinutes}min",
+                Synopsis = film.Synopsis,
+                Director = film.Director.Name,
+                Country = film.Country.IsoAlpha3Code,
+                Genres = FormatFilmGenres(film.FilmGenres)
+            })]
+        };
+
+        return await Task.FromResult(apiResult);
     }
 
     #region Private Methods
 
-    private static async Task<IList<Film>> ApplyFilters(ListFilmsQuery query, IQueryable<Film> films)
+    private static IQueryable<Film> ApplyFilters(ListFilmsQuery query, IQueryable<Film> films)
     {
         if (!string.IsNullOrWhiteSpace(query.Name))
         {
-            films = films.Where(film => EF.Functions.Like(film.Name, $"%{query.Name}%"));
+            films = films.Where(film => film.Name.ToLower().Contains(query.Name.ToLower()));
         }
 
         if (!string.IsNullOrWhiteSpace(query.Year))
@@ -48,12 +57,11 @@ public class ListFilmsHandler(IFilmRepository filmRepository)
 
         if (!string.IsNullOrWhiteSpace(query.CountryCode))
         {
-            films = films.Where(film => EF.Functions.Like(film.Country.IsoAlpha3Code, $"%{query.CountryCode}%"));
+            films = films.Where(film => film.Country.IsoAlpha3Code.ToLower().Equals(query.CountryCode.ToLower()));
         }
 
         films = ApplySorting(query.SortBy, query.Direction, films);
-        films = films.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize);
-        return await films.ToListAsync();
+        return films.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize);
     }
 
     private static IQueryable<Film> ApplySorting(string field, string direction, IQueryable<Film> films)
@@ -80,6 +88,11 @@ public class ListFilmsHandler(IFilmRepository filmRepository)
         }
 
         return films;
+    }
+
+    private static string FormatFilmGenres(ICollection<FilmGenre> filmGenres)
+    {
+        return string.Join(separator: ", ", values: filmGenres.Select(filmGenre => filmGenre.Genre.Name));
     }
 
     #endregion
