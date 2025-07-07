@@ -8,7 +8,7 @@ namespace Cinematica.Presentation.Controllers;
 /// </summary>
 [ApiController, ApiVersion("1"), Produces(contentType: ContentTypes.Json)]
 [Route(template: "api/[controller]/v{version:ApiVersion}")]
-public class FilmsController(IMediator mediator) : ApiResultController
+public class FilmsController(IMediator mediator) : ApiResultHandlerController
 {
     /// <summary>
     /// Lists films. Filtering and pagination may be applied.

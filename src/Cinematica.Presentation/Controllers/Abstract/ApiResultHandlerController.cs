@@ -3,10 +3,10 @@ using Cinematica.Application.Utils;
 namespace Cinematica.Presentation.Controllers.Abstract;
 
 /// <summary>
-/// Abstract controller to manage status code objects
-/// according to commands/queries performed by the application.
+/// Abstract controller to handle <see cref="ApiResult{TResponse}"/>, in order
+/// to handle status code objects according to the commands/queries performed.
 /// </summary>
-public abstract class ApiResultController : ControllerBase
+public abstract class ApiResultHandlerController : ControllerBase
 {
     /// <summary>
     /// Builds the proper status code object based on the <see cref="ApiResult{TResponse}"/>.

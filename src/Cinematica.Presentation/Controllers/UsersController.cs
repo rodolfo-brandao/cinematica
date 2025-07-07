@@ -10,7 +10,7 @@ namespace Cinematica.Presentation.Controllers;
 /// </summary>
 [ApiController, ApiVersion("1"), Produces(contentType: ContentTypes.Json)]
 [Route(template: "api/[controller]/v{version:ApiVersion}")]
-public class UsersController(IMediator mediator) : ApiResultController
+public class UsersController(IMediator mediator) : ApiResultHandlerController
 {
     /// <summary>
     /// Creates a new user.
