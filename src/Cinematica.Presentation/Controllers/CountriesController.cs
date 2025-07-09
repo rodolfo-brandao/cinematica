@@ -20,7 +20,8 @@ public class CountriesController(IMediator mediator) : ApiResultHandlerControlle
     [Authorize(Roles = AuthorizationRoles.AdminUser)]
     [HttpGet(Name = "list-countries")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(DefaultCountryResponse[]))]
-    public async Task<IActionResult> GetCountriesAsync(ListCountriesQuery query, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetCountriesAsync([FromQuery] ListCountriesQuery query,
+        CancellationToken cancellationToken)
     {
         return BuildStatusCodeObject(await mediator.Send(query, cancellationToken));
     }
