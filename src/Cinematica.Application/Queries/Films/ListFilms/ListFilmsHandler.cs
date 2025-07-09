@@ -1,12 +1,14 @@
 using Cinematica.Application.Responses.Films;
 using Cinematica.Application.Utils;
+using Cinematica.Core.Contracts.Queries;
 using Cinematica.Core.Contracts.Repositories;
 using Cinematica.Core.Models;
 
 namespace Cinematica.Application.Queries.Films.ListFilms;
 
 public class ListFilmsHandler(IFilmRepository filmRepository)
-    : IRequestHandler<ListFilmsQuery, ApiResult<IEnumerable<DefaultFilmResponse>>>
+    : ISort<Film>, IFilter<ListFilmsQuery, Film>,
+    IRequestHandler<ListFilmsQuery, ApiResult<IEnumerable<DefaultFilmResponse>>>
 {
     public async Task<ApiResult<IEnumerable<DefaultFilmResponse>>> Handle(ListFilmsQuery request,
         CancellationToken cancellationToken)
@@ -21,7 +23,7 @@ public class ListFilmsHandler(IFilmRepository filmRepository)
             isReadOnly: true,
             includes: included);
 
-        var filteredFilms = ApplyFilters(request, films);
+        var filteredFilms = Filter(request, films);
         var apiResult = new ApiResult<IEnumerable<DefaultFilmResponse>>
         {
             Response = [.. filteredFilms.Select(film => new DefaultFilmResponse
@@ -41,54 +43,58 @@ public class ListFilmsHandler(IFilmRepository filmRepository)
         return await Task.FromResult(apiResult);
     }
 
-    #region Private Methods
+    #region Query Tools
 
-    private static IQueryable<Film> ApplyFilters(ListFilmsQuery query, IQueryable<Film> films)
+    public IQueryable<Film> Filter(ListFilmsQuery query, IQueryable<Film> entities)
     {
         if (!string.IsNullOrWhiteSpace(query.Name))
         {
-            films = films.Where(film => film.Name.ToLower().Contains(query.Name.ToLower()));
+            entities = entities.Where(film => film.Name.ToLower().Contains(query.Name.ToLower()));
         }
 
         if (!string.IsNullOrWhiteSpace(query.Year))
         {
-            films = films.Where(film => film.ReleaseYear.Equals(query.Year));
+            entities = entities.Where(film => film.ReleaseYear.Equals(query.Year));
         }
 
         if (!string.IsNullOrWhiteSpace(query.CountryCode))
         {
-            films = films.Where(film => film.Country.IsoAlpha3Code.ToLower().Equals(query.CountryCode.ToLower()));
+            entities = entities.Where(film => film.Country.IsoAlpha3Code.ToLower().Equals(query.CountryCode.ToLower()));
         }
 
-        films = ApplySorting(query.SortBy, query.Direction, films);
-        return films.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize);
+        entities = Sort(query.SortBy, query.Direction, entities);
+        return entities.Skip((query.Page - 1) * query.PageSize).Take(query.PageSize);
     }
 
-    private static IQueryable<Film> ApplySorting(string field, string direction, IQueryable<Film> films)
+    public IQueryable<Film> Sort(string field, string direction, IQueryable<Film> entities)
     {
         if (direction.Equals("desc"))
         {
-            films = field switch
+            entities = field switch
             {
-                "year" => films.OrderByDescending(film => film.ReleaseYear),
-                "country" => films.OrderByDescending(film => film.Country.IsoAlpha3Code),
-                "runtime" => films.OrderByDescending(film => film.RuntimeInMinutes),
-                _ => films.OrderByDescending(film => film.Name)
+                "year" => entities.OrderByDescending(film => film.ReleaseYear),
+                "country" => entities.OrderByDescending(film => film.Country.IsoAlpha3Code),
+                "runtime" => entities.OrderByDescending(film => film.RuntimeInMinutes),
+                _ => entities.OrderByDescending(film => film.Name)
             };
         }
         else
         {
-            films = field switch
+            entities = field switch
             {
-                "year" => films.OrderBy(film => film.ReleaseYear),
-                "country" => films.OrderBy(film => film.Country.IsoAlpha3Code),
-                "runtime" => films.OrderBy(film => film.RuntimeInMinutes),
-                _ => films.OrderBy(film => film.Name)
+                "year" => entities.OrderBy(film => film.ReleaseYear),
+                "country" => entities.OrderBy(film => film.Country.IsoAlpha3Code),
+                "runtime" => entities.OrderBy(film => film.RuntimeInMinutes),
+                _ => entities.OrderBy(film => film.Name)
             };
         }
 
-        return films;
+        return entities;
     }
+
+    #endregion
+
+    #region Private Methods
 
     private static string FormatFilmGenres(ICollection<FilmGenre> filmGenres)
     {
