@@ -7,7 +7,7 @@ using Cinematica.Tests.Setup.MockBuilders.Abstract;
 namespace Cinematica.Tests.Setup.MockBuilders.Repositories;
 
 /// <summary>
-/// A builder to expose mock functionalities of <see cref="IFilmRepository"/>.
+/// A builder to expose mock methods from <see cref="IFilmRepository"/>.
 /// </summary>
 internal sealed class FilmRepositoryMockBuilder : BaseMockBuilder<FilmRepositoryMockBuilder, IFilmRepository>
 {
@@ -20,13 +20,14 @@ internal sealed class FilmRepositoryMockBuilder : BaseMockBuilder<FilmRepository
     /// This parameter is ignored if the first one is passed.
     /// </param>
     /// <returns>The <see cref="FilmRepositoryMockBuilder"/> so that additional calls can be chained.</returns>
-    public FilmRepositoryMockBuilder SetupQuery(IQueryable<Film> films = null, int count = 10)
+    public FilmRepositoryMockBuilder SetupQuery(IQueryable<Film> films = default, int count = 10)
     {
         Mock.Setup(repository => repository.Query(
                 It.IsAny<Expression<Func<Film, bool>>>(),
                 It.IsAny<string>(),
                 It.IsAny<bool>()))
             .Returns(films ?? FilmFake.GetMany(count).AsQueryable());
+
         return this;
     }
 }

@@ -8,7 +8,7 @@ using Cinematica.Tests.Setup.MockBuilders.Abstract;
 namespace Cinematica.Tests.Setup.MockBuilders.Repositories;
 
 /// <summary>
-/// A builder to expose mock functionalities of <see cref="IUserRepository"/>.
+/// A builder to expose mock methods from <see cref="IUserRepository"/>.
 /// </summary>
 internal sealed class UserRepositoryMockBuilder : BaseMockBuilder<UserRepositoryMockBuilder, IUserRepository>
 {

@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace Cinematica.Tests.Application.Commands.Users.DeleteUser;
 
-[Trait(name: "Handler", value: "DeleteUser")]
+[Trait(name: "Handler(command)", value: "DeleteUser")]
 public class DeleteUserHandlerTest
 {
-    [Fact(DisplayName = "Handle() - Success case: user exists and is removed")]
+    [Fact(DisplayName = "[async] Handle() - Success case: user exists and is removed")]
     public async Task Handle_UserExists_HandlerShouldDeleteUserSuccessfully()
     {
         // Arrange:
@@ -42,7 +42,7 @@ public class DeleteUserHandlerTest
 
     #region Failure Cases
 
-    [Fact(DisplayName = "Handle() - Failure case: user does not exist and therefore is not found.")]
+    [Fact(DisplayName = "[async] Handle() - Failure case: user does not exist and therefore is not found.")]
     public async Task Handle_UserDoesNotExist_HandlerShouldIndicateUserNotFound()
     {
         // Arrange:

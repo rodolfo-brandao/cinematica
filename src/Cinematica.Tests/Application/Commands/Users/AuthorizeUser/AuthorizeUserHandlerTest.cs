@@ -9,10 +9,10 @@ using Microsoft.AspNetCore.Http;
 
 namespace Cinematica.Tests.Application.Commands.Users.AuthorizeUser;
 
-[Trait(name: "Handler", value: "AuthorizeUser")]
+[Trait(name: "Handler(command)", value: "AuthorizeUser")]
 public class AuthorizeUserHandlerTest
 {
-    [Fact(DisplayName = "Handle() - Success case: payload is valid")]
+    [Fact(DisplayName = "[async] Handle() - Success case: payload is valid")]
     public async Task Handle_PassValidPayload_HandlerShouldCreateJsonWebToken()
     {
         // Arrange:
@@ -44,7 +44,7 @@ public class AuthorizeUserHandlerTest
 
     #region Failure cases
 
-    [Fact(DisplayName = "Handle() - Failure case: invalid username")]
+    [Fact(DisplayName = "[async] Handle() - Failure case: invalid username")]
     public async Task Handle_PassPayloadWithInvalidUsername_HandlerShouldNotIssueJsonWebToken()
     {
         // Arrange:
@@ -79,7 +79,7 @@ public class AuthorizeUserHandlerTest
         Assert.NotEqual(expected: string.Empty, actual: sut.ErrorMessage);
     }
 
-    [Fact(DisplayName = "Handle() - Failure case: invalid password")]
+    [Fact(DisplayName = "[async] Handle() - Failure case: invalid password")]
     public async Task Handle_PassPayloadWithInvalidPassword_HandlerShouldNotIssueJsonWebToken()
     {
         // Arrange:

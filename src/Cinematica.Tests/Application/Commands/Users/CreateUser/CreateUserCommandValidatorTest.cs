@@ -7,8 +7,6 @@ namespace Cinematica.Tests.Application.Commands.Users.CreateUser;
 [Trait(name: "Validator", value: "CreateUserCommand")]
 public class CreateUserCommandValidatorTest()
 {
-    #region Success Cases
-
     [Fact(DisplayName = "ValidateAsync() - Success case: all command object properties are valid")]
     public async Task ValidateAsync_PassUserCommandWithValidData_ValidationShouldSucceed()
     {
@@ -31,8 +29,6 @@ public class CreateUserCommandValidatorTest()
         Assert.True(sut.IsValid);
         Assert.Empty(sut.Errors);
     }
-
-    #endregion
 
     #region Failure Cases
 

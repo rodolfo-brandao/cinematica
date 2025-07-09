@@ -11,10 +11,10 @@ using Cinematica.Tests.Setup.MockBuilders.Units;
 
 namespace Cinematica.Tests.Application.Commands.Users.CreateUser;
 
-[Trait(name: "Handler", value: "CreateUser")]
+[Trait(name: "Handler(command)", value: "CreateUser")]
 public class CreateUserHandlerTest
 {
-    [Fact(DisplayName = "Handle() - Success case: payload is valid")]
+    [Fact(DisplayName = "[async] Handle() - Success case: payload is valid")]
     public async Task Handle_PassValidPayload_HandlerShouldCreateUser()
     {
         // Arrange:

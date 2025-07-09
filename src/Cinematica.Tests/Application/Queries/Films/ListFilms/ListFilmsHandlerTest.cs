@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Cinematica.Tests.Application.Queries.Films.ListFilms;
 
-[Trait(name: "Handler", "ListFilms")]
+[Trait(name: "Handler(query)", value: "ListFilms")]
 public class ListFilmsHandlerTest
 {
     [Fact(DisplayName = "[async] Handle() - Success case: query has valid parameter values")]
@@ -28,7 +28,6 @@ public class ListFilmsHandlerTest
         };
 
         var filmsQuery = new List<Film> { film }.AsQueryable();
-        var cancellationToken = CancellationToken.None;
         var filmRepository = FilmRepositoryMockBuilder
             .Create()
             .SetupQuery(filmsQuery)
@@ -37,7 +36,7 @@ public class ListFilmsHandlerTest
         var handler = new ListFilmsHandler(filmRepository);
 
         // Act:
-        var sut = await handler.Handle(query, cancellationToken);
+        var sut = await handler.Handle(query, cancellationToken: CancellationToken.None);
 
         // Assert:
         Assert.NotNull(sut);
