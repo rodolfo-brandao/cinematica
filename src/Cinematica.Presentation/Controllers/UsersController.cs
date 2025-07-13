@@ -20,7 +20,7 @@ public class UsersController(IMediator mediator) : ApiResultHandlerController
     /// <response code="201">Returns essential information about the newly created user.</response>
     /// <response code="400">There was an error when trying to validate the request payload.</response>
     [AllowAnonymous]
-    [HttpPost("new", Name = "create-user")]
+    [HttpPost(template: "new", Name = "create-user")]
     [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(CreatedUserResponse))]
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserCommand command,
         CancellationToken cancellationToken)
@@ -35,9 +35,9 @@ public class UsersController(IMediator mediator) : ApiResultHandlerController
     /// <param name="cancellationToken">A token that propagates notification that this request should be canceled.</param>
     /// <response code="204">User deleted successfully.</response>
     /// <response code="401">Either you are not authenticated or don't have access level for this resource.</response>
-    /// <response code="404">The user was not found.</response>
+    /// <response code="404">User not found.</response>
     [Authorize(Roles = AuthorizationRoles.AdminUser)]
-    [HttpDelete("{id:guid}", Name = "delete-user")]
+    [HttpDelete(template: "{id:guid}", Name = "delete-user")]
     public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id, CancellationToken cancellationToken)
     {
         var command = new DeleteUserCommand(id);
@@ -52,7 +52,7 @@ public class UsersController(IMediator mediator) : ApiResultHandlerController
     /// <response code="200">Returns the newly issued JSON Web Token (JWT) along with some essential information.</response>
     /// <response code="400">There was an error when trying to validate the request payload.</response>
     [AllowAnonymous]
-    [HttpPost("token", Name = "authorize-user")]
+    [HttpPost(template: "token", Name = "authorize-user")]
     [ProducesResponseType(statusCode: StatusCodes.Status200OK, type: typeof(AuthorizedUserResponse))]
     public async Task<IActionResult> IssueJsonWebTokenAsync([FromBody] AuthorizeUserCommand command,
         CancellationToken cancellationToken)
