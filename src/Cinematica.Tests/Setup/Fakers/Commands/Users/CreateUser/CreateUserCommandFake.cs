@@ -1,5 +1,5 @@
-using System.Collections;
 using Cinematica.Application.Commands.Users.CreateUser;
+using System.Collections;
 
 namespace Cinematica.Tests.Setup.Fakers.Commands.Users.CreateUser;
 
@@ -8,7 +8,7 @@ internal class CreateUserCommandFake : IEnumerable<object[]>
     private const byte MaxUsernameLength = 50;
     private const byte MinPasswordLength = 6;
 
-    private static string?[] InvalidStringTypeValues => [" ", string.Empty, null];
+    private static string[] InvalidStringTypeValues => [" ", string.Empty, default];
 
     public static CreateUserCommand Valid(bool? isAdmin = null) => new Faker<CreateUserCommand>()
         .RuleFor(command => command.Username, faker => faker.Internet.UserName())
@@ -53,7 +53,7 @@ internal class CreateUserCommandFake : IEnumerable<object[]>
         .RuleFor(command => command.Password, faker => faker.Random.Hash())
         .RuleFor(command => command.IsAdmin, faker => faker.Random.Bool())
         .Generate();
-    
+
     private static CreateUserCommand WithInvalidEmailFormat => new Faker<CreateUserCommand>()
         .RuleFor(command => command.Username, faker => faker.Internet.UserName())
         .RuleFor(command => command.Email, faker => faker.Random.String())
