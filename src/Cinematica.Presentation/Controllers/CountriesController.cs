@@ -1,4 +1,5 @@
-﻿using Cinematica.Application.Queries.Countries.ListCountries;
+﻿using Cinematica.Application.Commands.Countries.DeleteCountry;
+using Cinematica.Application.Queries.Countries.ListCountries;
 using Cinematica.Application.Responses.Countries;
 
 namespace Cinematica.Presentation.Controllers;
@@ -24,5 +25,21 @@ public class CountriesController(IMediator mediator) : ApiResultHandlerControlle
         CancellationToken cancellationToken)
     {
         return BuildStatusCodeObject(await mediator.Send(query, cancellationToken));
+    }
+
+    /// <summary>
+    /// Performs a physical deletion on a single country.
+    /// </summary>
+    /// <param name="id">The country's unique identifier.</param>
+    /// <param name="cancellationToken">A token that propagates notification that this request should be canceled.</param>
+    /// <response code="204">Country deleted successfully.</response>
+    /// <response code="401">Either you are not authenticated or don't have access level for this resource.</response>
+    /// <response code="404">Country not found.</response>
+    [Authorize(Roles = AuthorizationRoles.Admin)]
+    [HttpDelete(template: "{id:guid}", Name = "delete-country")]
+    public async Task<IActionResult> DeleteCountryAsync([FromRoute] Guid id, CancellationToken cancellationToken)
+    {
+        var command = new DeleteCountryCommand(id);
+        return BuildStatusCodeObject(await mediator.Send(command, cancellationToken));
     }
 }
