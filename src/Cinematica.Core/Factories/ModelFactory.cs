@@ -9,7 +9,7 @@ public sealed class ModelFactory : IModelFactory
     {
         Id = Guid.NewGuid(),
         Name = name,
-        IsoAlpha3Code = isoAlpha3Code,
+        IsoAlpha3Code = isoAlpha3Code.ToUpper(),
         CreatedOn = DateTime.UtcNow,
         UpdatedOn = null,
         IsDisabled = false
