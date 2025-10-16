@@ -40,7 +40,7 @@ public class CreateUserHandler(
                 Id = createdUser.Id,
                 Username = createdUser.Username,
                 Role = createdUser.Role,
-                CreatedOn = createdUser.CreatedOn.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
+                CreatedOn = createdUser.CreatedAt.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
             };
         }
         else

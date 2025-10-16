@@ -32,12 +32,12 @@ public class DirectorEntityTypeConfiguration : IEntityTypeConfiguration<Director
             .HasColumnType("DATE")
             .IsRequired();
 
-        builder.Property(director => director.CreatedOn)
+        builder.Property(director => director.CreatedAt)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(director => director.UpdatedOn)
+        builder.Property(director => director.UpdatedAt)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);

@@ -10,8 +10,8 @@ public sealed class ModelFactory : IModelFactory
         Id = Guid.NewGuid(),
         Name = name,
         IsoAlpha3Code = isoAlpha3Code.ToUpper(),
-        CreatedOn = DateTime.UtcNow,
-        UpdatedOn = null,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = null,
         IsDisabled = false
     };
 
@@ -20,8 +20,8 @@ public sealed class ModelFactory : IModelFactory
         Id = Guid.NewGuid(),
         Name = name,
         DateOfBirth = dateOfBirth,
-        CreatedOn = DateTime.UtcNow,
-        UpdatedOn = null,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = null,
         IsDisabled = false
     };
 
@@ -29,8 +29,8 @@ public sealed class ModelFactory : IModelFactory
     {
         Id = Guid.NewGuid(),
         Name = name,
-        CreatedOn = DateTime.UtcNow,
-        UpdatedOn = null,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = null,
         IsDisabled = false
     };
 
@@ -45,8 +45,8 @@ public sealed class ModelFactory : IModelFactory
         ReleaseYear = releaseYear,
         RuntimeInMinutes = runtimeInMinutes,
         Synopsis = synopsis,
-        CreatedOn = DateTime.UtcNow,
-        UpdatedOn = null,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = null,
         IsDisabled = false
     };
 
@@ -58,8 +58,8 @@ public sealed class ModelFactory : IModelFactory
         Password = password,
         PasswordSalt = passwordSalt,
         Role = role,
-        CreatedOn = DateTime.UtcNow,
-        UpdatedOn = null,
+        CreatedAt = DateTime.UtcNow,
+        UpdatedAt = null,
         IsDisabled = false
     };
 }

@@ -22,12 +22,12 @@ public class GenreEntityTypeConfiguration : IEntityTypeConfiguration<Genre>
             .HasColumnType("VARCHAR(50)")
             .IsRequired();
         
-        builder.Property(genre => genre.CreatedOn)
+        builder.Property(genre => genre.CreatedAt)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(genre => genre.UpdatedOn)
+        builder.Property(genre => genre.UpdatedAt)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);

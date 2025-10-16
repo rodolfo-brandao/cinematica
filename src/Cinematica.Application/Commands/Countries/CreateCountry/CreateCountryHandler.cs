@@ -29,7 +29,7 @@ public class CreateCountryHandler(
                 Id = createdCountry.Id,
                 Name = createdCountry.Name,
                 IsoAlpha3Code = createdCountry.IsoAlpha3Code,
-                CreatedOn = createdCountry.CreatedOn.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
+                CreatedOn = createdCountry.CreatedAt.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
             };
         }
         else

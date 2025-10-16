@@ -52,12 +52,12 @@ public class FilmEntityTypeConfiguration : IEntityTypeConfiguration<Film>
             .HasColumnType("VARCHAR(500)")
             .IsRequired();
 
-        builder.Property(film => film.CreatedOn)
+        builder.Property(film => film.CreatedAt)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(film => film.UpdatedOn)
+        builder.Property(film => film.UpdatedAt)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);
