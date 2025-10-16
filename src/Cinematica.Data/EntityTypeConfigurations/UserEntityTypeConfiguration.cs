@@ -42,12 +42,12 @@ public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("VARCHAR(5)")
             .IsRequired();
 
-        builder.Property(user => user.CreatedOn)
+        builder.Property(user => user.CreatedAt)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(user => user.UpdatedOn)
+        builder.Property(user => user.UpdatedAt)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);

@@ -1,4 +1,5 @@
-﻿using Cinematica.Application.Commands.Countries.DeleteCountry;
+﻿using Cinematica.Application.Commands.Countries.CreateCountry;
+using Cinematica.Application.Commands.Countries.DeleteCountry;
 using Cinematica.Application.Queries.Countries.ListCountries;
 using Cinematica.Application.Responses.Countries;
 
@@ -25,6 +26,22 @@ public class CountriesController(IMediator mediator) : ApiResultHandlerControlle
         CancellationToken cancellationToken)
     {
         return BuildStatusCodeObject(await mediator.Send(query, cancellationToken));
+    }
+
+    /// <summary>
+    /// Creates a new country.
+    /// </summary>
+    /// <param name="command">The payload containing all data needed to create a new country.</param>
+    /// <param name="cancellationToken">A token that propagates notification that this request should be canceled.</param>
+    /// <response code="201">Returns essential information about the newly created user.</response>
+    /// <response code="400">There was an error when trying to validate the request payload.</response>
+    /// <response code="401">Either you are not authenticated or don't have access level for this resource.</response>
+    [HttpPost(Name = "create-country")]
+    [Authorize(Roles = AuthorizationRoles.Admin)]
+    [ProducesResponseType(statusCode: StatusCodes.Status201Created, type: typeof(CreatedCountryResponse))]
+    public async Task<IActionResult> CreateCountryAsync([FromBody] CreateCountryCommand command, CancellationToken cancellationToken)
+    {
+        return BuildStatusCodeObject(await mediator.Send(command, cancellationToken));
     }
 
     /// <summary>

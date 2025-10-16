@@ -5,6 +5,7 @@ using Cinematica.Core.Contracts.Factories;
 using Cinematica.Core.Contracts.Repositories;
 using Cinematica.Core.Contracts.Services;
 using Cinematica.Core.Contracts.Units;
+using Microsoft.AspNetCore.Http;
 
 namespace Cinematica.Application.Commands.Users.CreateUser;
 
@@ -18,7 +19,7 @@ public class CreateUserHandler(
     public async Task<ApiResult<CreatedUserResponse>> Handle(CreateUserCommand request,
         CancellationToken cancellationToken)
     {
-        var apiResult = new ApiResult<CreatedUserResponse>();
+        var apiResult = new ApiResult<CreatedUserResponse>(statusCode: StatusCodes.Status201Created);
         var validationResult = await new CreateUserCommandValidator(userRepository)
             .ValidateAsync(request, cancellationToken);
 
@@ -39,7 +40,7 @@ public class CreateUserHandler(
                 Id = createdUser.Id,
                 Username = createdUser.Username,
                 Role = createdUser.Role,
-                CreatedOn = createdUser.CreatedOn.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
+                CreatedOn = createdUser.CreatedAt.ToString(format: "yyyy-MM-dd HH:mm:ss") + " UTC"
             };
         }
         else

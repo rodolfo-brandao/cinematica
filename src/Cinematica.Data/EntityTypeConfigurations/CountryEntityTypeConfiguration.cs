@@ -27,12 +27,12 @@ public class CountryEntityTypeConfiguration : IEntityTypeConfiguration<Country>
             .HasColumnType("CHAR(3)")
             .IsRequired();
 
-        builder.Property(country => country.CreatedOn)
+        builder.Property(country => country.CreatedAt)
             .HasColumnName("created_on")
             .HasColumnType("DATETIME2")
             .IsRequired();
 
-        builder.Property(country => country.UpdatedOn)
+        builder.Property(country => country.UpdatedAt)
             .HasColumnName("updated_on")
             .HasColumnType("DATETIME2")
             .IsRequired(required: false);

@@ -17,7 +17,7 @@ After creation, to populate the database, run the seed scripts located in the *D
 
 It is important to follow the order provided to avoid errors and ensure that the data will be inserted correctly, respecting the table relationships.
 
-PS: *The DML scripts have been broken into several files to avoid centralizing all the commands in a single gigantic SQL file, improving organization and facilitating readability.*
+PS: *The DML scripts have been splitted into several files to avoid centralizing all the commands in a single gigantic SQL file, improving organization and facilitating readability.*
 
 ## Entity Relationship Diagram
 

@@ -33,7 +33,7 @@ public class Genre : TrackableEntity
 
     public override TrackableEntity UpdatedNow()
     {
-        UpdatedOn = DateTime.UtcNow;
+        UpdatedAt = DateTime.UtcNow;
         return this;
     }
 }

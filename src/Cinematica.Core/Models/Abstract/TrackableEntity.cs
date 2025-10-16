@@ -5,8 +5,8 @@ namespace Cinematica.Core.Models.Abstract;
 /// </summary>
 public abstract class TrackableEntity : Entity
 {
-    public DateTime CreatedOn { get; protected internal init; }
-    public DateTime? UpdatedOn { get; protected internal set; }
+    public DateTime CreatedAt { get; protected internal init; }
+    public DateTime? UpdatedAt { get; protected internal set; }
     public bool IsDisabled { get; protected internal set; }
 
     public abstract TrackableEntity Disable();
