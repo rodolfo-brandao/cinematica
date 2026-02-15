@@ -6,7 +6,7 @@ Official source: https://datasets.imdbws.com
 
 According to IMDb’s licensing terms, these datasets are made available strictly for **personal** and **non-commercial** use.
 
-This repository uses the data solely for academic research purposes within my postgraduate program in Data Science and Artificial Intelligence. The project is intended for educational demonstration, experimentation, and analysis.
+This repository uses the data solely for academic research purposes within my [postgraduate program](https://github.com/rodolfo-brandao/pos-graduacao) in Data Science and Artificial Intelligence. The project is intended for educational demonstration, experimentation, and analysis.
 
 The raw IMDb dataset files are not included in this repository.
 Users interested in reproducing this project must obtain the datasets directly from IMDb and ensure compliance with IMDb’s Terms of Use.
