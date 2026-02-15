@@ -211,3 +211,7 @@ __marimo__/
 
 # macOS
 *.DS_Store
+
+# Non-Commercial Datasets (e.g. IMDb)
+datasets/*.tsv
+datasets/*.tsv.gz
