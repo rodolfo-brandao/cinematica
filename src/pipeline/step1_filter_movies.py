@@ -12,10 +12,10 @@ def run(file_path: Path):
     for record in stream_title_basics(file_path):
         total_count += 1
 
-        if (is_movie(record)):
+        if is_movie(record):
             movie_count += 1
 
-        if (is_short(record)):
+        if is_short(record):
             short_count += 1
 
     print("Movies:", movie_count)
