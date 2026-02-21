@@ -1,7 +1,12 @@
 """
-The application entrypoint.
+This is the application entrypoint.
 
-From the root folder, run `python3 -m src.main`
+To run, on root folder:
+1. Create virtual environment:              $ python3 -m venv .venv
+2. Activate it:                             $ source .venv/bin/activate
+3. Install dependencies:                    $ pip install -r requirements.txt
+4. If new dependencies were installed:      $ pip freeze > requirements.txt
+5. Run the application:                     $ python3 -m src.main
 """
 
 
