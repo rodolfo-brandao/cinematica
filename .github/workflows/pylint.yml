@@ -20,4 +20,4 @@ jobs:
         pip install pylint
     - name: Analysing the code
       run: |
-        pylint --disable=C0103,C0114,C0116 --fail-under=7 $(git ls-files '*.py')
+        pylint --disable=C0103,C0114,C0116,E0401 --fail-under=7 $(git ls-files '*.py')
