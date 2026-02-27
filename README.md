@@ -17,7 +17,7 @@ git clone https://github.com/rodolfo-brandao/cinematica.git
 cd cinematica
 ```
 
-2. Create `.venv` and install dependencies:
+2. Create `.venv`:
 ```bash
 python3 -m venv .venv
 ```
@@ -26,15 +26,12 @@ python3 -m venv .venv
 source .venv/bin/activate
 ```
 
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-```bash
-pip freeze > requirements.txt
-```
-
-3. Run the application (.venv):
+4. Run the application:
 ```bash
 python -m src.main
 ```
