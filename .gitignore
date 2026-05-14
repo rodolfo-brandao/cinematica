@@ -215,3 +215,6 @@ __marimo__/
 # Non-Commercial Datasets (e.g. IMDb)
 datasets/*.tsv
 datasets/*.tsv.gz
+
+# Log text files
+logs/
