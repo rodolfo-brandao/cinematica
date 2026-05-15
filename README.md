@@ -26,25 +26,17 @@ An agentic AI-powered Knowledge Graph for semantic exploration and intelligent i
 
 1. Clone this repository & navigate to its root folder:
 ```bash
-git clone https://github.com/rodolfo-brandao/cinematica.git
+git clone https://github.com/rodolfo-brandao/cinematica.git && \
 cd cinematica
 ```
 
 2. Create `.venv` & activate it:
 ```bash
-uv venv .venv
+uv venv .venv && \
 source .venv/bin/activate
 ```
 
-3. Initialize a new `uv` Python project:
-    - Create `.python-version` and `pyproject.toml` files (ignore its `main.py`)
+3. Install all dependencies in the current `.venv`:
 ```bash
-uv init
-```
-
-4. Add/Remove dependencies:
-    - This will create `uv.lock`
-```bash
-uv add <package-name>
-uv remove <package-name>
+uv sync
 ```

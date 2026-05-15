@@ -10,9 +10,8 @@ Per the project's explicit policy (see README), Claude Code is used **strictly a
 
 **Environment setup:**
 ```bash
-uv venv .venv && source .venv/bin/activate
-uv add <package>      # add dependency (updates uv.lock)
-uv remove <package>   # remove dependency
+uv venv .venv && source .venv/bin/activate  # Create and activate `.venv`
+uv sync                                     # Install all dependencies
 ```
 
 **Run the project:**
