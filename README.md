@@ -19,10 +19,11 @@ An agentic AI-powered Knowledge Graph for semantic exploration and intelligent i
 
 ### Requirements
 
+- [Docker](https://www.docker.com/get-started/)
 - [Python 3.14](https://www.python.org/downloads/release/python-3140/)
 - [uv](https://docs.astral.sh/uv/)
 
-### Setup
+### Repository Setup
 
 1. Clone this repository & navigate to its root folder:
 ```bash
@@ -39,4 +40,30 @@ source .venv/bin/activate
 3. Install all dependencies in the current `.venv`:
 ```bash
 uv sync
+```
+
+4. Copy `.env.example` to `.env` and fill in the required values:
+```bash
+cp .env.example .env
+```
+
+> [!IMPORTANT]
+> _The `NEO4J_PASSWORD` variable is used by the Docker Compose file to set the Neo4j database password._
+>
+> _Make sure it is set before starting the container._
+
+### Neo4j Database
+
+The Neo4j database runs as a Docker container. After configuring `.env`, start it with:
+```bash
+make up
+```
+
+This spins up the `cinematica-neo4j` container with:
+- Neo4j Browser: `http://localhost:7474`
+- Bolt Protocol: `bolt://localhost:7687`
+
+To stop the container:
+```bash
+make down
 ```
