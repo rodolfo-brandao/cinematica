@@ -1,7 +1,8 @@
 # Cinematica
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)
-![Python version](https://img.shields.io/badge/Python-3.14-blue?logo=python&logoColor=white)
+![Python version](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
+![Neo4j version](https://img.shields.io/badge/Neo4j-2026.04.0-4581C3?logo=neo4j&logoColor=white)
 ![uv version](https://img.shields.io/badge/uv-0.11.16-DE5FE9?logo=uv&logoColor=white)
 ![Claude Code](https://img.shields.io/badge/Claude-Code-D97757?logo=claude&logoColor=white)
 [![Pylint](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml)
@@ -53,8 +54,6 @@ cp .env.example .env
 > _Make sure it is set before starting the container._
 
 ### Neo4j Database
-
-![Neo4j version](https://img.shields.io/badge/Neo4j-2026.04.0-4581C3?logo=neo4j&logoColor=white)
 
 The Neo4j database runs as a Docker container. After configuring `.env`, start it with:
 ```bash
