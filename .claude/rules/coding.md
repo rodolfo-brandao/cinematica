@@ -10,7 +10,7 @@ Write code as an expert Python Software Engineer would. The following are mandat
 
 - **Explicit imports:** Group imports at the top of the file and never use wildcard imports (`from module import *`).
 
-- **Docstrings everywhere:** Every module and every function/method MUST have its own docstring. Follow the existing Sphinx/reStructuredText style used in the codebase (`:param:`, `:type:`, `:return:`, `:rtype:`) — see `src/imdb/loader.py`.
+- **Docstrings everywhere:** Every module and every function/method MUST have its own docstring (except `__init__.py` files). Follow the existing Sphinx/reStructuredText style used in the codebase (`:param:`, `:type:`, `:return:`, `:rtype:`) — see `src/imdb/loader.py`.
 
 - **Type hints:** Annotate all function signatures and public attributes with explicit type hints, mirroring the existing use of `typing` (`List`, `Dict`, `Iterator`, etc.).
 
