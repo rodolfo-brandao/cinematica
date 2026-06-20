@@ -7,6 +7,10 @@
 ![Claude Code](https://img.shields.io/badge/Claude-Code-D97757?logo=claude&logoColor=white)
 [![Pylint](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml)
 
+## Overview
+
+An agentic AI-powered Knowledge Graph for semantic exploration and intelligent insights over film data.
+
 > [!NOTE]
 > Regarding the use of Artificial Intelligence: when necessary, LLMs are used for code generation. However, all generated code is **always** reviewed by me, [@rodolfo-brandao](https://github.com/rodolfo-brandao), author and sole contributor of this repository.
 >
@@ -15,10 +19,6 @@
 > In Karpathy's own words: _It hurts the ego a bit_ :hurtrealbad:
 >
 > For everything else, [Claude Code](https://claude.ai/code) is used as an analysis and insights tool — for better understanding codebases, documentation, and trade-offs, as well as supporting decision-making.
-
-## Overview
-
-An agentic AI-powered Knowledge Graph for semantic exploration and intelligent insights over film data.
 
 ## Initial Setup
 
