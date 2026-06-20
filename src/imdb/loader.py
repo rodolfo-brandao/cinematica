@@ -1,14 +1,18 @@
+"""Memory-efficient streaming readers for IMDb `.tsv.gz` datasets."""
+
 import gzip
 from pathlib import Path
 from typing import Iterator, Dict
 
 
-def stream_title_basics(file_path: Path) -> Iterator[Dict[str, str]]:
+def stream_tsv_gz(file_path: Path) -> Iterator[Dict[str, str]]:
     """
-    Streams row by row from a (large) `.tsv.gz` file.
+    Streams row by row from a (large) `.tsv.gz` file, yielding each row as a
+    dict keyed by the file's header columns. Generic across every IMDb dataset
+    (`title.basics`, `title.ratings`, `title.principals`, `name.basics`).
 
-    :param path: The `.tsv.gz` file path.
-    :type path: Path
+    :param file_path: The `.tsv.gz` file path.
+    :type file_path: Path
 
     :return: An iterable dictionary containing the file data.
     :rtype: Iterator[Dict[str, str]]

@@ -1,3 +1,5 @@
+"""Centralized logging configuration for the Cinematica project."""
+
 import logging
 import sys
 from logging.handlers import RotatingFileHandler

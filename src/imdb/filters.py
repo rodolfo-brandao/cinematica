@@ -1,3 +1,5 @@
+"""Predicate filters for classifying IMDb records by `titleType`."""
+
 from typing import Dict
 
 
