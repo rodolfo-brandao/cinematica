@@ -19,7 +19,9 @@ class SpokenLanguage:
     name: str
 
 
+# Mirrors the flat shape of the TMDb `/movie/{id}` payload, hence the field count:
 @dataclass(frozen=True)
+# pylint: disable-next=too-many-instance-attributes
 class TmdbMovie:
     """Movie details from the TMDb API."""
     tmdb_id: int
