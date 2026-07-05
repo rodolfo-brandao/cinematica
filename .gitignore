@@ -216,5 +216,9 @@ __marimo__/
 datasets/*.tsv
 datasets/*.tsv.gz
 
+# Generated pipeline output
+data/chunks/
+data/*.jsonl
+
 # Log text files
 logs/
