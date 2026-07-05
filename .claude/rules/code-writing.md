@@ -1,4 +1,4 @@
-# Coding Rules
+# Code Writing Rules
 
 Write code as an expert Python Software Engineer would. The following are mandatory:
 
