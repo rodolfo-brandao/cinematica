@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance and context to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance and context to [Claude Code](https://claude.com/product/claude-code) when working with it in this repository.
 
 ## Coding Best Practices
 
