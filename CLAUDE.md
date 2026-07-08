@@ -4,7 +4,7 @@ This file provides guidance and context to [Claude Code](https://claude.com/prod
 
 ## Coding Best Practices
 
-Coding conventions and mandatory rules live in [`.claude/rules/coding.md`](.claude/rules/coding.md). Follow them when writing or modifying any code in this repository.
+Coding conventions and mandatory rules live in [`.claude/rules/code-writing.md`](.claude/rules/code-writing.md). Follow them when writing or modifying any code in this repository.
 
 ## Commands
 
@@ -61,34 +61,53 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 .
 ├── .claude/
 │   ├── agents/
-│   │   └── code-reviewer.md      # Code review subagent
+│   │   └── code-reviewer.md          # Code review subagent
 │   └── rules/
-│       └── coding.md             # Mandatory coding conventions
+│       └── code-writing.md           # Mandatory coding conventions
 ├── .github/
 │   └── workflows/
-│       └── pylint.yml            # CI: Pylint
+│       └── pylint.yml                # CI: Pylint
 ├── datasets/
-│   └── README.md                 # IMDb datasets go here (not committed)
+│   └── README.md                     # IMDb datasets go here (not committed)
 ├── docker/
-│   └── docker-compose.yml        # Neo4j service
+│   └── docker-compose.yml            # Neo4j service
 ├── src/
+│   ├── clients/
+│   │   └── tmdb/
+│   │       ├── __init__.py
+│   │       └── client.py             # Async TMDb API client
 │   ├── imdb/
 │   │   ├── __init__.py
-│   │   ├── filters.py            # titleType filter predicates
-│   │   └── loader.py             # Row-by-row .tsv.gz streaming
+│   │   ├── filters.py                # titleType filter predicates
+│   │   └── loader.py                 # Row-by-row .tsv.gz streaming
 │   ├── models/
 │   │   ├── __init__.py
-│   │   └── tmdb.py               # Frozen dataclasses for TMDB data
+│   │   ├── imdb.py                   # Frozen dataclasses for IMDb records
+│   │   └── tmdb.py                   # Frozen dataclasses for TMDb data
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   ├── compile.py                # Compile .tsv.gz datasets into indexes
+│   │   ├── consolidate.py            # Merge enriched JSONL shards
+│   │   ├── enrich.py                 # TMDb enrichment into JSONL shards
+│   │   └── serialize.py              # Join IMDb/TMDb into JSON-safe records
 │   ├── __init__.py
-│   ├── logger.py                 # Logging configuration
-│   └── main.py                   # Entry point
+│   ├── logger.py                     # Logging configuration
+│   └── main.py                       # Entry point
+├── tests/
+│   ├── pipeline/
+│   │   ├── __init__.py
+│   │   ├── test_compile.py
+│   │   ├── test_consolidate.py
+│   │   ├── test_enrich.py
+│   │   └── test_serialize.py
+│   └── __init__.py
 ├── .env.example
-├── .python-version               # Python 3.14
+├── .python-version                   # Python 3.14
 ├── CLAUDE.md
 ├── LICENSE
-├── Makefile                      # make up / make down
+├── Makefile                          # make up / make down
 ├── README.md
-├── pyproject.toml                # Project metadata & dependencies
+├── pyproject.toml                    # Project metadata & dependencies
 └── uv.lock
 ```
 
