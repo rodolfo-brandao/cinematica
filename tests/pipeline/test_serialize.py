@@ -6,6 +6,8 @@ from src.pipeline.serialize import to_movie_record
 
 
 def _make_movie() -> ImdbMovie:
+    """Builds a minimal, well-known IMDb movie fixture."""
+
     return ImdbMovie(
         tconst="tt0137523",
         primary_title="Fight Club",
@@ -18,6 +20,8 @@ def _make_movie() -> ImdbMovie:
 
 
 def test_to_movie_record_full_join():
+    """All four indexes join into one nested record."""
+
     movie = _make_movie()
     rating = ImdbRating(tconst="tt0137523", average_rating=8.8, num_votes=2_000_000)
     principals = [
@@ -51,6 +55,8 @@ def test_to_movie_record_full_join():
 
 
 def test_to_movie_record_handles_missing_rating_and_unresolved_person():
+    """Missing rating and unresolved `nconst` serialize as `None`."""
+
     movie = _make_movie()
     principals = [
         ImdbPrincipal(
@@ -70,6 +76,8 @@ def test_to_movie_record_handles_missing_rating_and_unresolved_person():
 
 
 def test_to_movie_record_nests_tmdb_data():
+    """The TMDb dataclass nests as plain dicts under `tmdb`."""
+
     movie = _make_movie()
     tmdb = TmdbMovie(
         tmdb_id=550,

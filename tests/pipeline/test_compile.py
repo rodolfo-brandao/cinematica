@@ -24,6 +24,8 @@ def _write_tsv_gz(path: Path, header: List[str], rows: List[List[str]]) -> None:
 
 
 def test_build_movie_index_filters_non_movies_and_normalizes_fields(tmp_path):
+    """Only "movie" rows are kept; `\\N`, flags and lists are normalized."""
+
     file_path = tmp_path / "title.basics.tsv.gz"
     _write_tsv_gz(
         file_path,
@@ -32,9 +34,12 @@ def test_build_movie_index_filters_non_movies_and_normalizes_fields(tmp_path):
             "isAdult", "startYear", "endYear", "runtimeMinutes", "genres"
         ],
         rows=[
-            ["tt0000001", "movie", "Movie One", "Movie One", "0", "1999", "\\N", "139", "Drama,Thriller"],
-            ["tt0000002", "short", "Short One", "Short One", "0", "2000", "\\N", "5", "Comedy"],
-            ["tt0000003", "movie", "Movie Two", "Movie Two", "1", "\\N", "\\N", "\\N", "\\N"]
+            ["tt0000001", "movie", "Movie One", "Movie One",
+             "0", "1999", "\\N", "139", "Drama,Thriller"],
+            ["tt0000002", "short", "Short One", "Short One",
+             "0", "2000", "\\N", "5", "Comedy"],
+            ["tt0000003", "movie", "Movie Two", "Movie Two",
+             "1", "\\N", "\\N", "\\N", "\\N"]
         ]
     )
 
@@ -57,6 +62,8 @@ def test_build_movie_index_filters_non_movies_and_normalizes_fields(tmp_path):
 
 
 def test_build_ratings_index_filters_to_movie_ids(tmp_path):
+    """Ratings for `tconst`s outside the movie set are dropped."""
+
     file_path = tmp_path / "title.ratings.tsv.gz"
     _write_tsv_gz(
         file_path,
@@ -75,6 +82,8 @@ def test_build_ratings_index_filters_to_movie_ids(tmp_path):
 
 
 def test_build_principals_index_groups_by_tconst_and_parses_characters(tmp_path):
+    """Principals group under their movie; `characters` JSON is parsed."""
+
     file_path = tmp_path / "title.principals.tsv.gz"
     _write_tsv_gz(
         file_path,
@@ -97,6 +106,8 @@ def test_build_principals_index_groups_by_tconst_and_parses_characters(tmp_path)
 
 
 def test_build_names_index_filters_to_referenced_ids(tmp_path):
+    """Only people referenced by a movie principal are indexed."""
+
     file_path = tmp_path / "name.basics.tsv.gz"
     _write_tsv_gz(
         file_path,

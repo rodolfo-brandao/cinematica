@@ -6,6 +6,8 @@ from src.pipeline.consolidate import consolidate_shards
 
 
 def test_consolidate_shards_merges_in_filename_order(tmp_path: Path):
+    """Shards concatenate deterministically, ordered by filename."""
+
     shards_dir = tmp_path / "chunks"
     shards_dir.mkdir()
     (shards_dir / "movies_00001.jsonl").write_text('{"tconst": "tt2"}\n', encoding="utf-8")
@@ -22,6 +24,8 @@ def test_consolidate_shards_merges_in_filename_order(tmp_path: Path):
 
 
 def test_consolidate_shards_skips_blank_lines(tmp_path: Path):
+    """Blank lines in shards are not written or counted."""
+
     shards_dir = tmp_path / "chunks"
     shards_dir.mkdir()
     (shards_dir / "movies_00000.jsonl").write_text('{"tconst": "tt1"}\n\n', encoding="utf-8")
@@ -33,6 +37,8 @@ def test_consolidate_shards_skips_blank_lines(tmp_path: Path):
 
 
 def test_consolidate_shards_leaves_no_temporary_file(tmp_path: Path):
+    """The atomic consolidated write leaves no `.tmp` file behind."""
+
     shards_dir = tmp_path / "chunks"
     shards_dir.mkdir()
     (shards_dir / "movies_00000.jsonl").write_text('{"tconst": "tt1"}\n', encoding="utf-8")

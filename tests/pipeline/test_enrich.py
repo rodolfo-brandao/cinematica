@@ -10,6 +10,8 @@ from src.pipeline.enrich import enrich_to_shards
 
 
 def _make_movies(count: int) -> Dict[str, ImdbMovie]:
+    """Builds `count` minimal movies keyed by sequential `tconst`s."""
+
     return {
         f"tt{i:07d}": ImdbMovie(
             tconst=f"tt{i:07d}",
@@ -41,6 +43,8 @@ class _FakeClient:
 
 
 def test_enrich_to_shards_chunks_and_writes_all_records(tmp_path: Path):
+    """Every movie lands in a shard, split by `chunk_size`."""
+
     movies = _make_movies(5)
     client = _FakeClient()
 
@@ -62,6 +66,8 @@ def test_enrich_to_shards_chunks_and_writes_all_records(tmp_path: Path):
 
 
 def test_enrich_to_shards_resumes_by_skipping_existing_shards(tmp_path: Path):
+    """A re-run over existing shards makes no client calls."""
+
     movies = _make_movies(4)
     first_client = _FakeClient()
 
@@ -80,7 +86,36 @@ def test_enrich_to_shards_resumes_by_skipping_existing_shards(tmp_path: Path):
     assert not second_client.calls
 
 
+def test_enrich_to_shards_stops_after_max_chunks_new_shards(tmp_path: Path):
+    """`max_chunks` caps new shards only; skipped shards don't count."""
+
+    movies = _make_movies(6)
+
+    # First batch: cap at 2 new shards (of 3 total chunks).
+    first_client = _FakeClient()
+    asyncio.run(enrich_to_shards(
+        movies, ratings={}, principals={}, names={},
+        output_dir=tmp_path, chunk_size=2, client=first_client,
+        max_chunks=2
+    ))
+    assert len(first_client.calls) == 2
+    assert len(list(tmp_path.glob("movies_*.jsonl"))) == 2
+
+    # Second batch: skipped shards must not count toward the cap,
+    # so the one remaining chunk gets processed.
+    second_client = _FakeClient()
+    asyncio.run(enrich_to_shards(
+        movies, ratings={}, principals={}, names={},
+        output_dir=tmp_path, chunk_size=2, client=second_client,
+        max_chunks=2
+    ))
+    assert len(second_client.calls) == 1
+    assert len(list(tmp_path.glob("movies_*.jsonl"))) == 3
+
+
 def test_enrich_to_shards_leaves_no_temporary_files(tmp_path: Path):
+    """Atomic shard writes leave no `.tmp` files behind."""
+
     movies = _make_movies(2)
 
     asyncio.run(enrich_to_shards(
