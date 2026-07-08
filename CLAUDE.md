@@ -29,7 +29,10 @@ Use [Pylint](https://www.pylint.org/).
 
 ### Run the Project
 
-- `python src/main.py`
+Run as a module from the repository root (required for `src.*` imports):
+
+- `python -m src.main` — full pipeline run
+- `python -m src.main 200` — batched run: stop after 200 new shards (~100k movies)
 
 ## Architecture
 

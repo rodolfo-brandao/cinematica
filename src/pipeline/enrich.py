@@ -28,13 +28,16 @@ async def enrich_to_shards(
     names: Dict[str, ImdbPerson],
     output_dir: Path,
     chunk_size: int = _DEFAULT_CHUNK_SIZE,
-    client: Optional[TmdbClient] = None
+    client: Optional[TmdbClient] = None,
+    max_chunks: Optional[int] = None
 ) -> None:
     """
     Enriches the compiled IMDb movies with TMDb data and writes the result as
     per-chunk JSONL shards. Chunks are derived from the sorted `tconst`s, so a
     given chunk always maps to the same movies; shards that already exist are
-    skipped, making the whole process resumable.
+    skipped, making the whole process resumable. When `max_chunks` is set, the
+    run stops after that many **new** shards are written (skipped shards do not
+    count), enabling deliberately batched sessions.
 
     :param movies: The movie index (the pipeline spine).
     :type movies: Dict[str, ImdbMovie]
@@ -50,22 +53,32 @@ async def enrich_to_shards(
     :type chunk_size: int
     :param client: An existing TMDb client; one is created (and closed) if omitted.
     :type client: Optional[TmdbClient]
+    :param max_chunks: Maximum number of new shards to write this run;
+        `None` means no limit.
+    :type max_chunks: Optional[int]
     """
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    tconsts = sorted(movies)
-    chunks = list(_chunked(tconsts, chunk_size))
+    chunks = list(_chunked(sorted(movies), chunk_size))
     _logger.info(
         "Enriching %d movie(s) in %d chunk(s) of up to %d.",
-        len(tconsts), len(chunks), chunk_size
+        len(movies), len(chunks), chunk_size
     )
 
     owns_client = client is None
     client = client or TmdbClient()
+    written_count = 0
 
     try:
         for chunk_index, chunk in enumerate(chunks):
+            if max_chunks is not None and written_count >= max_chunks:
+                _logger.info(
+                    "Reached the limit of %d new shard(s); stopping this run.",
+                    max_chunks
+                )
+                break
+
             shard_path = output_dir / f"{_SHARD_PREFIX}{chunk_index:05d}{_SHARD_SUFFIX}"
 
             if shard_path.exists():
@@ -76,6 +89,7 @@ async def enrich_to_shards(
             records = await _enrich_chunk(chunk, movies, ratings, principals, names, client)
 
             _write_shard(shard_path, records)
+            written_count += 1
             _logger.info("Wrote %d record(s) to %s", len(records), shard_path)
     finally:
         if owns_client:
