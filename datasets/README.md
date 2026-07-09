@@ -1,6 +1,6 @@
 # Data Source and Usage Disclaimer
 
-Regarding the data used in this project, it relies on datasets provided by [IMDb](https://www.imdb.com), downloaded on February 15, 2026.
+Regarding the data used in this project, it relies on datasets provided by [IMDb](https://www.imdb.com), downloaded on July 8, 2026.
 
 Official source: https://datasets.imdbws.com
 
