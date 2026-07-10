@@ -49,14 +49,16 @@ _logger = get_logger(__name__)
 # Private retry policy functions:
 def _is_retryable(e: BaseException) -> bool:
     """
-    Verifies if the given exception is of type `httpx.HTTPStatusError`\n
-    and its status code is one of: 429, 500, 502, 503, 504.
+    Verifies if the given exception is retryable: either a\n
+    `httpx.HTTPStatusError` with status code 429, 500, 502, 503 or\n
+    504, or a `httpx.TransportError` (timeouts, connection resets,\n
+    and other transient network failures).
     """
 
-    return (
-        isinstance(e, httpx.HTTPStatusError)
-        and e.response.status_code in _RETRYABLE_STATUS_CODES
-    )
+    if isinstance(e, httpx.HTTPStatusError):
+        return e.response.status_code in _RETRYABLE_STATUS_CODES
+
+    return isinstance(e, httpx.TransportError)
 
 def _retry_policy(func):
     """A simple decorator function to apply shared tenacity retry policy."""
@@ -173,13 +175,23 @@ class TmdbClient:
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
         movies: List[TmdbMovie] = []
+        failed = 0
+
         for imdb_id, result in zip(imdb_ids, results):
             if isinstance(result, TmdbMovie):
                 movies.append(result)
-            else:
-                _logger.error("Failed to resolve %s: %s", imdb_id, result)
+            elif isinstance(result, BaseException):
+                # `None` means "no TMDb match", already logged as a
+                # warning by `find_by_imdb_id`; only real exceptions
+                # are logged here.
+                failed += 1
+                _logger.error("Failed to resolve %s: %r", imdb_id, result)
 
-        _logger.info("Resolved %d/%d records successfully.", len(movies), len(imdb_ids))
+        not_found = len(imdb_ids) - len(movies) - failed
+        _logger.info(
+            "Resolved %d/%d record(s) (%d not found on TMDb, %d failed).",
+            len(movies), len(imdb_ids), not_found, failed
+        )
         return movies
 
 
