@@ -54,7 +54,10 @@ For any further context needed, visit the official website: https://datasets.imd
 2. Filter predicates in `src/imdb/filters.py` classify records by `titleType` (e.g., `movie`, `short`).
 3. `src/clients/tmdb/client.py` (`TmdbClient`) enriches filtered records via the TMDB API. It is fully async (`httpx.AsyncClient`), caps concurrency at 20 simultaneous connections via `asyncio.Semaphore`, and retries transient HTTP errors (429, 5xx) with exponential back-off using `tenacity`.
 4. API responses are parsed into frozen dataclasses in `src/models/tmdb.py` (`TmdbMovie`, `Genre`, `SpokenLanguage`).
-5. Processed data is written into Neo4j (Bolt on port 7687, Browser on port 7474).
+5. `src/pipeline/load.py` (`load_movies`) batches the consolidated JSONL
+   records into Neo4j (Bolt on port 7687, Browser on port 7474) via
+   `src/clients/neo4j/client.py` (`Neo4jClient`), `MERGE`-ing `Movie`,
+   `Person` and `Genre` nodes so re-runs are idempotent.
 
 ## Project Structure
 
@@ -76,6 +79,9 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 │   └── docker-compose.yml            # Neo4j service
 ├── src/
 │   ├── clients/
+│   │   ├── neo4j/
+│   │   │   ├── __init__.py
+│   │   │   └── client.py             # Sync Neo4j Bolt client
 │   │   └── tmdb/
 │   │       ├── __init__.py
 │   │       └── client.py             # Async TMDb API client
@@ -92,6 +98,7 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 │   │   ├── compile.py                # Compile .tsv.gz datasets into indexes
 │   │   ├── consolidate.py            # Merge enriched JSONL shards
 │   │   ├── enrich.py                 # TMDb enrichment into JSONL shards
+│   │   ├── load.py                   # Batched loading into Neo4j
 │   │   └── serialize.py              # Join IMDb/TMDb into JSON-safe records
 │   ├── __init__.py
 │   ├── logger.py                     # Logging configuration
@@ -102,6 +109,7 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 │   │   ├── test_compile.py
 │   │   ├── test_consolidate.py
 │   │   ├── test_enrich.py
+│   │   ├── test_load.py
 │   │   └── test_serialize.py
 │   └── __init__.py
 ├── .env.example
