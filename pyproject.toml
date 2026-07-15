@@ -5,12 +5,16 @@ description = "An agentic AI-powered Knowledge Graph for semantic exploration an
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "anthropic>=0.116.0",
     "certifi>=2026.4.22",
+    "fastapi>=0.139.0",
     "httpx>=0.28.1",
+    "langgraph>=1.2.9",
     "neo4j>=6.2.0",
     "pylint>=4.0.6",
     "python-dotenv>=1.2.2",
     "tenacity>=9.1.4",
+    "uvicorn[standard]>=0.51.0",
 ]
 
 [dependency-groups]
