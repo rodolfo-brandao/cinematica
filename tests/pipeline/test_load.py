@@ -56,6 +56,14 @@ def _movie_upsert_calls(
     return [(q, p) for q, p in client.calls if "MERGE (m:Movie" in q]
 
 
+def _calls_matching(
+    client: _FakeClient, fragment: str
+) -> List[Tuple[str, Dict[str, Any]]]:
+    """Filters `client.calls` down to queries containing `fragment`."""
+
+    return [(q, p) for q, p in client.calls if fragment in q]
+
+
 def test_load_movies_flattens_rating_and_tmdb_onto_movie(tmp_path: Path):
     """A movie with TMDb data gets its rating/TMDb fields flattened."""
 
@@ -91,8 +99,16 @@ def test_load_movies_flattens_rating_and_tmdb_onto_movie(tmp_path: Path):
     assert row["average_rating"] == 7.5
     assert row["num_votes"] == 100
     assert row["tmdb_id"] == 42
-    assert row["spoken_languages"] == ["English"]
-    assert row["origin_countries"] == ["US"]
+    # Languages and countries are now first-class nodes, not Movie props.
+    assert "spoken_languages" not in row
+    assert "origin_countries" not in row
+
+    [(_, language_params)] = _calls_matching(client, "MERGE (l:Language")
+    assert language_params["rows"] == [
+        {"tconst": "tt0000001", "name": "English"}
+    ]
+    [(_, country_params)] = _calls_matching(client, "MERGE (c:Country")
+    assert country_params["rows"] == [{"tconst": "tt0000001", "code": "US"}]
 
 
 def test_load_movies_handles_missing_rating_and_tmdb(tmp_path: Path):
@@ -108,8 +124,45 @@ def test_load_movies_handles_missing_rating_and_tmdb(tmp_path: Path):
     [row] = params["rows"]
     assert row["average_rating"] is None
     assert row["tmdb_id"] is None
-    assert row["spoken_languages"] == []
-    assert row["origin_countries"] == []
+    # No TMDb data means no language/country dimension writes at all.
+    assert not _calls_matching(client, "MERGE (l:Language")
+    assert not _calls_matching(client, "MERGE (c:Country")
+
+
+def test_load_movies_maps_tmdb_dimensions_to_nodes(tmp_path: Path):
+    """Companies, keywords and the collection become linked nodes."""
+
+    tmdb = {
+        "production_companies": [
+            {"id": 7, "name": "Zoetrope", "origin_country": "US"}
+        ],
+        "keywords": [{"id": 1, "name": "mafia"}, {"id": 2, "name": "family"}],
+        "belongs_to_collection": {"id": 230, "name": "The Godfather Collection"}
+    }
+    record = _make_record("tt0000005", tmdb=tmdb)
+    input_path = tmp_path / "movies.jsonl"
+    _write_records(input_path, [record])
+
+    client = _FakeClient()
+    load_movies(input_path, client=client, batch_size=10)
+
+    [(_, company_params)] = _calls_matching(client, "MERGE (pc:ProductionCompany")
+    assert company_params["rows"] == [
+        {"tconst": "tt0000005", "tmdb_id": 7, "name": "Zoetrope"}
+    ]
+
+    [(_, keyword_params)] = _calls_matching(client, "MERGE (k:Keyword")
+    assert {row["name"] for row in keyword_params["rows"]} == {"mafia", "family"}
+
+    [(_, collection_params)] = _calls_matching(client, "MERGE (col:Collection")
+    assert collection_params["rows"] == [
+        {"tconst": "tt0000005", "tmdb_id": 230,
+         "name": "The Godfather Collection"}
+    ]
+
+    # The company's origin country is folded into the Country dimension.
+    [(_, country_params)] = _calls_matching(client, "MERGE (c:Country")
+    assert country_params["rows"] == [{"tconst": "tt0000005", "code": "US"}]
 
 
 def test_load_movies_merges_and_deduplicates_genres(tmp_path: Path):

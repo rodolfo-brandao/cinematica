@@ -1,7 +1,14 @@
 """Unit tests for src.pipeline.serialize."""
 
 from src.models.imdb import ImdbMovie, ImdbRating, ImdbPrincipal, ImdbPerson
-from src.models.tmdb import Genre, SpokenLanguage, TmdbMovie
+from src.models.tmdb import (
+    Collection,
+    Genre,
+    Keyword,
+    ProductionCompany,
+    SpokenLanguage,
+    TmdbMovie,
+)
 from src.pipeline.serialize import to_movie_record
 
 
@@ -99,7 +106,12 @@ def test_to_movie_record_nests_tmdb_data():
         title="Fight Club",
         has_video=False,
         vote_average=8.4,
-        vote_count=25_000
+        vote_count=25_000,
+        production_companies=[
+            ProductionCompany(id=508, name="Regency", origin_country="US")
+        ],
+        belongs_to_collection=Collection(id=1, name="Fight Club Collection"),
+        keywords=[Keyword(id=851, name="dual identity")]
     )
 
     record = to_movie_record(movie, rating=None, principals=[], names={}, tmdb=tmdb)
@@ -109,3 +121,7 @@ def test_to_movie_record_nests_tmdb_data():
     assert record["tmdb"]["spoken_languages"] == [
         {"english_name": "English", "iso_639_1": "en", "name": "English"}
     ]
+    assert record["tmdb"]["keywords"] == [{"id": 851, "name": "dual identity"}]
+    assert record["tmdb"]["belongs_to_collection"] == {
+        "id": 1, "name": "Fight Club Collection"
+    }
