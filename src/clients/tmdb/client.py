@@ -17,7 +17,10 @@ from tenacity import (
 
 from src.logger import get_logger
 from src.models.tmdb import (
+    Collection,
     Genre,
+    Keyword,
+    ProductionCompany,
     SpokenLanguage,
     TmdbMovie
 )
@@ -153,8 +156,13 @@ class TmdbClient:
         tmdb_id: int = movie_results[0]["id"]
         _logger.debug("Resolved IMDb ID %s -> TMDb ID %d", imdb_id, tmdb_id)
 
-        # Complete TmdbMovie (budget, revenue, runtime, genres, etc.):
-        details = await self._get(path=f"/movie/{tmdb_id}")
+        # Complete TmdbMovie (budget, revenue, runtime, genres, etc.).
+        # `append_to_response=keywords` folds the /movie/{id}/keywords
+        # sub-resource into the same response, avoiding a second request.
+        details = await self._get(
+            path=f"/movie/{tmdb_id}",
+            params={"append_to_response": "keywords"}
+        )
         return _parse_movie_details(details)
 
 
@@ -249,6 +257,27 @@ def _parse_movie_details(data: Dict[str, Any]) -> TmdbMovie:
         str(oc) for oc in data.get("origin_country") or []
     ]
 
+    production_companies = [
+        ProductionCompany(
+            id=pc["id"],
+            name=pc["name"],
+            origin_country=pc.get("origin_country") or ""
+        ) for pc in data.get("production_companies") or []
+    ]
+
+    collection_data = data.get("belongs_to_collection")
+    belongs_to_collection = (
+        Collection(id=collection_data["id"], name=collection_data["name"])
+        if collection_data else None
+    )
+
+    # With `append_to_response=keywords`, the keyword list is nested under
+    # `keywords.keywords` rather than returned at the top level.
+    keywords = [
+        Keyword(id=kw["id"], name=kw["name"])
+        for kw in (data.get("keywords") or {}).get("keywords") or []
+    ]
+
     return TmdbMovie(
         tmdb_id=data["id"],
         imdb_id=data["imdb_id"],
@@ -269,5 +298,8 @@ def _parse_movie_details(data: Dict[str, Any]) -> TmdbMovie:
         title=data["title"],
         has_video=data["video"],
         vote_average=data["vote_average"],
-        vote_count=data["vote_count"]
+        vote_count=data["vote_count"],
+        production_companies=production_companies,
+        belongs_to_collection=belongs_to_collection,
+        keywords=keywords
     )
