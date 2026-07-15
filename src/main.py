@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Optional
 
 from src.clients.neo4j.client import Neo4jClient
+from src.clients.ollama.client import OllamaClient
 from src.logger import get_logger
 from src.pipeline.compile import (
     build_movie_index,
@@ -15,6 +16,7 @@ from src.pipeline.compile import (
     build_names_index
 )
 from src.pipeline.consolidate import consolidate_shards
+from src.pipeline.embed import embed_movie_overviews
 from src.pipeline.enrich import enrich_to_shards
 from src.pipeline.load import load_movies
 
@@ -51,9 +53,12 @@ async def run_pipeline(max_chunks: Optional[int] = None) -> None:
     )
     consolidate_shards(_CHUNKS_DIR, _CONSOLIDATED_PATH)
 
-    with Neo4jClient() as client:
-        client.ensure_constraints()
-        load_movies(_CONSOLIDATED_PATH, client)
+    async with OllamaClient() as ollama:
+        with Neo4jClient() as client:
+            client.ensure_constraints()
+            client.ensure_fulltext_indexes()
+            load_movies(_CONSOLIDATED_PATH, client)
+            await embed_movie_overviews(client, ollama)
 
     _logger.info("Pipeline finished. Output written to %s", _CONSOLIDATED_PATH)
 

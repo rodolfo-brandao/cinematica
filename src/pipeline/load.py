@@ -43,6 +43,38 @@ _GENRE_MERGE_QUERY = (
     "MERGE (g:Genre {name: row.name}) "
     "MERGE (m)-[:HAS_GENRE]->(g)"
 )
+_LANGUAGE_MERGE_QUERY = (
+    "UNWIND $rows AS row "
+    "MATCH (m:Movie {tconst: row.tconst}) "
+    "MERGE (l:Language {name: row.name}) "
+    "MERGE (m)-[:SPOKEN_IN]->(l)"
+)
+_COUNTRY_MERGE_QUERY = (
+    "UNWIND $rows AS row "
+    "MATCH (m:Movie {tconst: row.tconst}) "
+    "MERGE (c:Country {code: row.code}) "
+    "MERGE (m)-[:PRODUCED_IN]->(c)"
+)
+_COMPANY_MERGE_QUERY = (
+    "UNWIND $rows AS row "
+    "MATCH (m:Movie {tconst: row.tconst}) "
+    "MERGE (pc:ProductionCompany {tmdb_id: row.tmdb_id}) "
+    "SET pc.name = row.name "
+    "MERGE (m)-[:PRODUCED_BY]->(pc)"
+)
+_KEYWORD_MERGE_QUERY = (
+    "UNWIND $rows AS row "
+    "MATCH (m:Movie {tconst: row.tconst}) "
+    "MERGE (k:Keyword {name: row.name}) "
+    "MERGE (m)-[:HAS_KEYWORD]->(k)"
+)
+_COLLECTION_MERGE_QUERY = (
+    "UNWIND $rows AS row "
+    "MATCH (m:Movie {tconst: row.tconst}) "
+    "MERGE (col:Collection {tmdb_id: row.tmdb_id}) "
+    "SET col.name = row.name "
+    "MERGE (m)-[:PART_OF_COLLECTION]->(col)"
+)
 # Relationship types can't be Cypher query parameters, so this
 # placeholder (never valid Cypher syntax, unlike a real `$param`) is
 # swapped in via `str.replace`, not `str.format` (the query text
@@ -134,12 +166,68 @@ def _load_batch(batch: List[Dict[str, Any]], client: Neo4jClient) -> None:
     if genre_rows:
         client.execute_write(_GENRE_MERGE_QUERY, rows=genre_rows)
 
+    _load_tmdb_dimensions(batch, client)
+
     rows_by_relationship = _principal_rows_by_relationship(batch)
     for relationship, rows in rows_by_relationship.items():
         query = _PRINCIPAL_MERGE_QUERY_TEMPLATE.replace(
             _RELATIONSHIP_PLACEHOLDER, relationship
         )
         client.execute_write(query, rows=rows)
+
+
+def _load_tmdb_dimensions(
+    batch: List[Dict[str, Any]], client: Neo4jClient
+) -> None:
+    """
+    Merges the TMDb-sourced dimensions of one batch into first-class nodes:
+    languages, countries, production companies, keywords and collections,
+    each linked back to its `Movie`. Rows are only written when present, so
+    records without TMDb enrichment simply contribute nothing here.
+    """
+
+    language_rows = [
+        {"tconst": record["tconst"], "name": name}
+        for record in batch
+        for name in _language_names(record)
+    ]
+    if language_rows:
+        client.execute_write(_LANGUAGE_MERGE_QUERY, rows=language_rows)
+
+    country_rows = [
+        {"tconst": record["tconst"], "code": code}
+        for record in batch
+        for code in _country_codes(record)
+    ]
+    if country_rows:
+        client.execute_write(_COUNTRY_MERGE_QUERY, rows=country_rows)
+
+    company_rows = [
+        {"tconst": record["tconst"], "tmdb_id": company["id"],
+         "name": company["name"]}
+        for record in batch
+        for company in _tmdb(record).get("production_companies") or []
+    ]
+    if company_rows:
+        client.execute_write(_COMPANY_MERGE_QUERY, rows=company_rows)
+
+    keyword_rows = [
+        {"tconst": record["tconst"], "name": keyword["name"]}
+        for record in batch
+        for keyword in _tmdb(record).get("keywords") or []
+    ]
+    if keyword_rows:
+        client.execute_write(_KEYWORD_MERGE_QUERY, rows=keyword_rows)
+
+    collection_rows = [
+        {"tconst": record["tconst"],
+         "tmdb_id": _tmdb(record)["belongs_to_collection"]["id"],
+         "name": _tmdb(record)["belongs_to_collection"]["name"]}
+        for record in batch
+        if _tmdb(record).get("belongs_to_collection")
+    ]
+    if collection_rows:
+        client.execute_write(_COLLECTION_MERGE_QUERY, rows=collection_rows)
 
 
 def _movie_properties(record: Dict[str, Any]) -> Dict[str, Any]:
@@ -168,22 +256,49 @@ def _movie_properties(record: Dict[str, Any]) -> Dict[str, Any]:
         "original_language": tmdb.get("original_language"),
         "vote_average": tmdb.get("vote_average"),
         "vote_count": tmdb.get("vote_count"),
-        "has_video": tmdb.get("has_video"),
-        "spoken_languages": [
-            language["english_name"]
-            for language in tmdb.get("spoken_languages") or []
-        ],
-        "origin_countries": tmdb.get("origin_country") or []
+        "has_video": tmdb.get("has_video")
     }
+
+
+def _tmdb(record: Dict[str, Any]) -> Dict[str, Any]:
+    """Returns the record's TMDb sub-object, or an empty dict when absent."""
+
+    return record.get("tmdb") or {}
 
 
 def _genre_names(record: Dict[str, Any]) -> Set[str]:
     """Merges IMDb and TMDb genre names for one movie record, deduplicated."""
 
-    tmdb = record.get("tmdb") or {}
     names = set(record.get("genres") or [])
-    names.update(genre["name"] for genre in tmdb.get("genres") or [])
+    names.update(genre["name"] for genre in _tmdb(record).get("genres") or [])
     return names
+
+
+def _language_names(record: Dict[str, Any]) -> Set[str]:
+    """Collects the distinct spoken-language names for one movie record."""
+
+    return {
+        language["english_name"]
+        for language in _tmdb(record).get("spoken_languages") or []
+        if language.get("english_name")
+    }
+
+
+def _country_codes(record: Dict[str, Any]) -> Set[str]:
+    """
+    Collects the distinct country codes for one movie record, drawing from
+    both the TMDb `origin_country` list and each production company's own
+    `origin_country`.
+    """
+
+    tmdb = _tmdb(record)
+    codes = set(tmdb.get("origin_country") or [])
+    codes.update(
+        company["origin_country"]
+        for company in tmdb.get("production_companies") or []
+        if company.get("origin_country")
+    )
+    return codes
 
 
 def _principal_rows_by_relationship(
