@@ -222,3 +222,6 @@ data/*.jsonl
 
 # Log text files
 logs/
+
+# .claude files
+.claude/settings.json
