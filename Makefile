@@ -3,3 +3,6 @@ up:
 
 down:
 	docker compose -f docker/docker-compose.yml --env-file .env down
+
+api:
+	uv run uvicorn src.api.app:app --reload
