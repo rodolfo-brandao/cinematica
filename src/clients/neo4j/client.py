@@ -1,7 +1,7 @@
 """Synchronous client for the Neo4j Bolt protocol."""
 
 import os
-from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from neo4j import GraphDatabase, ManagedTransaction
@@ -21,6 +21,38 @@ _CONSTRAINTS = (
     "FOR (p:Person) REQUIRE p.nconst IS UNIQUE",
     "CREATE CONSTRAINT genre_name IF NOT EXISTS "
     "FOR (g:Genre) REQUIRE g.name IS UNIQUE",
+    "CREATE CONSTRAINT language_name IF NOT EXISTS "
+    "FOR (l:Language) REQUIRE l.name IS UNIQUE",
+    "CREATE CONSTRAINT country_code IF NOT EXISTS "
+    "FOR (c:Country) REQUIRE c.code IS UNIQUE",
+    "CREATE CONSTRAINT company_tmdb_id IF NOT EXISTS "
+    "FOR (pc:ProductionCompany) REQUIRE pc.tmdb_id IS UNIQUE",
+    "CREATE CONSTRAINT keyword_name IF NOT EXISTS "
+    "FOR (k:Keyword) REQUIRE k.name IS UNIQUE",
+    "CREATE CONSTRAINT collection_tmdb_id IF NOT EXISTS "
+    "FOR (col:Collection) REQUIRE col.tmdb_id IS UNIQUE",
+)
+
+# Full-text indexes back case-insensitive, fuzzy entity resolution (the
+# `resolve_entity` agent tool), so a misspelled or differently-cased name
+# still finds its node instead of silently missing on exact-match.
+_FULLTEXT_INDEXES = (
+    "CREATE FULLTEXT INDEX person_name_ft IF NOT EXISTS "
+    "FOR (p:Person) ON EACH [p.primary_name]",
+    "CREATE FULLTEXT INDEX movie_title_ft IF NOT EXISTS "
+    "FOR (m:Movie) ON EACH [m.primary_title, m.original_title]",
+)
+
+# The vector index over `Movie.overview_embedding` powers semantic
+# ("thematic") search; its dimension count must match the embedding model,
+# so it is created via `ensure_vector_index` rather than a static statement.
+_VECTOR_INDEX_NAME = "movie_overview"
+_VECTOR_INDEX_TEMPLATE = (
+    f"CREATE VECTOR INDEX {_VECTOR_INDEX_NAME} IF NOT EXISTS "
+    "FOR (m:Movie) ON m.overview_embedding "
+    "OPTIONS {indexConfig: {"
+    "`vector.dimensions`: $dimensions, "
+    "`vector.similarity_function`: 'cosine'}}"
 )
 
 _logger = get_logger(__name__)
@@ -88,6 +120,36 @@ class Neo4jClient:
 
         _logger.info("Ensured %d Neo4j constraint(s).", len(_CONSTRAINTS))
 
+    def ensure_fulltext_indexes(self) -> None:
+        """
+        Creates the full-text indexes backing fuzzy entity resolution over
+        `Person.primary_name` and `Movie.primary_title`, if they don't
+        already exist.
+        """
+
+        for statement in _FULLTEXT_INDEXES:
+            self.execute_write(statement)
+
+        _logger.info(
+            "Ensured %d Neo4j full-text index(es).", len(_FULLTEXT_INDEXES)
+        )
+
+    def ensure_vector_index(self, dimensions: int) -> None:
+        """
+        Creates the vector index over `Movie.overview_embedding`, if it
+        doesn't already exist.
+
+        :param dimensions: The embedding vector length; must match the
+            embedding model producing `Movie.overview_embedding`.
+        :type dimensions: int
+        """
+
+        self.execute_write(_VECTOR_INDEX_TEMPLATE, dimensions=dimensions)
+        _logger.info(
+            "Ensured Neo4j vector index %r (%d dimensions).",
+            _VECTOR_INDEX_NAME, dimensions
+        )
+
     def execute_write(self, query: str, **parameters: Any) -> None:
         """
         Runs `query` inside a single managed write transaction.
@@ -103,3 +165,24 @@ class Neo4jClient:
 
         with self._driver.session() as session:
             session.execute_write(_run)
+
+    def execute_read(
+        self, query: str, **parameters: Any
+    ) -> List[Dict[str, Any]]:
+        """
+        Runs `query` inside a single managed read transaction.
+
+        :param query: The Cypher query to execute.
+        :type query: str
+        :param parameters: Query parameters, passed through to the driver.
+        :type parameters: Any
+
+        :return: The matched records, each as a plain dictionary.
+        :rtype: List[Dict[str, Any]]
+        """
+
+        def _run(tx: ManagedTransaction) -> List[Dict[str, Any]]:
+            return [record.data() for record in tx.run(query, **parameters)]
+
+        with self._driver.session() as session:
+            return session.execute_read(_run)
