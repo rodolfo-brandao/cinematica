@@ -33,7 +33,7 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 | [Ollama](https://ollama.com) | Serves the local embedding model (`nomic-embed-text` by default) used to embed movie overviews and query themes for vector search |
 | [LangGraph](https://langchain-ai.github.io/langgraph/) | Orchestrates the agent's reasoning pipeline as a graph of stages: plan, entity resolution, querying, verification, and answer composition |
 | [Claude](https://www.anthropic.com/claude) (Anthropic API) | Frontier LLM reasoning over the graph at each pipeline stage, driving tool use for schema introspection, entity resolution, Cypher generation/repair, and final answer composition |
-| [FastAPI](https://fastapi.tiangolo.com) | Serves the agent as a stateless `POST /query` HTTP endpoint |
+| [FastAPI](https://fastapi.tiangolo.com) | Exposes the film-graph agents over HTTP |
 
 ## Initial Setup
 
