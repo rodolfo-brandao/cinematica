@@ -4,8 +4,8 @@
 ![Python version](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
 ![Anthropic API](https://img.shields.io/badge/Anthropic-API-191919?logo=anthropic&logoColor=white)
 ![Ollama version](https://img.shields.io/badge/Ollama-0.31.1-000000?logo=ollama&logoColor=white)
-![Neo4j version](https://img.shields.io/badge/Neo4j-2026.04.0-4581C3?logo=neo4j&logoColor=white)
-[![Pylint](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/pylint.yml)
+![Neo4j version](https://img.shields.io/badge/LangGraph-1.2.9-7FC8FF?logo=langgraph&logoColor=white)
+[![CI](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml)
 
 ## Overview
 
@@ -23,6 +23,17 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 > In Karpathy's own words: _It hurts the ego a bit_ :hurtrealbad:
 >
 > For everything else, [Claude Code](https://claude.ai/code) is used as an analysis and insights tool — for better understanding codebases, documentation, and trade-offs, as well as supporting decision-making.
+
+## Tech Stack
+
+| Technology | Role |
+| --- | --- |
+| [Python 3.14](https://www.python.org/downloads/release/python-3140/) | Language runtime for the whole project |
+| [Neo4j](https://neo4j.com) | Graph database storing movies, people, genres, languages, countries, production companies, keywords, and collections as nodes and their relationships as edges; also hosts the vector index used for semantic search |
+| [Ollama](https://ollama.com) | Serves the local embedding model (`nomic-embed-text` by default) used to embed movie overviews and query themes for vector search |
+| [LangGraph](https://langchain-ai.github.io/langgraph/) | Orchestrates the agent's reasoning pipeline as a graph of stages: plan, entity resolution, querying, verification, and answer composition |
+| [Claude](https://www.anthropic.com/claude) (Anthropic API) | Frontier LLM reasoning over the graph at each pipeline stage, driving tool use for schema introspection, entity resolution, Cypher generation/repair, and final answer composition |
+| [FastAPI](https://fastapi.tiangolo.com) | Serves the agent as a stateless `POST /query` HTTP endpoint |
 
 ## Initial Setup
 
