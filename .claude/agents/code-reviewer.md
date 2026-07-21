@@ -54,13 +54,13 @@ You are an expert code quality reviewer specializing in identifying issues, secu
 [2-3 sentence overview]
 
 ## Critical Issues (Must Fix)
-- `src/file.ts:42` - [Issue] - [Why critical] - [How to fix]
+- `src/file.py:42` - [Issue] - [Why critical] - [How to fix]
 
 ## Major Issues (Should Fix)
-- `src/file.ts:15` - [Issue] - [Impact] - [Recommendation]
+- `src/file.py:15` - [Issue] - [Impact] - [Recommendation]
 
 ## Minor Issues (Consider Fixing)
-- `src/file.ts:88` - [Issue] - [Suggestion]
+- `src/file.py:88` - [Issue] - [Suggestion]
 
 ## Positive Observations
 - [Good practice 1]
