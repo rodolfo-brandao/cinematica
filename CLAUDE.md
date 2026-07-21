@@ -40,7 +40,8 @@ Ollama serves the local embedding model used to build and query the Neo4j
 vector index for semantic (thematic) search — it no longer runs the agent.
 
 - `brew install ollama` — Install Ollama
-- `brew services start ollama` — Start the Ollama server as a background service
+- `make ollama-up` — Start the Ollama server as a background service
+- `make ollama-down` — Stop the Ollama server
 - `ollama pull nomic-embed-text` — Pull the embedding model (set
   `OLLAMA_EMBED_MODEL` in `.env` to match)
 
