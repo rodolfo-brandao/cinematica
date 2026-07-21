@@ -5,6 +5,7 @@ from src.agents.state import AgentState
 from src.clients.anthropic.client import AnthropicClient
 from src.clients.neo4j.client import Neo4jClient
 from src.clients.ollama.client import OllamaClient
+from src.clients.tmdb.client import TmdbClient
 
 
 _GRAPH = build_graph()
@@ -14,7 +15,8 @@ async def answer_question(
     question: str,
     neo4j: Neo4jClient,
     anthropic: AnthropicClient,
-    ollama: OllamaClient
+    ollama: OllamaClient,
+    tmdb: TmdbClient
 ) -> str:
     """
     Answers a natural-language question about the film graph by running
@@ -29,6 +31,9 @@ async def answer_question(
     :type anthropic: AnthropicClient
     :param ollama: The Ollama client backing semantic (vector) search.
     :type ollama: OllamaClient
+    :param tmdb: The TMDb client backing external movie search/ingestion
+        and review-sentiment persistence.
+    :type tmdb: TmdbClient
 
     :return: The pipeline's synthesized answer.
     :rtype: str
@@ -50,7 +55,8 @@ async def answer_question(
         config={"configurable": {
             "neo4j": neo4j,
             "anthropic": anthropic,
-            "ollama": ollama
+            "ollama": ollama,
+            "tmdb": tmdb
         }}
     )
     return result["answer"]

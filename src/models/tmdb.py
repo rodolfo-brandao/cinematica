@@ -41,6 +41,28 @@ class Keyword:
     name: str
 
 
+@dataclass(frozen=True)
+class TmdbSearchResult:
+    """A single `/search/movie` result candidate."""
+    tmdb_id: int
+    title: str
+    original_title: str
+    release_date: str
+    overview: str
+    popularity: float
+
+
+@dataclass(frozen=True)
+class TmdbReview:
+    """A public review of a movie from TMDb."""
+    review_id: str
+    author: str
+    content: str
+    tmdb_rating: Optional[float]
+    created_at: str
+    url: str
+
+
 # Mirrors the flat shape of the TMDb `/movie/{id}` payload, hence the field count:
 @dataclass(frozen=True)
 # pylint: disable-next=too-many-instance-attributes

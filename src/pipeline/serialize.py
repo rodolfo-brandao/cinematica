@@ -53,7 +53,42 @@ def to_movie_record(
     }
 
 
+def to_external_movie_record(tmdb: TmdbMovie) -> Dict[str, Any]:
+    """
+    Builds a movie record sourced purely from TMDb, in the same shape
+    `to_movie_record` produces, for a movie found via on-demand search
+    rather than the offline IMDb-driven pipeline. `tconst` is the TMDb
+    record's own `imdb_id`; there is no rating or cast/crew data since
+    those are IMDb-only in this codebase.
+
+    :param tmdb: The TMDb movie details to ingest.
+    :type tmdb: TmdbMovie
+
+    :return: A record shaped like `to_movie_record`'s output.
+    :rtype: Dict[str, Any]
+    """
+
+    return {
+        "tconst": tmdb.imdb_id,
+        "primary_title": tmdb.title,
+        "original_title": tmdb.original_title,
+        "is_adult": tmdb.is_adult,
+        "start_year": _year_from_release_date(tmdb.release_date),
+        "runtime_min": tmdb.runtime_min,
+        "genres": [genre.name for genre in tmdb.genres],
+        "rating": None,
+        "principals": [],
+        "tmdb": asdict(tmdb)
+    }
+
+
 # Private serialization helpers (module-level):
+def _year_from_release_date(release_date: str) -> Optional[int]:
+    """Extracts the release year from a TMDb `YYYY-MM-DD` date string."""
+
+    return int(release_date[:4]) if release_date else None
+
+
 def _rating_to_dict(rating: Optional[ImdbRating]) -> Optional[Dict[str, Any]]:
     """Renders an :class:`ImdbRating` as a dict (the redundant `tconst` is dropped)."""
 

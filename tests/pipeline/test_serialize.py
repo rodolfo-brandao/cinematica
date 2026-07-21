@@ -9,7 +9,7 @@ from src.models.tmdb import (
     SpokenLanguage,
     TmdbMovie,
 )
-from src.pipeline.serialize import to_movie_record
+from src.pipeline.serialize import to_external_movie_record, to_movie_record
 
 
 def _make_movie() -> ImdbMovie:
@@ -125,3 +125,62 @@ def test_to_movie_record_nests_tmdb_data():
     assert record["tmdb"]["belongs_to_collection"] == {
         "id": 1, "name": "Fight Club Collection"
     }
+
+
+def _make_tmdb_movie(**overrides) -> TmdbMovie:
+    """Builds a minimal TMDb movie fixture, for `to_external_movie_record`."""
+
+    fields = {
+        "tmdb_id": 550,
+        "imdb_id": "tt0137523",
+        "is_adult": False,
+        "budget": 63_000_000,
+        "genres": [Genre(id=18, name="Drama")],
+        "origin_country": ["US"],
+        "original_language": "en",
+        "original_title": "Fight Club",
+        "overview": "An insomniac office worker...",
+        "popularity": 50.0,
+        "release_date": "1999-10-15",
+        "revenue": 100_853_753,
+        "runtime_min": 139,
+        "spoken_languages": [],
+        "status": "Released",
+        "tagline": "Mischief. Mayhem. Soap.",
+        "title": "Fight Club",
+        "has_video": False,
+        "vote_average": 8.4,
+        "vote_count": 25_000,
+        "production_companies": [],
+        "belongs_to_collection": None,
+        "keywords": []
+    }
+    fields.update(overrides)
+    return TmdbMovie(**fields)
+
+
+def test_to_external_movie_record_shapes_from_tmdb_only():
+    """A TMDb-only record uses the real `imdb_id` as `tconst`, no cast."""
+
+    record = to_external_movie_record(_make_tmdb_movie())
+
+    assert record["tconst"] == "tt0137523"
+    assert record["primary_title"] == "Fight Club"
+    assert record["original_title"] == "Fight Club"
+    assert record["is_adult"] is False
+    assert record["start_year"] == 1999
+    assert record["runtime_min"] == 139
+    assert record["genres"] == ["Drama"]
+    assert record["rating"] is None
+    assert record["principals"] == []
+    assert record["tmdb"]["tmdb_id"] == 550
+
+
+def test_to_external_movie_record_handles_empty_release_date():
+    """An empty `release_date` yields a `None` `start_year`, not a crash."""
+
+    record = to_external_movie_record(
+        _make_tmdb_movie(release_date="")
+    )
+
+    assert record["start_year"] is None

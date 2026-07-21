@@ -149,6 +149,23 @@ def load_movies(
     return loaded_count
 
 
+def load_movie_record(record: Dict[str, Any], client: Neo4jClient) -> None:
+    """
+    Upserts a single movie record into Neo4j: its `Movie` node, `Genre`
+    relationships and TMDb dimensions, and any cast/crew principals. A
+    thin, one-record wrapper around the same batch path `load_movies`
+    uses, for ingesting a movie found on demand (e.g. via TMDb search)
+    outside the offline pipeline.
+
+    :param record: A movie record shaped like `to_movie_record`'s output.
+    :type record: Dict[str, Any]
+    :param client: The Neo4j client to write through.
+    :type client: Neo4jClient
+    """
+
+    _load_batch([record], client)
+
+
 # Private helpers (module-level):
 def _load_batch(batch: List[Dict[str, Any]], client: Neo4jClient) -> None:
     """Upserts one batch of movie records: nodes, genres, principals."""

@@ -11,6 +11,9 @@ import src.api.app as app_module
 class _FakeNeo4jClient:
     """A stand-in Neo4jClient requiring no real connection."""
 
+    def ensure_constraints(self) -> None:
+        """No-op, matching Neo4jClient's interface."""
+
     def close(self) -> None:
         """No-op close, matching Neo4jClient's interface."""
 
@@ -27,6 +30,13 @@ class _FakeOllamaClient:
 
     async def close(self) -> None:
         """No-op close, matching OllamaClient's interface."""
+
+
+class _FakeTmdbClient:
+    """A stand-in TmdbClient requiring no real credentials."""
+
+    async def close(self) -> None:
+        """No-op close, matching TmdbClient's interface."""
 
 
 async def _fake_answer_question(question: str, **_: Any) -> str:
@@ -46,6 +56,7 @@ def _client_fixture(
         app_module, "AnthropicClient", _FakeAnthropicClient
     )
     monkeypatch.setattr(app_module, "OllamaClient", _FakeOllamaClient)
+    monkeypatch.setattr(app_module, "TmdbClient", _FakeTmdbClient)
     monkeypatch.setattr(
         app_module, "answer_question", _fake_answer_question
     )

@@ -22,7 +22,9 @@ from src.models.tmdb import (
     Keyword,
     ProductionCompany,
     SpokenLanguage,
-    TmdbMovie
+    TmdbMovie,
+    TmdbReview,
+    TmdbSearchResult
 )
 
 
@@ -82,7 +84,8 @@ def _retry_policy(func):
 class TmdbClient:
     """
     Async HTTP client for the TMDb REST API v3.\n
-    Currently handles only search for movies based on IMDb IDs.\n
+    Handles resolving movies by IMDb id, free-text title search, movie
+    details/reviews by TMDb id.\n
     Authentication is handled via Bearer Token (_Read Access Token_).\n
 
     Uses:
@@ -156,14 +159,7 @@ class TmdbClient:
         tmdb_id: int = movie_results[0]["id"]
         _logger.debug("Resolved IMDb ID %s -> TMDb ID %d", imdb_id, tmdb_id)
 
-        # Complete TmdbMovie (budget, revenue, runtime, genres, etc.).
-        # `append_to_response=keywords` folds the /movie/{id}/keywords
-        # sub-resource into the same response, avoiding a second request.
-        details = await self._get(
-            path=f"/movie/{tmdb_id}",
-            params={"append_to_response": "keywords"}
-        )
-        return _parse_movie_details(details)
+        return await self.get_movie_details(tmdb_id)
 
 
     async def find_by_imdb_ids(self, imdb_ids: List[str]) -> List[TmdbMovie]:
@@ -201,6 +197,75 @@ class TmdbClient:
             len(movies), len(imdb_ids), not_found, failed
         )
         return movies
+
+
+    async def search_movies(
+        self, query: str, year: Optional[int] = None
+    ) -> List[TmdbSearchResult]:
+        """
+        Searches TMDb for movies matching a free-text title, for finding
+        a movie absent from the graph before ingesting it.
+
+        :param query: The free-text movie title to search for.
+        :type query: str
+        :param year: The release year, to disambiguate same-titled movies.
+        :type year: Optional[int]
+
+        :return: The matching candidates, most relevant first.
+        :rtype: List[TmdbSearchResult]
+        """
+
+        params: Dict[str, Any] = {"query": query}
+        if year is not None:
+            params["year"] = year
+
+        _logger.debug("Searching TMDb for movie title %r", query)
+        response = await self._get(path="/search/movie", params=params)
+        return [
+            _parse_search_result(result)
+            for result in response.get("results") or []
+        ]
+
+
+    async def get_movie_details(self, tmdb_id: int) -> TmdbMovie:
+        """
+        Fetches full movie details for a known TMDb id.
+
+        :param tmdb_id: The TMDb movie id.
+        :type tmdb_id: int
+
+        :return: The parsed movie details.
+        :rtype: TmdbMovie
+
+        :raises urllib.error.HTTPError: On non-retryable HTTP errors.
+        """
+
+        # `append_to_response=keywords` folds the /movie/{id}/keywords
+        # sub-resource into the same response, avoiding a second request.
+        details = await self._get(
+            path=f"/movie/{tmdb_id}",
+            params={"append_to_response": "keywords"}
+        )
+        return _parse_movie_details(details)
+
+
+    async def get_reviews(self, tmdb_id: int) -> List[TmdbReview]:
+        """
+        Fetches a movie's public reviews from TMDb (first page only, up
+        to 20 reviews — enough for an audience-sentiment sample).
+
+        :param tmdb_id: The TMDb movie id.
+        :type tmdb_id: int
+
+        :return: The movie's public reviews.
+        :rtype: List[TmdbReview]
+        """
+
+        _logger.debug("Fetching TMDb reviews for movie ID %d", tmdb_id)
+        response = await self._get(path=f"/movie/{tmdb_id}/reviews")
+        return [
+            _parse_review(result) for result in response.get("results") or []
+        ]
 
 
     @_retry_policy
@@ -302,4 +367,50 @@ def _parse_movie_details(data: Dict[str, Any]) -> TmdbMovie:
         production_companies=production_companies,
         belongs_to_collection=belongs_to_collection,
         keywords=keywords
+    )
+
+
+def _parse_search_result(data: Dict[str, Any]) -> TmdbSearchResult:
+    """
+    Parses one `/search/movie` result into
+    :class:`~src.models.tmdb.TmdbSearchResult`.
+
+    :param data: One result object from the TMDb search response.
+    :type data: Dict[str, Any]
+
+    :return: An instance of :class:`~src.models.tmdb.TmdbSearchResult`.
+    :rtype: src.models.tmdb.TmdbSearchResult
+    """
+
+    return TmdbSearchResult(
+        tmdb_id=data["id"],
+        title=data.get("title", ""),
+        original_title=data.get("original_title", ""),
+        release_date=data.get("release_date", ""),
+        overview=data.get("overview", ""),
+        popularity=data.get("popularity", 0.0)
+    )
+
+
+def _parse_review(data: Dict[str, Any]) -> TmdbReview:
+    """
+    Parses one `/movie/{id}/reviews` result into
+    :class:`~src.models.tmdb.TmdbReview`.
+
+    :param data: One review object from the TMDb reviews response.
+    :type data: Dict[str, Any]
+
+    :return: An instance of :class:`~src.models.tmdb.TmdbReview`.
+    :rtype: src.models.tmdb.TmdbReview
+    """
+
+    author_details = data.get("author_details") or {}
+
+    return TmdbReview(
+        review_id=data["id"],
+        author=data.get("author", ""),
+        content=data.get("content", ""),
+        tmdb_rating=author_details.get("rating"),
+        created_at=data.get("created_at", ""),
+        url=data.get("url", "")
     )

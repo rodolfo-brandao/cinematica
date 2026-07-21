@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Tuple
 
-from src.pipeline.load import load_movies
+from src.pipeline.load import load_movie_record, load_movies
 
 
 class _FakeClient:
@@ -250,3 +250,18 @@ def test_load_movies_splits_batches_at_batch_size(tmp_path: Path):
     upsert_calls = _movie_upsert_calls(client)
     assert len(upsert_calls) == 3
     assert [len(params["rows"]) for _, params in upsert_calls] == [2, 2, 1]
+
+
+def test_load_movie_record_upserts_a_single_record():
+    """`load_movie_record` runs the same batch path as `load_movies`."""
+
+    client = _FakeClient()
+    record = _make_record("tt0000009", principals=[])
+
+    load_movie_record(record, client)
+
+    [(_, params)] = _movie_upsert_calls(client)
+    [row] = params["rows"]
+    assert row["tconst"] == "tt0000009"
+    # An empty `principals` list writes no relationship-merge queries.
+    assert not _calls_matching(client, "MERGE (p:Person")

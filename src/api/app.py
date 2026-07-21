@@ -10,6 +10,7 @@ from src.agents.agent import answer_question
 from src.clients.anthropic.client import AnthropicClient
 from src.clients.neo4j.client import Neo4jClient
 from src.clients.ollama.client import OllamaClient
+from src.clients.tmdb.client import TmdbClient
 from src.logger import get_logger
 from src.models.agent import QueryRequest, QueryResponse
 
@@ -23,21 +24,27 @@ _logger = get_logger(__name__)
 @asynccontextmanager
 async def _lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     """
-    Opens the Neo4j and Ollama clients once at startup, storing them
-    on `fastapi_app.state` for reuse across requests, and closes both
-    on shutdown.
+    Opens the Neo4j, Anthropic, Ollama and TMDb clients once at startup,
+    storing them on `fastapi_app.state` for reuse across requests, and
+    closes all of them on shutdown.
 
     :param fastapi_app: The FastAPI application instance.
     :type fastapi_app: FastAPI
     """
 
     fastapi_app.state.neo4j_client = Neo4jClient()
+    # Idempotent (`IF NOT EXISTS`): guarantees the schema (including the
+    # `Review` constraint the sentiment tool relies on) is in place even
+    # if the offline pipeline hasn't been (re-)run since it was added.
+    fastapi_app.state.neo4j_client.ensure_constraints()
     fastapi_app.state.anthropic_client = AnthropicClient()
     fastapi_app.state.ollama_client = OllamaClient()
+    fastapi_app.state.tmdb_client = TmdbClient()
     _logger.info("Cinematica API startup: clients ready.")
 
     yield
 
+    await fastapi_app.state.tmdb_client.close()
     await fastapi_app.state.ollama_client.close()
     await fastapi_app.state.anthropic_client.close()
     fastapi_app.state.neo4j_client.close()
@@ -63,7 +70,8 @@ async def query(request: QueryRequest) -> QueryResponse:
         request.question,
         neo4j=app.state.neo4j_client,
         anthropic=app.state.anthropic_client,
-        ollama=app.state.ollama_client
+        ollama=app.state.ollama_client,
+        tmdb=app.state.tmdb_client
     )
     return QueryResponse(question=request.question, answer=answer)
 

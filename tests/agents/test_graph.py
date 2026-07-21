@@ -4,7 +4,14 @@ import asyncio
 from types import SimpleNamespace
 from typing import Any, Dict, List
 
-from src.agents.graph import _FALLBACK_ANSWER, _MAX_QUERY_ATTEMPTS, build_graph
+import src.agents.tools as tools_module
+from src.agents.graph import (
+    _FALLBACK_ANSWER,
+    _MAX_QUERY_ATTEMPTS,
+    _dispatch_tool,
+    _rows_from,
+    build_graph
+)
 from src.agents.state import AgentState
 
 
@@ -89,7 +96,8 @@ def _run(anthropic, neo4j, ollama, question: str) -> AgentState:
     return asyncio.run(build_graph().ainvoke(
         _initial_state(question),
         config={"configurable": {
-            "anthropic": anthropic, "neo4j": neo4j, "ollama": ollama
+            "anthropic": anthropic, "neo4j": neo4j, "ollama": ollama,
+            "tmdb": object()
         }}
     ))
 
@@ -158,3 +166,75 @@ def test_verification_rejection_then_success():
 
     assert result["answer"] == "Here is the corrected answer."
     assert result["query_attempts"] == 2
+
+
+def test_dispatch_tool_routes_the_tmdb_backed_tools_by_name(monkeypatch):
+    """Each new tool name is routed to its `tools` module counterpart."""
+
+    calls: List[Any] = []
+
+    async def _fake_search(tmdb, **kwargs):
+        calls.append(("search_external_movie", tmdb, kwargs))
+        return {"candidates": []}
+
+    async def _fake_ingest(tmdb, neo4j, **kwargs):
+        calls.append(("ingest_movie", tmdb, neo4j, kwargs))
+        return {"message": "ingested"}
+
+    async def _fake_fetch(tmdb, **kwargs):
+        calls.append(("fetch_reviews", tmdb, kwargs))
+        return {"reviews": []}
+
+    async def _fake_save(tmdb, neo4j, **kwargs):
+        calls.append(("save_movie_sentiment", tmdb, neo4j, kwargs))
+        return {"sentiment_label": "positive"}
+
+    monkeypatch.setattr(
+        tools_module, "search_external_movie", _fake_search
+    )
+    monkeypatch.setattr(tools_module, "ingest_movie", _fake_ingest)
+    monkeypatch.setattr(tools_module, "fetch_reviews", _fake_fetch)
+    monkeypatch.setattr(
+        tools_module, "save_movie_sentiment", _fake_save
+    )
+
+    neo4j, ollama, tmdb = object(), object(), object()
+
+    search_result = asyncio.run(_dispatch_tool(
+        "search_external_movie", {"title": "Dune"}, neo4j, ollama, tmdb
+    ))
+    ingest_result = asyncio.run(_dispatch_tool(
+        "ingest_movie", {"tmdb_id": 1}, neo4j, ollama, tmdb
+    ))
+    fetch_result = asyncio.run(_dispatch_tool(
+        "fetch_reviews", {"tmdb_id": 1}, neo4j, ollama, tmdb
+    ))
+    save_result = asyncio.run(_dispatch_tool(
+        "save_movie_sentiment",
+        {
+            "tmdb_id": 1, "sentiment_label": "positive",
+            "sentiment_score": 0.5, "summary": "Mostly positive."
+        },
+        neo4j, ollama, tmdb
+    ))
+
+    assert search_result == {"candidates": []}
+    assert ingest_result == {"message": "ingested"}
+    assert fetch_result == {"reviews": []}
+    assert save_result == {"sentiment_label": "positive"}
+    assert [call[0] for call in calls] == [
+        "search_external_movie", "ingest_movie", "fetch_reviews",
+        "save_movie_sentiment"
+    ]
+    assert all(call[1] is tmdb for call in calls)
+
+
+def test_rows_from_ignores_candidates_and_reviews_keys():
+    """
+    Search/review tool output must never be promoted into answer rows —
+    only a real `run_cypher` result should ever populate `AgentState["rows"]`.
+    """
+
+    assert _rows_from({"candidates": [{"tmdb_id": 1}]}) == []
+    assert _rows_from({"reviews": [{"review_id": "r1"}]}) == []
+    assert _rows_from({"rows": [{"tconst": "tt1"}]}) == [{"tconst": "tt1"}]

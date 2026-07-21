@@ -7,7 +7,9 @@ Node labels and properties:
 - Movie: tconst (unique id), primary_title, original_title, is_adult,
   start_year, runtime_min, average_rating, num_votes, tmdb_id, overview,
   tagline, status, budget, revenue, popularity, release_date,
-  original_language, vote_average, vote_count, has_video.
+  original_language, vote_average, vote_count, has_video,
+  audience_sentiment_label, audience_sentiment_score,
+  audience_sentiment_summary, audience_sentiment_reviewed_at.
   A movie's title is `primary_title` — there is no `title` property.
 
   IMPORTANT: there are two independent rating systems on Movie:
@@ -20,6 +22,20 @@ Node labels and properties:
   minimum `num_votes` (e.g. >= 1000) or `vote_count` in addition to the
   rating itself, not the rating alone.
 
+  The `audience_sentiment_*` properties are null until the
+  `save_movie_sentiment` tool has been run for that movie. When present,
+  they are a frontier-model judgment synthesized from a sample of public
+  TMDb reviews — not a statistically rigorous metric — so phrase answers
+  citing it accordingly (e.g. "reviews suggest..." rather than stating it
+  as a hard fact). `audience_sentiment_label` is one of "positive",
+  "mixed" or "negative"; `audience_sentiment_score` ranges from -1.0
+  (very negative) to 1.0 (very positive).
+
+  A movie ingested on demand from TMDb (via `ingest_movie`, rather than
+  the offline IMDb pipeline) has no Person relationships (no cast/crew
+  data) and no `average_rating`/`num_votes` (IMDb-only fields) — don't
+  expect those to exist for it.
+
 - Person: nconst (unique id), primary_name, birth_year, death_year,
   primary_profession (list of strings).
 
@@ -30,6 +46,8 @@ Node labels and properties:
 - Keyword: name (unique) — a TMDb thematic tag, e.g. "dystopia".
 - Collection: tmdb_id (unique), name — a franchise, e.g. "The Godfather
   Collection".
+- Review: review_id (unique) — a TMDb review id, author, content,
+  tmdb_rating (the reviewer's own 1-10 score, nullable), created_at, url.
 
 Relationships:
 
@@ -44,6 +62,7 @@ Relationships:
 - Movie -> ProductionCompany: PRODUCED_BY.
 - Movie -> Keyword: HAS_KEYWORD.
 - Movie -> Collection: PART_OF_COLLECTION.
+- Movie -> Review: HAS_REVIEW.
 
 Resolving names:
 
@@ -69,7 +88,10 @@ NULL` before `ORDER BY m.average_rating DESC`.
 
 Read-only:
 
-Only MATCH/WHERE/WITH/RETURN/ORDER BY/LIMIT read clauses are allowed.
-Never use CREATE, MERGE, DELETE, SET, REMOVE, DROP, LOAD CSV or any
-write-capable procedure. Always include a LIMIT clause.
+`run_cypher` is strictly read-only: only MATCH/WHERE/WITH/RETURN/ORDER
+BY/LIMIT clauses are allowed. Never use CREATE, MERGE, DELETE, SET,
+REMOVE, DROP, LOAD CSV or any write-capable procedure in it. Always
+include a LIMIT clause. The only ways to write to the graph are the
+dedicated `ingest_movie` and `save_movie_sentiment` tools — never try to
+write via `run_cypher`.
 """

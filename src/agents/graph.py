@@ -43,6 +43,20 @@ _QUERY_SYSTEM_PROMPT = (
     "and traversals (react to its errors and fix them), and "
     "`vector_search` for thematic/plot questions. When you have the rows "
     "that answer the question, stop and briefly state what you found.\n\n"
+    "If a movie the question needs cannot be found (`resolve_entity` has "
+    "no match and a `run_cypher` lookup by title also comes up empty), "
+    "use `search_external_movie` to look it up on TMDb, then "
+    "`ingest_movie` with the right `tmdb_id` to add it to the graph, "
+    "then use `run_cypher` as usual to fetch the rows that answer the "
+    "question — never answer from the search/ingest tool output "
+    "directly.\n\n"
+    "If the question asks about audience reception, sentiment or "
+    "reviews, make sure the movie is ingested, then call `fetch_reviews`, "
+    "read the reviews it returns yourself, and call "
+    "`save_movie_sentiment` with your own label/score/summary judgment. "
+    "Then use `run_cypher` to fetch the persisted "
+    "`audience_sentiment_*` properties (and/or `Review` nodes) as the "
+    "rows that answer the question.\n\n"
     + tool_module.GRAPH_SCHEMA_DESCRIPTION
 )
 _VERIFY_SYSTEM_PROMPT = (
@@ -203,6 +217,7 @@ async def _run_tool_loop(
     anthropic = config["configurable"]["anthropic"]
     neo4j = config["configurable"]["neo4j"]
     ollama = config["configurable"]["ollama"]
+    tmdb = config["configurable"]["tmdb"]
 
     messages: List[Dict[str, Any]] = [{"role": "user", "content": user}]
     rows: List[Dict[str, Any]] = []
@@ -220,7 +235,9 @@ async def _run_tool_loop(
             if getattr(block, "type", None) != "tool_use":
                 continue
 
-            output = await _dispatch_tool(block.name, block.input, neo4j, ollama)
+            output = await _dispatch_tool(
+                block.name, block.input, neo4j, ollama, tmdb
+            )
             rows = _rows_from(output) or rows
             results.append({
                 "type": "tool_result",
@@ -234,8 +251,9 @@ async def _run_tool_loop(
     return "", rows
 
 
+# pylint: disable-next=too-many-return-statements
 async def _dispatch_tool(
-    name: str, tool_input: Dict[str, Any], neo4j: Any, ollama: Any
+    name: str, tool_input: Dict[str, Any], neo4j: Any, ollama: Any, tmdb: Any
 ) -> Any:
     """Runs one requested tool against the clients, by name."""
 
@@ -247,6 +265,16 @@ async def _dispatch_tool(
         return tool_module.run_cypher(neo4j, **tool_input)
     if name == "vector_search":
         return await tool_module.vector_search(neo4j, ollama, **tool_input)
+    if name == "search_external_movie":
+        return await tool_module.search_external_movie(tmdb, **tool_input)
+    if name == "ingest_movie":
+        return await tool_module.ingest_movie(tmdb, neo4j, **tool_input)
+    if name == "fetch_reviews":
+        return await tool_module.fetch_reviews(tmdb, **tool_input)
+    if name == "save_movie_sentiment":
+        return await tool_module.save_movie_sentiment(
+            tmdb, neo4j, **tool_input
+        )
 
     return {"error": f"Unknown tool: {name}"}
 

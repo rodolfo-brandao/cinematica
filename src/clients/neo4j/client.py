@@ -31,6 +31,8 @@ _CONSTRAINTS = (
     "FOR (k:Keyword) REQUIRE k.name IS UNIQUE",
     "CREATE CONSTRAINT collection_tmdb_id IF NOT EXISTS "
     "FOR (col:Collection) REQUIRE col.tmdb_id IS UNIQUE",
+    "CREATE CONSTRAINT review_id IF NOT EXISTS "
+    "FOR (r:Review) REQUIRE r.review_id IS UNIQUE",
 )
 
 # Full-text indexes back case-insensitive, fuzzy entity resolution (the

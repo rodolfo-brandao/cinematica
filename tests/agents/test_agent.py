@@ -23,14 +23,16 @@ class _FakeCompiledGraph:
 
 
 def test_answer_question_invokes_the_graph_with_a_fresh_state(monkeypatch):
-    """The graph is invoked with a full initial state and three clients."""
+    """The graph is invoked with a full initial state and four clients."""
 
     fake_graph = _FakeCompiledGraph(result={"answer": "Two movies."})
     monkeypatch.setattr(agent_module, "_GRAPH", fake_graph)
 
-    neo4j, anthropic, ollama = object(), object(), object()
+    neo4j, anthropic, ollama, tmdb = object(), object(), object(), object()
     answer = asyncio.run(
-        agent_module.answer_question("Which?", neo4j, anthropic, ollama)
+        agent_module.answer_question(
+            "Which?", neo4j, anthropic, ollama, tmdb
+        )
     )
 
     assert answer == "Two movies."
@@ -47,7 +49,8 @@ def test_answer_question_invokes_the_graph_with_a_fresh_state(monkeypatch):
         "answer": ""
     }
     assert config == {"configurable": {
-        "neo4j": neo4j, "anthropic": anthropic, "ollama": ollama
+        "neo4j": neo4j, "anthropic": anthropic, "ollama": ollama,
+        "tmdb": tmdb
     }}
 
 
@@ -61,7 +64,7 @@ def test_answer_question_returns_the_graphs_final_answer(monkeypatch):
 
     answer = asyncio.run(
         agent_module.answer_question(
-            "Anything?", object(), object(), object()
+            "Anything?", object(), object(), object(), object()
         )
     )
 
