@@ -2,7 +2,6 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)
 ![Python version](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
-![Anthropic API](https://img.shields.io/badge/Anthropic-API-191919?logo=anthropic&logoColor=white)
 ![Ollama version](https://img.shields.io/badge/Ollama-0.31.1-000000?logo=ollama&logoColor=white)
 ![Neo4j version](https://img.shields.io/badge/LangGraph-1.2.9-7FC8FF?logo=langgraph&logoColor=white)
 [![CI](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml)
