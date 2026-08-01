@@ -1,9 +1,6 @@
 # Cinematica
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)
-![Python version](https://img.shields.io/badge/Python-3.14-3776AB?logo=python&logoColor=white)
-![Ollama version](https://img.shields.io/badge/Ollama-0.31.1-000000?logo=ollama&logoColor=white)
-![Neo4j version](https://img.shields.io/badge/LangGraph-1.2.9-7FC8FF?logo=langgraph&logoColor=white)
 [![CI](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml/badge.svg)](https://github.com/rodolfo-brandao/cinematica/actions/workflows/ci.yml)
 
 ## Overview
@@ -27,18 +24,18 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 
 | Technology | Role |
 | --- | --- |
-| [Python 3.14](https://www.python.org/downloads/release/python-3140/) | Language runtime for the whole project |
-| [Neo4j](https://neo4j.com) | Graph database storing movies, people, genres, languages, countries, production companies, keywords, and collections as nodes and their relationships as edges; also hosts the vector index used for semantic search |
-| [Ollama](https://ollama.com) | Serves the local embedding model (`nomic-embed-text` by default) used to embed movie overviews and query themes for vector search |
-| [LangGraph](https://langchain-ai.github.io/langgraph/) | Orchestrates the agent's reasoning pipeline as a graph of stages: plan, entity resolution, querying, verification, and answer composition |
-| [Claude](https://www.anthropic.com/claude) (Anthropic API) | Frontier LLM reasoning over the graph at each pipeline stage, driving tool use for schema introspection, entity resolution, Cypher generation/repair, and final answer composition |
-| [FastAPI](https://fastapi.tiangolo.com) | Exposes the film-graph agent over HTTP |
+| [![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)](https://www.python.org/downloads/release/python-3140/) | Language runtime for the whole project, version 3.14 |
+| [![Neo4j](https://img.shields.io/badge/Neo4j-4581C3?logo=neo4j&logoColor=white)](https://neo4j.com) | Graph database storing movies, people, genres, languages, countries, production companies, keywords, and collections as nodes and their relationships as edges; also hosts the vector index used for semantic search |
+| [![Ollama](https://img.shields.io/badge/Ollama-000000?logo=ollama&logoColor=white)](https://ollama.com) | Serves the local embedding model (`nomic-embed-text` by default) used to embed movie overviews and query themes for vector search |
+| [![LangGraph](https://img.shields.io/badge/LangGraph-7FC8FF?logo=langgraph&logoColor=white)](https://langchain-ai.github.io/langgraph/) | Orchestrates the agent's reasoning pipeline as a graph of stages: plan, entity resolution, querying, verification, and answer composition |
+| [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://www.anthropic.com/claude) | Frontier LLM reasoning (Anthropic API) over the graph at each pipeline stage, driving tool use for schema introspection, entity resolution, Cypher generation/repair, and final answer composition |
+| [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com) | Exposes the film-graph agent over HTTP |
 
 ## Initial Setup
 
 ### Requirements
 
-- [x] An [Anthropic API key](https://console.anthropic.com)
+- [x] [Anthropic API key](https://console.anthropic.com)
 - [x] [Docker](https://www.docker.com/get-started/)
 - [x] [Ollama](https://ollama.com/download)
 - [x] [Python 3.14](https://www.python.org/downloads/release/python-3140/)
@@ -140,5 +137,5 @@ Then ask a natural-language question about the film graph:
 ```bash
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
-  -d '{"question": "Who directed The Godfather?"}'
+  -d '{"question": "Show me thrillers directed by someone who worked with Denis Villeneuve, released after 2015, with high critical reception."}'
 ```
