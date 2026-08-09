@@ -7,18 +7,14 @@
 
 Cinematica is an agentic AI-powered Knowledge Graph for semantic exploration and intelligent insights over film data.
 
-It ingests [IMDb](https://datasets.imdbws.com) non-commercial datasets and enriches each title via the [TMDB](https://www.themoviedb.org) API, then loads the consolidated data into a [Neo4j](https://neo4j.com) graph — modeling movies, people, genres, languages, countries, production companies, keywords, and collections as nodes and their relationships as edges.
+It ingests [IMDb non-commercial datasets](https://datasets.imdbws.com) and enriches each title via the [TMDB](https://www.themoviedb.org) API, then loads the consolidated data into a [Neo4j](https://neo4j.com) graph — modeling movies, people, genres, languages, countries, production companies, keywords, and collections as nodes and their relationships as edges.
 
 On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.github.io/langgraph/) pipeline — plan, entity resolution, querying, verification, and answer composition — in which a frontier [Claude](https://www.anthropic.com/claude) model reasons over the graph through grounding tools (schema introspection, fuzzy full-text entity resolution, validated read-only Cypher, and [Ollama](https://ollama.com)-embedded vector search), exposed through a [FastAPI](https://fastapi.tiangolo.com) endpoint that answers natural-language questions about the film graph.
 
 > [!NOTE]
 > Regarding the use of Artificial Intelligence: when necessary, LLMs are used for code generation. However, all generated code is **always** reviewed by me, [@rodolfo-brandao](https://github.com/rodolfo-brandao), author and sole contributor of this repository.
 >
-> What made me adopt this approach? [This post](https://x.com/karpathy/status/2015883857489522876) by [Andrej Karpathy](https://github.com/karpathy) and [this note](https://www-cs-faculty.stanford.edu/~knuth/papers/claude-cycles.pdf) from none other than [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth).
->
-> In Karpathy's own words: _It hurts the ego a bit_ :hurtrealbad:
->
-> For everything else, [Claude Code](https://claude.ai/code) is used as an analysis and insights tool — for better understanding codebases, documentation, and trade-offs, as well as supporting decision-making.
+> For everything else, [Claude Code](https://claude.ai/code) is used as an analysis and insights tool — for better understanding codebases and documentation, as well as supporting decision-making.
 
 ## Tech Stack
 
@@ -133,7 +129,7 @@ With Neo4j loaded (see above), Ollama running, and `ANTHROPIC_API_KEY` set, star
 make api
 ```
 
-Then ask a natural-language question about the film graph:
+Then ask a natural-language question about any film:
 ```bash
 curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
