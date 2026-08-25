@@ -7,9 +7,10 @@ Regarding the project, Cinematica is a knowledge graph pipeline that ingests IMD
 ## Invariants
 
 Consult these files for important details regarding this repo:
-- docs/project-structure.md — module layout, datasets and architecture
-- docs/custom-agents.md — agents available under .claude/agents/
-- docs/custom-rules.md — mandatory code-writing conventions
+- `docs/commands.md` — useful CLI commands for different contexts
+- `docs/project-structure.md` — module layout, datasets and architecture
+- `docs/rules.md` — mandatory code-writing conventions
+- `docs/subagents.md` — agents available under .claude/agents/
 
 ## Package Management
 
