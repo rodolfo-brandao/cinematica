@@ -1,0 +1,22 @@
+<div class="empty">
+  <h1 class="empty__title">Cinematica</h1>
+  <p class="empty__subtitle">
+    Ask anything about the film knowledge graph — connections between
+    people, rankings, themes, or how audiences received a movie.
+  </p>
+
+  <ul class="empty__grid">
+    @for (sample of samples; track sample.question) {
+      <li>
+        <button
+          type="button"
+          class="sample"
+          (click)="select.emit(sample.question)"
+        >
+          <span class="sample__kind">{{ sample.kind }}</span>
+          <span class="sample__question">{{ sample.question }}</span>
+        </button>
+      </li>
+    }
+  </ul>
+</div>

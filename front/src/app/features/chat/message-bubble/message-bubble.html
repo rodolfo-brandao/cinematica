@@ -1,0 +1,26 @@
+@if (isUser()) {
+  <article class="turn turn--user">
+    <p class="bubble">{{ message().content }}</p>
+  </article>
+} @else {
+  <article class="turn turn--assistant">
+    <span class="avatar" aria-hidden="true">C</span>
+
+    <div class="turn__body">
+      @if (failure(); as kind) {
+        <p class="failure" [class.failure--muted]="kind === 'cancelled'">
+          {{ failureText() }}
+        </p>
+        <button
+          type="button"
+          class="retry"
+          (click)="retry.emit(message().id)"
+        >
+          Try again
+        </button>
+      } @else {
+        <div class="markdown" [innerHTML]="html()"></div>
+      }
+    </div>
+  </article>
+}

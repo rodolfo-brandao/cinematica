@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+.composer {
+  max-width: var(--thread-width);
+  margin: 0 auto;
+}
+
+.composer__field {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+
+  &:focus-within {
+    border-color: var(--color-accent);
+  }
+}
+
+.composer__input {
+  flex: 1;
+  max-height: 200px;
+  padding: var(--space-2) 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  resize: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    color: var(--color-text-muted);
+  }
+}
+
+.composer__action {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  transition: opacity 0.15s ease;
+
+  &:disabled {
+    opacity: 0.35;
+  }
+
+  &:not(:disabled):hover {
+    opacity: 0.88;
+  }
+}
+
+.composer__action--stop {
+  background: var(--color-text);
+  color: var(--color-bg);
+}
+
+.composer__stop-glyph {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: currentcolor;
+}
+
+.composer__hint {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.775rem;
+  text-align: center;
+}

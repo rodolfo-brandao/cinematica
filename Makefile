@@ -12,3 +12,6 @@ ollama-down:
 
 api:
 	uv run uvicorn src.api.app:app --reload
+
+front:
+	npm --prefix front start

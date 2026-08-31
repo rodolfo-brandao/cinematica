@@ -21,6 +21,7 @@ Use commands from [`Makefile`](/Makefile).
 - `make up` — Start Neo4j container (docker/docker-compose.yml + .env)
 - `make down` — Stop Neo4j container
 - `make api` — Run the FastAPI agent API (`uvicorn` with reload)
+- `make front` — Run the Angular chat UI (dev server on port 4200)
 
 ### Anthropic (reasoning)
 
@@ -58,6 +59,7 @@ Run as a module from the repository root (required for `src.*` imports):
 - `python -m src.main` — full pipeline run
 - `python -m src.main 200` — batched run: stop after 200 new shards (~100k movies)
 - `make api` (or `python -m src.api.app`) — run the agent API, serving `POST /query`
+- `make front` — run the Angular chat UI against that API
 
 ## Architecture
 
@@ -139,11 +141,27 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 │       └── code-writing.md           # Mandatory coding conventions
 ├── .github/
 │   └── workflows/
-│       └── pylint.yml                # CI: Pylint
+│       └── ci.yml                    # CI: Pylint + pytest
 ├── datasets/
 │   └── README.md                     # IMDb datasets go here (not committed)
 ├── docker/
 │   └── docker-compose.yml            # Neo4j service
+├── front/                            # Angular chat UI (see front/README.md)
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── core/
+│   │   │   │   ├── models/
+│   │   │   │   │   └── chat.ts       # API contract + chat domain types
+│   │   │   │   └── services/         # api, storage, markdown, theme, store
+│   │   │   ├── features/
+│   │   │   │   └── chat/             # Chat page and its components
+│   │   │   ├── app.config.ts         # Root providers (HttpClient)
+│   │   │   └── app.ts                # Root component
+│   │   ├── styles.scss               # Theme tokens + Markdown typography
+│   │   └── test-setup.ts             # Browser API polyfills for the runner
+│   ├── angular.json
+│   ├── package.json
+│   └── proxy.conf.json               # Dev proxy: /query -> localhost:8000
 ├── src/
 │   ├── agents/
 │   │   ├── __init__.py

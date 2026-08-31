@@ -1,0 +1,14 @@
+<div #scroller class="list" (scroll)="onScroll()">
+  <div class="list__inner">
+    @for (message of messages(); track message.id) {
+      <app-message-bubble
+        [message]="message"
+        (retry)="retry.emit($event)"
+      />
+    }
+
+    @if (pending()) {
+      <app-thinking-indicator />
+    }
+  </div>
+</div>

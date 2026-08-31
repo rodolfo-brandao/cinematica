@@ -1,0 +1,45 @@
+<div class="composer">
+  <div class="composer__field">
+    <textarea
+      #input
+      class="composer__input"
+      rows="1"
+      placeholder="Ask about the film graph…"
+      aria-label="Your question"
+      [value]="value()"
+      (input)="onInput($event)"
+      (keydown)="onKeydown($event)"
+    ></textarea>
+
+    @if (pending()) {
+      <button
+        type="button"
+        class="composer__action composer__action--stop"
+        aria-label="Cancel the request"
+        (click)="cancel.emit()"
+      >
+        <span class="composer__stop-glyph"></span>
+      </button>
+    } @else {
+      <button
+        type="button"
+        class="composer__action"
+        aria-label="Send question"
+        [disabled]="!value().trim()"
+        (click)="submit()"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <path
+            fill="currentColor"
+            d="M12 4.5 5 11.5l1.4 1.4 4.6-4.6V20h2V8.3l4.6 4.6L19 11.5z"
+          />
+        </svg>
+      </button>
+    }
+  </div>
+
+  <p class="composer__hint">
+    Every question is answered on its own — the agent keeps no context
+    between turns.
+  </p>
+</div>

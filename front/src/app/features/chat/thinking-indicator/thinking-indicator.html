@@ -1,0 +1,16 @@
+<div class="thinking" role="status" aria-live="polite">
+  <span class="thinking__dots" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </span>
+
+  <span class="thinking__label">
+    Querying the film graph
+    <span class="thinking__elapsed">{{ elapsed() }}s</span>
+  </span>
+
+  @if (isLongWait()) {
+    <span class="thinking__note">
+      Longer questions traverse several reasoning stages — still working.
+    </span>
+  }
+</div>

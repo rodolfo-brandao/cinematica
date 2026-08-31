@@ -1,0 +1,198 @@
+/* Global tokens, resets and the shared Markdown typography. */
+
+@mixin dark-tokens {
+  --color-bg: #1b1a18;
+  --color-surface: #232220;
+  --color-surface-sunken: #161514;
+  --color-sidebar: #151412;
+  --color-border: #35332f;
+  --color-text: #ecebe7;
+  --color-text-muted: #9c988f;
+  --color-accent: #6fa3d8;
+  --color-accent-soft: rgb(111 163 216 / 16%);
+  --color-on-accent: #16232f;
+  --color-highlight: #e08a63;
+  --color-danger: #e0705a;
+  --color-danger-soft: rgb(224 112 90 / 14%);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 40%);
+  --shadow-md: 0 6px 24px rgb(0 0 0 / 45%);
+
+  color-scheme: dark;
+}
+
+:root {
+  --color-bg: #f7f7f5;
+  --color-surface: #ffffff;
+  --color-surface-sunken: #efefec;
+  --color-sidebar: #f0efec;
+  --color-border: #e0dfda;
+  --color-text: #23221f;
+  --color-text-muted: #6f6d66;
+  --color-accent: #3a6ea5;
+  --color-accent-soft: rgb(69 129 195 / 12%);
+  --color-on-accent: #ffffff;
+  --color-highlight: #c05f38;
+  --color-danger: #b3402c;
+  --color-danger-soft: rgb(179 64 44 / 10%);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  --font-sans:
+    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 6%);
+  --shadow-md: 0 6px 24px rgb(0 0 0 / 10%);
+
+  --thread-width: 46rem;
+  --sidebar-width: 17rem;
+
+  color-scheme: light;
+}
+
+/* The default (unset) theme follows the operating system; an explicit
+   choice from the toggle wins in both directions. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-tokens;
+  }
+}
+
+:root[data-theme='dark'] {
+  @include dark-tokens;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Rendered Markdown from the agent's answers. Defined globally because
+   the HTML is bound with [innerHTML], which component-scoped styles
+   cannot reach. */
+.markdown {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  pre {
+    margin: 0 0 var(--space-4);
+  }
+
+  ul,
+  ol {
+    padding-left: var(--space-5);
+  }
+
+  li {
+    margin-bottom: var(--space-1);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    margin: var(--space-5) 0 var(--space-3);
+    font-size: 1.05rem;
+    font-weight: 650;
+    line-height: 1.35;
+  }
+
+  a {
+    color: var(--color-accent);
+    text-underline-offset: 2px;
+  }
+
+  code {
+    padding: 0.15em 0.35em;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface-sunken);
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+  }
+
+  pre {
+    overflow-x: auto;
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    background: var(--color-surface-sunken);
+
+    code {
+      padding: 0;
+      background: none;
+    }
+  }
+
+  blockquote {
+    padding-left: var(--space-4);
+    border-left: 3px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: var(--space-4);
+    border-collapse: collapse;
+    font-size: 0.925rem;
+  }
+
+  th,
+  td {
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-border);
+    text-align: left;
+  }
+
+  th {
+    background: var(--color-surface-sunken);
+  }
+}

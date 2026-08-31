@@ -1,0 +1,47 @@
+<nav class="sidebar" aria-label="Conversation history">
+  <button
+    type="button"
+    class="new-thread"
+    [disabled]="disabled()"
+    (click)="create.emit()"
+  >
+    <span aria-hidden="true">+</span> New conversation
+  </button>
+
+  @if (threads().length) {
+    <ul class="threads">
+      @for (thread of threads(); track thread.id) {
+        <li
+          class="thread"
+          [class.thread--active]="thread.id === activeThreadId()"
+        >
+          <button
+            type="button"
+            class="thread__open"
+            [disabled]="disabled()"
+            (click)="select.emit(thread.id)"
+          >
+            {{ thread.title }}
+          </button>
+          <button
+            type="button"
+            class="thread__delete"
+            aria-label="Delete conversation"
+            [disabled]="disabled()"
+            (click)="remove.emit(thread.id)"
+          >
+            ×
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="threads__empty">
+      Conversations you start are kept in this browser.
+    </p>
+  }
+
+  <button type="button" class="theme" (click)="toggleTheme()">
+    {{ theme() === 'dark' ? 'Light theme' : 'Dark theme' }}
+  </button>
+</nav>

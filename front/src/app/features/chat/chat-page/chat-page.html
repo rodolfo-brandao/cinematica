@@ -1,0 +1,50 @@
+<div class="layout" [class.layout--drawer-open]="isSidebarOpen()">
+  <aside class="layout__rail">
+    <app-thread-sidebar
+      [threads]="threads()"
+      [activeThreadId]="activeThreadId()"
+      [disabled]="isPending()"
+      (create)="createThread()"
+      (select)="selectThread($event)"
+      (remove)="deleteThread($event)"
+    />
+  </aside>
+
+  <button
+    type="button"
+    class="layout__backdrop"
+    aria-label="Close conversation history"
+    (click)="closeSidebar()"
+  ></button>
+
+  <main class="layout__main">
+    <header class="topbar">
+      <button
+        type="button"
+        class="topbar__menu"
+        aria-label="Toggle conversation history"
+        (click)="toggleSidebar()"
+      >
+        <span aria-hidden="true">☰</span>
+      </button>
+      <span class="topbar__title">Cinematica</span>
+    </header>
+
+    @if (messages().length) {
+      <app-message-list
+        [messages]="messages()"
+        [pending]="isPending()"
+        (retry)="retry($event)"
+      />
+    } @else {
+      <app-empty-state (select)="useSample($event)" />
+    }
+
+    <app-composer
+      [(value)]="draft"
+      [pending]="isPending()"
+      (send)="send()"
+      (cancel)="cancel()"
+    />
+  </main>
+</div>

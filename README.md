@@ -30,6 +30,7 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 | [![LangGraph](https://img.shields.io/badge/LangGraph-7FC8FF?logo=langgraph&logoColor=white)](https://langchain-ai.github.io/langgraph/) | Orchestrates the agent's reasoning pipeline as a graph of stages: plan, entity resolution, querying, verification, and answer composition |
 | [![Claude](https://img.shields.io/badge/Claude-D97757?logo=claude&logoColor=white)](https://www.anthropic.com/claude) | Frontier LLM reasoning (Anthropic API) over the graph at each pipeline stage, driving tool use for schema introspection, entity resolution, Cypher generation/repair, and final answer composition |
 | [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com) | Exposes the film-graph agent over HTTP |
+| [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white)](https://angular.dev) | Chat interface over the agent API: standalone components and signals, with conversations kept in the browser |
 
 ## Initial Setup
 
@@ -37,6 +38,7 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 
 - [x] [Anthropic API key](https://console.anthropic.com)
 - [x] [Docker](https://www.docker.com/get-started/)
+- [x] [Node.js](https://nodejs.org) (for the Angular front-end)
 - [x] [Ollama](https://ollama.com/download)
 - [x] [Python 3.14](https://www.python.org/downloads/release/python-3140/)
 - [x] [uv](https://docs.astral.sh/uv/)
@@ -139,3 +141,17 @@ curl -X POST http://localhost:8000/query \
   -H "Content-Type: application/json" \
   -d '{"question": "Show me thrillers directed by someone who worked with Denis Villeneuve, released after 2015, with high critical reception."}'
 ```
+
+### Front-end
+
+The [`front/`](front) directory holds an Angular chat interface for the agent. With the API running (see above), start its dev server:
+```bash
+make front
+```
+
+Then open `http://localhost:4200`. The dev server proxies `/query` to `http://localhost:8000`, so no CORS configuration is needed on the API.
+
+> [!NOTE]
+> _A single answer crosses five reasoning stages, so 30-90 seconds per question is normal. The interface shows the elapsed time and lets you cancel a request that is taking too long._
+>
+> _The agent is stateless: every question is sent on its own, without the preceding turns. Conversations in the sidebar are a local history kept in the browser, not a context the agent reads._

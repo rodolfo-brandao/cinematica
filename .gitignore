@@ -225,3 +225,6 @@ logs/
 
 # .claude files
 .claude/settings.json
+
+# JetBrains IDEs
+.idea/
