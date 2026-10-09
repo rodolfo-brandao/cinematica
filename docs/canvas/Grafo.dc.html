@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Modelo do grafo</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; }
+a { color: #2D6191; } a:hover { color: #1F486C; }
+</style>
+</helmet>
+<div style="position: relative; width: 1600px; height: 1140px; background: #F1F2EF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #16181A">
+
+<svg width="100" height="8" viewBox="0 0 100 8" preserveAspectRatio="none" style="position: absolute; left: 940px; top: 608px; width: 100px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 100 4"></path></svg>
+
+<svg width="8" height="816" viewBox="0 0 8 816" preserveAspectRatio="none" style="position: absolute; left: 1036px; top: 204px; width: 8px; height: 816px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 816"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 200px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 336px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 472px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 608px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 744px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 880px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+
+<svg width="119" height="8" viewBox="0 0 119 8" preserveAspectRatio="none" style="position: absolute; left: 1040px; top: 1016px; width: 119px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 115 4" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+
+<svg width="239" height="8" viewBox="0 0 239 8" preserveAspectRatio="none" style="position: absolute; left: 420px; top: 608px; width: 239px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 235 4" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+
+<div style="position: absolute; left: 64px; top: 64px; width: 900px; font-size: 36px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1">Modelo do grafo</div>
+
+<div style="position: absolute; left: 64px; top: 116px; width: 940px; font-size: 17px; line-height: 1.5; color: #5A6066">Nove rótulos de nó. Cada dimensão vira nó de primeira classe, nunca propriedade solta no filme.</div>
+
+<div style="position: absolute; left: 660px; top: 537px; width: 280px; height: 150px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #E7EEF5; border: 2px solid #6E9BC4; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 24px; color: #1F486C">Movie</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">tconst</span><br><span style="font-size: 12.5px; color: #2D5370">primary_title · start_year · average_rating / num_votes (IMDb) · vote_average / vote_count (TMDb) · overview + embedding</span></span></div>
+
+<div style="position: absolute; left: 180px; top: 537px; width: 240px; height: 150px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 22px">Person</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">nconst</span><br><span style="font-size: 12.5px; color: #5A6066">primary_name · birth_year · death_year · primary_profession</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 160px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">Genre</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">HAS_GENRE</span><span style="font-size: 12.5px; color: #868D94"> · name</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 296px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">Language</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">SPOKEN_IN</span><span style="font-size: 12.5px; color: #868D94"> · name</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 432px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">Country</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">PRODUCED_IN</span><span style="font-size: 12.5px; color: #868D94"> · code ISO</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 568px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">ProductionCompany</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">PRODUCED_BY</span><span style="font-size: 12.5px; color: #868D94"> · tmdb_id</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 704px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">Keyword</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">HAS_KEYWORD</span><span style="font-size: 12.5px; color: #868D94"> · name</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 840px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px">Collection</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #2D6191">PART_OF_COLLECTION</span><span style="font-size: 12.5px; color: #868D94"> · tmdb_id</span></span></div>
+
+<div style="position: absolute; left: 1160px; top: 976px; width: 280px; height: 88px; box-sizing: border-box; padding: 0 20px; display: flex; align-items: center; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 17px; color: #8A3F20">Review</b><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #A8502B">HAS_REVIEW</span><span style="font-size: 12.5px; color: #A8502B"> · sob demanda</span></span></div>
+
+<div style="position: absolute; left: 465px; top: 584px; width: 150px; text-align: center; font-size: 13px; line-height: 16px; color: #5A6066">10 relações tipadas</div>
+
+<div style="position: absolute; left: 64px; top: 740px; width: 540px; height: 150px; box-sizing: border-box; padding: 22px 26px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.55"><b style="font-size: 17px">A categoria vira o tipo da relação</b><br><span style="font-size: 14px; color: #5A6066">A <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">category</span> do IMDb é mapeada para o tipo: <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">director</span> vira <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">DIRECTED</span>, com <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">WORKED_ON</span> como fallback.</span></span></div>
+
+<div style="position: absolute; left: 64px; top: 920px; width: 540px; height: 150px; box-sizing: border-box; padding: 22px 26px; display: flex; align-items: flex-start; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px"><span style="line-height: 1.55"><b style="font-size: 17px; color: #8A3F20">Dois sistemas de nota, independentes</b><br><span style="font-size: 14px; color: #8A4F30">IMDb e TMDb pontuam separado. Nota alta sozinha não quer dizer aclamação — o schema instrui o modelo a filtrar por volume de votos também.</span></span></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":1140}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

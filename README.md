@@ -32,6 +32,14 @@ On top of that graph sits an agent layer: a [LangGraph](https://langchain-ai.git
 | [![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com) | Exposes the film-graph agent over HTTP |
 | [![Angular](https://img.shields.io/badge/Angular-DD0031?logo=angular&logoColor=white)](https://angular.dev) | Chat interface over the agent API: standalone components and signals, with conversations kept in the browser |
 
+## Architecture Canvas
+
+Six diagrams of the project's architecture — the ingestion pipeline, the agent
+pipeline, the graph model, the grounding tools and the project's current state —
+live in [`docs/canvas/`](docs/canvas). Open
+[`docs/canvas/index.html`](docs/canvas/index.html) in a browser; no build and no
+server are needed.
+
 ## Initial Setup
 
 ### Requirements

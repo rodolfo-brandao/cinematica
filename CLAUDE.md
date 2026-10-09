@@ -146,6 +146,12 @@ Version-controlled layout (unversioned files such as `.venv/`, `.env`, and the I
 │   └── README.md                     # IMDb datasets go here (not committed)
 ├── docker/
 │   └── docker-compose.yml            # Neo4j service
+├── docs/
+│   └── canvas/                       # Architecture diagrams (open index.html)
+│       ├── index.html
+│       ├── README.md
+│       ├── canvas.json               # Artboard frames, for the canvas editor
+│       └── *.dc.html                 # One self-contained artboard each
 ├── front/                            # Angular chat UI (see front/README.md)
 │   ├── src/
 │   │   ├── app/

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pipeline de ingestão</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; }
+a { color: #2D6191; } a:hover { color: #1F486C; }
+</style>
+</helmet>
+<div style="position: relative; width: 1600px; height: 840px; background: #F1F2EF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #16181A">
+
+<svg width="57" height="8" viewBox="0 0 57 8" preserveAspectRatio="none" style="position: absolute; left: 312px; top: 386px; width: 57px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 53 4" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+
+<svg width="57" height="8" viewBox="0 0 57 8" preserveAspectRatio="none" style="position: absolute; left: 618px; top: 386px; width: 57px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 53 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+
+<svg width="57" height="8" viewBox="0 0 57 8" preserveAspectRatio="none" style="position: absolute; left: 924px; top: 386px; width: 57px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 53 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+
+<svg width="57" height="8" viewBox="0 0 57 8" preserveAspectRatio="none" style="position: absolute; left: 1230px; top: 386px; width: 57px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 53 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+
+<svg width="8" height="43" viewBox="0 0 8 43" preserveAspectRatio="none" style="position: absolute; left: 184px; top: 256px; width: 8px; height: 43px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 39" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+
+<svg width="8" height="43" viewBox="0 0 8 43" preserveAspectRatio="none" style="position: absolute; left: 490px; top: 256px; width: 8px; height: 43px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 39" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+
+<svg width="8" height="43" viewBox="0 0 8 43" preserveAspectRatio="none" style="position: absolute; left: 1408px; top: 256px; width: 8px; height: 43px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 39" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+
+<div style="position: absolute; left: 64px; top: 64px; width: 900px; font-size: 36px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1">Pipeline de ingestão</div>
+
+<div style="position: absolute; left: 64px; top: 116px; width: 1100px; font-size: 17px; line-height: 1.5; color: #5A6066">Offline, rodado por <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px">python -m src.main</span>. Nada é carregado inteiro na memória: os datasets são lidos linha a linha.</div>
+
+<div style="position: absolute; left: 64px; top: 184px; width: 248px; height: 72px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; background: #ffffff; border: 1px dashed #BFC4BD; border-radius: 12px"><span><b style="font-size: 15px">Datasets IMDb</b><br><span style="font-size: 12.5px; color: #5A6066; font-family: 'IBM Plex Mono', monospace">4 × .tsv.gz</span></span></div>
+
+<div style="position: absolute; left: 370px; top: 184px; width: 248px; height: 72px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; background: #ffffff; border: 1px dashed #BFC4BD; border-radius: 12px"><span><b style="font-size: 15px">TMDb API</b><br><span style="font-size: 12.5px; color: #5A6066; font-family: 'IBM Plex Mono', monospace">/movie/{id} + keywords</span></span></div>
+
+<div style="position: absolute; left: 1288px; top: 184px; width: 248px; height: 72px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; background: #ffffff; border: 1px dashed #BFC4BD; border-radius: 12px"><span><b style="font-size: 15px">Ollama</b><br><span style="font-size: 12.5px; color: #5A6066; font-family: 'IBM Plex Mono', monospace">nomic-embed-text</span></span></div>
+
+<div style="position: absolute; left: 64px; top: 300px; width: 248px; height: 180px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">compile.py</span><br><b style="font-size: 19px">compile</b><br><span style="font-size: 13px; color: #5A6066">Monta índices em memória a partir dos 4 datasets.</span><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">→ índices por tconst</span></span></div>
+
+<div style="position: absolute; left: 370px; top: 300px; width: 248px; height: 180px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">enrich.py</span><br><b style="font-size: 19px">enrich</b><br><span style="font-size: 13px; color: #5A6066">TMDb async, semáforo de 20, retry com tenacity.</span><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">→ shards JSONL</span></span></div>
+
+<div style="position: absolute; left: 676px; top: 300px; width: 248px; height: 180px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">consolidate.py</span><br><b style="font-size: 19px">consolidate</b><br><span style="font-size: 13px; color: #5A6066">Concatena os shards em ordem determinística.</span><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">→ data/movies.jsonl</span></span></div>
+
+<div style="position: absolute; left: 982px; top: 300px; width: 248px; height: 180px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">load.py</span><br><b style="font-size: 19px">load</b><br><span style="font-size: 13px; color: #5A6066">MERGE em lote de nós e relações tipadas.</span><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">→ grafo no Neo4j</span></span></div>
+
+<div style="position: absolute; left: 1288px; top: 300px; width: 248px; height: 180px; box-sizing: border-box; padding: 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #868D94">embed.py</span><br><b style="font-size: 19px">embed</b><br><span style="font-size: 13px; color: #5A6066">Vetoriza os overviews e cria o índice vetorial.</span><br><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #2D6191">→ overview_embedding</span></span></div>
+
+<div style="position: absolute; left: 64px; top: 580px; width: 704px; height: 160px; box-sizing: border-box; padding: 24px 28px; display: flex; align-items: flex-start; background: #E7EEF5; border: 1px solid #A9C2DA; border-radius: 12px"><span style="line-height: 1.55"><b style="font-size: 18px; color: #1F486C">Retomável</b><br><span style="font-size: 14.5px; color: #2D5370">Os shards são nomeados a partir dos <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">tconst</span> ordenados, então um chunk sempre mapeia para os mesmos filmes. Shards que já existem são pulados — dá para rodar em lotes com <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">python -m src.main 200</span> e continuar depois.</span></span></div>
+
+<div style="position: absolute; left: 816px; top: 580px; width: 704px; height: 160px; box-sizing: border-box; padding: 24px 28px; display: flex; align-items: flex-start; background: #E7EEF5; border: 1px solid #A9C2DA; border-radius: 12px"><span style="line-height: 1.55"><b style="font-size: 18px; color: #1F486C">Idempotente</b><br><span style="font-size: 14.5px; color: #2D5370">Toda escrita no Neo4j é <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">MERGE</span>, e o embed só busca filmes que ainda não têm vetor. Reexecutar sobre a mesma entrada — ou sobre uma que cresceu — não duplica nada nem refaz trabalho.</span></span></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":840}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

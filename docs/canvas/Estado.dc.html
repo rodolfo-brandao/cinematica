@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Estado do projeto</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; }
+a { color: #2D6191; } a:hover { color: #1F486C; }
+</style>
+</helmet>
+<div style="width: 1600px; height: 900px; box-sizing: border-box; padding: 64px; background: #F1F2EF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #16181A; display: flex; flex-direction: column; gap: 32px">
+
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0; font-size: 36px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1">Estado do projeto</h1>
+    <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #5A6066; max-width: 1150px">Em 9 de outubro de 2026, no branch <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px">feature/front-openui</span>, um commit à frente da <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px">main</span>.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px">
+
+    <div style="box-sizing: border-box; padding: 26px; background: #E7EEF5; border: 1px solid #A9C2DA; border-radius: 14px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; color: #2D6191">VERDE</div>
+        <div style="font-size: 20px; font-weight: 600; color: #1F486C">Verificado</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; color: #2D5370">
+        <div><b>45 testes</b> de backend passando</div>
+        <div><b>pylint 10.00/10</b> em <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">src/</span></div>
+        <div>Front: build limpo e <b>9 testes</b> no Vitest</div>
+        <div>Todo o código roda em <b>Python 3.11</b>, sem usar nada de 3.12+</div>
+      </div>
+    </div>
+
+    <div style="box-sizing: border-box; padding: 26px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 14px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; color: #868D94">AMBIENTE</div>
+        <div style="font-size: 20px; font-weight: 600">Nunca executado de verdade</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; color: #5A6066">
+        <div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">logs/cinematica.log</span> só tem saída de <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">pytest</span> — o pipeline nunca viu dado real</div>
+        <div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">datasets/</span> tem só o README; faltam os 4 <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">.tsv.gz</span></div>
+        <div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">.env</span> só com as duas chaves do TMDb, ambas vazias</div>
+        <div>Sem <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">NEO4J_*</span> e sem <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">ANTHROPIC_API_KEY</span>; Docker e Ollama parados</div>
+      </div>
+    </div>
+
+    <div style="box-sizing: border-box; padding: 26px; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 14px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; color: #A8502B">ABERTO</div>
+        <div style="font-size: 20px; font-weight: 600; color: #8A3F20">Pendências conhecidas</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; line-height: 1.5; color: #8A4F30">
+        <div><b>O <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">make api</span> não funciona.</b> O <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">pyproject</span> exige 3.14, o venv é 3.11 — subir pelo <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">.venv/bin/uvicorn</span></div>
+        <div>O branch cita <b>Open WebUI</b>, que foi descartado no planejamento</div>
+        <div>A coleção Bruno chama <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">GET /question</span>; a rota real é <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">POST /query</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="box-sizing: border-box; padding: 26px 28px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 14px; display: flex; flex-direction: column; gap: 18px">
+    <div style="font-size: 17px; font-weight: 600">Para a primeira execução real, nesta ordem</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px">
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A8502B">01</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Preencher o <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">.env</span>: credenciais do Neo4j e a chave da Anthropic</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A8502B">02</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Baixar os datasets do IMDb para <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">datasets/</span></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A8502B">03</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Subir a infra: <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">make up</span> e <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">make ollama-up</span>, depois ingerir em lotes</div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #A8502B">04</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">API pelo <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">.venv/bin/uvicorn</span> e front com <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">make front</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

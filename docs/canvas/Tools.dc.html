@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Grounding tools</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; }
+a { color: #2D6191; } a:hover { color: #1F486C; }
+</style>
+</helmet>
+<div style="width: 1600px; height: 820px; box-sizing: border-box; padding: 64px; background: #F1F2EF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #16181A; display: flex; flex-direction: column; gap: 28px">
+
+  <div style="display: flex; flex-direction: column; gap: 10px">
+    <h1 style="margin: 0; font-size: 36px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1">Grounding tools</h1>
+    <p style="margin: 0; font-size: 17px; line-height: 1.5; color: #5A6066; max-width: 1100px">Oito ferramentas expostas ao Claude durante o estágio <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px">query</span>. Quatro só leem o grafo; quatro escrevem nele sob demanda.</p>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; color: #2D6191">LEITURA</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+
+      <div style="box-sizing: border-box; padding: 20px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #1F486C">get_schema</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Devolve o schema real do grafo. Chamada antes de escrever Cypher, para o modelo não adivinhar nomes de propriedades.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #1F486C">resolve_entity</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Nome livre vira nós candidatos por full-text. Tolera caixa e grafia, onde o match exato falharia em silêncio.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #1F486C">run_cypher</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Roda Cypher de leitura. O erro do Neo4j volta estruturado, como insumo para o modelo se corrigir.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #1F486C">vector_search</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #5A6066">Filmes semanticamente próximos de um tema, para perguntas que Cypher não expressa.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 14px">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; color: #A8502B">ESCRITA · SOB DEMANDA</div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px">
+
+      <div style="box-sizing: border-box; padding: 20px; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #8A3F20">search_external_movie</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #8A4F30">Procura no TMDb um filme ausente do grafo e devolve candidatos com o <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">tmdb_id</span>.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #8A3F20">ingest_movie</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #8A4F30">Traz esse filme para o grafo. No-op se ele já existir, para nunca sobrescrever o registro vindo do IMDb.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #8A3F20">fetch_reviews</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #8A4F30">Busca as reviews públicas do TMDb para o próprio modelo ler e julgar.</div>
+      </div>
+
+      <div style="box-sizing: border-box; padding: 20px; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 500; color: #8A3F20">save_movie_sentiment</div>
+        <div style="font-size: 13.5px; line-height: 1.5; color: #8A4F30">Persiste o veredito do modelo: nós <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">Review</span> mais o agregado no <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">Movie</span>.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="box-sizing: border-box; padding: 20px 24px; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px; font-size: 14px; line-height: 1.55; color: #5A6066"><b style="color: #16181A">A escrita nunca passa pelo Cypher.</b> <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">run_cypher</span> rejeita qualquer cláusula de escrita por denylist, valida com <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">EXPLAIN</span> antes de executar e roda no modo READ da sessão — a guarda autoritativa. As duas rotas de escrita são as ferramentas dedicadas acima.</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

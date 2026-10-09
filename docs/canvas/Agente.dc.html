@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Pipeline do agente</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body { margin: 0; }
+a { color: #2D6191; } a:hover { color: #1F486C; }
+</style>
+</helmet>
+<div style="position: relative; width: 1600px; height: 840px; background: #F1F2EF; font-family: 'IBM Plex Sans', system-ui, sans-serif; color: #16181A">
+
+<svg width="8" height="64" viewBox="0 0 8 64" preserveAspectRatio="none" style="position: absolute; left: 1120px; top: 216px; width: 8px; height: 64px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 64"></path></svg>
+
+<svg width="312" height="8" viewBox="0 0 312 8" preserveAspectRatio="none" style="position: absolute; left: 812px; top: 212px; width: 312px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 312 4"></path></svg>
+
+<svg width="8" height="54" viewBox="0 0 8 54" preserveAspectRatio="none" style="position: absolute; left: 1120px; top: 390px; width: 8px; height: 54px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 54"></path></svg>
+
+<svg width="352" height="8" viewBox="0 0 352 8" preserveAspectRatio="none" style="position: absolute; left: 988px; top: 440px; width: 352px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 352 4"></path></svg>
+
+<svg width="8" height="40" viewBox="0 0 8 40" preserveAspectRatio="none" style="position: absolute; left: 984px; top: 610px; width: 8px; height: 40px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 40"></path></svg>
+
+<svg width="8" height="40" viewBox="0 0 8 40" preserveAspectRatio="none" style="position: absolute; left: 1336px; top: 610px; width: 8px; height: 40px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 4 0 L 4 40"></path></svg>
+
+<svg width="352" height="8" viewBox="0 0 352 8" preserveAspectRatio="none" style="position: absolute; left: 988px; top: 646px; width: 352px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><path d="M 0 4 L 352 4"></path></svg>
+
+<svg width="8" height="31" viewBox="0 0 8 31" preserveAspectRatio="none" style="position: absolute; left: 184px; top: 248px; width: 8px; height: 31px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-1" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 27" marker-end="url(#dc-arrow-head-filled-1)"></path></svg>
+
+<svg width="63" height="8" viewBox="0 0 63 8" preserveAspectRatio="none" style="position: absolute; left: 312px; top: 331px; width: 63px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-2" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 59 4" marker-end="url(#dc-arrow-head-filled-2)"></path></svg>
+
+<svg width="63" height="8" viewBox="0 0 63 8" preserveAspectRatio="none" style="position: absolute; left: 624px; top: 331px; width: 63px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-3" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 59 4" marker-end="url(#dc-arrow-head-filled-3)"></path></svg>
+
+<svg width="63" height="8" viewBox="0 0 63 8" preserveAspectRatio="none" style="position: absolute; left: 936px; top: 331px; width: 63px; height: 8px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-4" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 0 4 L 59 4" marker-end="url(#dc-arrow-head-filled-4)"></path></svg>
+
+<svg width="8" height="63" viewBox="0 0 8 63" preserveAspectRatio="none" style="position: absolute; left: 808px; top: 216px; width: 8px; height: 63px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-5" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 59" marker-end="url(#dc-arrow-head-filled-5)"></path></svg>
+
+<svg width="8" height="55" viewBox="0 0 8 55" preserveAspectRatio="none" style="position: absolute; left: 984px; top: 444px; width: 8px; height: 55px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-6" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 51" marker-end="url(#dc-arrow-head-filled-6)"></path></svg>
+
+<svg width="8" height="55" viewBox="0 0 8 55" preserveAspectRatio="none" style="position: absolute; left: 1336px; top: 444px; width: 8px; height: 55px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-7" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 51" marker-end="url(#dc-arrow-head-filled-7)"></path></svg>
+
+<svg width="8" height="49" viewBox="0 0 8 49" preserveAspectRatio="none" style="position: absolute; left: 1160px; top: 650px; width: 8px; height: 49px; overflow: visible; fill: none; stroke: #868D94; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round"><defs><marker id="dc-arrow-head-filled-8" orient="auto" markerWidth="5" markerHeight="5" refX="2" refY="2" overflow="visible"><path d="M0 0 L4 2 L0 4 Z" fill="#868D94" stroke="none" style="stroke: none; fill: #868D94; fill: context-stroke"/></marker></defs><path d="M 4 0 L 4 45" marker-end="url(#dc-arrow-head-filled-8)"></path></svg>
+
+<div style="position: absolute; left: 64px; top: 64px; width: 900px; font-size: 36px; font-weight: 700; letter-spacing: -0.015em; line-height: 1.1">Pipeline do agente</div>
+
+<div style="position: absolute; left: 64px; top: 116px; width: 1100px; font-size: 17px; line-height: 1.5; color: #5A6066">Cinco estágios em LangGraph, cada um uma chamada ao Claude. Nenhuma resposta é composta a partir de dados não verificados.</div>
+
+<div style="position: absolute; left: 64px; top: 184px; width: 248px; height: 64px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; background: #ffffff; border: 1px dashed #BFC4BD; border-radius: 12px"><span><b style="font-size: 15px">Pergunta</b><br><span style="font-size: 12.5px; color: #5A6066">linguagem natural</span></span></div>
+
+<div style="position: absolute; left: 64px; top: 280px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace">plan</b><br><span style="font-size: 12.5px; color: #5A6066">Classifica a pergunta e nomeia as entidades a resolver.</span></span></div>
+
+<div style="position: absolute; left: 376px; top: 280px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace">resolve</b><br><span style="font-size: 12.5px; color: #5A6066">Nomes viram nós canônicos por busca full-text difusa.</span></span></div>
+
+<div style="position: absolute; left: 688px; top: 280px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #F6E9E2; border: 1px solid #DDAE95; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace; color: #8A3F20">query</b><br><span style="font-size: 12.5px; color: #8A4F30">Loop de tool-use (8 iterações): escreve Cypher e conserta a partir dos erros reais.</span></span></div>
+
+<div style="position: absolute; left: 1000px; top: 280px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace">verify</b><br><span style="font-size: 12.5px; color: #5A6066">As linhas satisfazem <b>todas</b> as restrições da pergunta?</span></span></div>
+
+<div style="position: absolute; left: 864px; top: 500px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #E7EEF5; border: 1px solid #A9C2DA; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace; color: #1F486C">compose</b><br><span style="font-size: 12.5px; color: #2D5370">Redige a resposta usando só as linhas verificadas.</span></span></div>
+
+<div style="position: absolute; left: 1216px; top: 500px; width: 248px; height: 110px; box-sizing: border-box; padding: 16px 20px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.5"><b style="font-size: 19px; font-family: 'IBM Plex Mono', monospace">fallback</b><br><span style="font-size: 12.5px; color: #5A6066">Admite que não encontrou resposta confiável.</span></span></div>
+
+<div style="position: absolute; left: 1040px; top: 700px; width: 248px; height: 64px; box-sizing: border-box; padding: 0 18px; display: flex; align-items: center; background: #ffffff; border: 1px dashed #BFC4BD; border-radius: 12px"><span><b style="font-size: 15px">Resposta</b><br><span style="font-size: 12.5px; color: #5A6066; font-family: 'IBM Plex Mono', monospace">{question, answer}</span></span></div>
+
+<div style="position: absolute; left: 828px; top: 188px; width: 280px; text-align: center; font-size: 13px; line-height: 16px; color: #A8502B">rejeitado · nova tentativa (máx. 3)</div>
+
+<div style="position: absolute; left: 1000px; top: 463px; width: 100px; font-size: 13px; line-height: 16px; color: #5A6066">verificado</div>
+
+<div style="position: absolute; left: 1352px; top: 463px; width: 160px; font-size: 13px; line-height: 16px; color: #5A6066">orçamento esgotado</div>
+
+<div style="position: absolute; left: 64px; top: 500px; width: 680px; height: 190px; box-sizing: border-box; padding: 24px 28px; display: flex; align-items: flex-start; background: #ffffff; border: 1px solid #D9DCD6; border-radius: 12px"><span style="line-height: 1.55"><b style="font-size: 18px">Duas guardas antes do modelo</b><br><span style="font-size: 14.5px; color: #5A6066">Zero linhas é rejeitado sem gastar chamada de LLM — nenhuma pergunta por filmes ou pessoas pode ser satisfeita por um resultado vazio.<br><br>E <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">run_cypher</span> é estritamente de leitura: denylist por regex, validação com <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">EXPLAIN</span> e o modo READ da sessão como guarda final.</span></span></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1600,"height":840}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>
