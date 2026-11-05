@@ -4,8 +4,8 @@ info:
   seq: 1
 
 http:
-  method: GET
-  url: "{{base_url}}/question"
+  method: POST
+  url: "{{base_url}}/query"
   body:
     type: json
     data: |-
