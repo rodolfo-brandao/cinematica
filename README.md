@@ -44,7 +44,7 @@ server are needed.
 
 ### Requirements
 
-- [x] [Anthropic API key](https://console.anthropic.com)
+- [x] [Anthropic API key](https://console.anthropic.com) or [OpenRouter API key](https://openrouter.ai/keys)
 - [x] [Docker](https://www.docker.com/get-started/)
 - [x] [Node.js](https://nodejs.org) (for the Angular front-end)
 - [x] [Ollama](https://ollama.com/download)
@@ -93,7 +93,7 @@ make down
 
 ### Anthropic
 
-The agent's reasoning stages call a frontier [Claude](https://www.anthropic.com/claude) model via the Anthropic API. Set `ANTHROPIC_API_KEY` in `.env`; `ANTHROPIC_MODEL` selects the model and defaults to [`claude-sonnet-5`](https://docs.claude.com/en/docs/about-claude/models/overview).
+The agent's reasoning stages call a frontier [Claude](https://www.anthropic.com/claude) model via the Anthropic API, or through [OpenRouter](https://openrouter.ai) as a fallback. Set `ANTHROPIC_API_KEY` in `.env` (if it is empty, `OPENROUTER_API_KEY` is used instead); `ANTHROPIC_MODEL` selects the model and defaults to [`claude-sonnet-5`](https://docs.claude.com/en/docs/about-claude/models/overview).
 
 Because the grounding tools (schema introspection, entity resolution, error-repair loops) carry most of the reasoning load, Sonnet is the starting point rather than an assumed ceiling — raising `ANTHROPIC_MODEL` to `claude-opus-4-8` is a one-line change, which makes a model ablation cheap to run.
 
@@ -138,7 +138,7 @@ python -m src.main 200
 
 ### Agent API
 
-With Neo4j loaded (see above), Ollama running, and `ANTHROPIC_API_KEY` set, start the agent API:
+With Neo4j loaded (see above), Ollama running, and `ANTHROPIC_API_KEY` (or `OPENROUTER_API_KEY`) set, start the agent API:
 ```bash
 make api
 ```
