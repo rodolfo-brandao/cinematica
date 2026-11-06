@@ -225,3 +225,5 @@ logs/
 
 # .claude files
 .claude/settings.json
+# Neo4j database dumps
+backups/
