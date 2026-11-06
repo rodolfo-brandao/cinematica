@@ -221,7 +221,7 @@ def test_vector_search_embeds_then_queries_the_index():
     assert result == [{"tconst": "tt1", "title": "A"}]
     assert ollama.embedded == ["isolation and memory"]
     [(query, params)] = client.calls
-    assert "db.index.vector.queryNodes" in query
+    assert "VECTOR INDEX movie_overview" in query
     assert params == {"k": 3, "embedding": [0.1, 0.2, 0.3]}
 
 

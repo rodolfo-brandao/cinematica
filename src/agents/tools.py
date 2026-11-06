@@ -34,28 +34,34 @@ _WRITE_KEYWORDS = re.compile(
 # parsed as query syntax.
 _LUCENE_SPECIAL = re.compile(r'([+\-!(){}\[\]^"~*?:\\/&|])')
 
-# Full-text-backed resolution, one projection per supported label:
+# Full-text-backed resolution, one projection per supported label. The
+# Cypher 25 `SEARCH` clause replaces the deprecated
+# `db.index.fulltext.queryNodes` procedure (Neo4j 2026.x):
 _RESOLVE_QUERIES = {
     "Person": (
-        "CALL db.index.fulltext.queryNodes('person_name_ft', $name) "
-        "YIELD node, score "
+        "CYPHER 25 MATCH (node:Person) "
+        "SEARCH node IN (FULLTEXT INDEX person_name_ft FOR $name "
+        "LIMIT $limit) SCORE AS score "
         "RETURN node.nconst AS id, node.primary_name AS name, "
         "node.birth_year AS birth_year, node.death_year AS death_year, "
         "score "
-        "ORDER BY score DESC LIMIT $limit"
+        "ORDER BY score DESC"
     ),
     "Movie": (
-        "CALL db.index.fulltext.queryNodes('movie_title_ft', $name) "
-        "YIELD node, score "
+        "CYPHER 25 MATCH (node:Movie) "
+        "SEARCH node IN (FULLTEXT INDEX movie_title_ft FOR $name "
+        "LIMIT $limit) SCORE AS score "
         "RETURN node.tconst AS id, node.primary_title AS title, "
         "node.start_year AS start_year, score "
-        "ORDER BY score DESC LIMIT $limit"
+        "ORDER BY score DESC"
     ),
 }
 
+# Same migration for `db.index.vector.queryNodes`:
 _VECTOR_SEARCH_QUERY = (
-    "CALL db.index.vector.queryNodes('movie_overview', $k, $embedding) "
-    "YIELD node, score "
+    "CYPHER 25 MATCH (node:Movie) "
+    "SEARCH node IN (VECTOR INDEX movie_overview FOR $embedding "
+    "LIMIT $k) SCORE AS score "
     "RETURN node.tconst AS tconst, node.primary_title AS title, "
     "node.start_year AS start_year, node.overview AS overview, "
     "node.average_rating AS average_rating, node.num_votes AS num_votes, "

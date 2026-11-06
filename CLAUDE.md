@@ -25,10 +25,14 @@ Use commands from [`Makefile`](/Makefile).
 
 ### Anthropic (reasoning)
 
-The agent's reasoning stages call a frontier Claude model via the Anthropic API.
+The agent's reasoning stages call a frontier Claude model, either
+directly via the Anthropic API or through OpenRouter's
+Anthropic-compatible Messages endpoint.
 
-- Set `ANTHROPIC_API_KEY` in `.env`.
-- `ANTHROPIC_MODEL` selects the model (defaults to `claude-sonnet-5`).
+- Set `ANTHROPIC_API_KEY` in `.env`; if it is empty, `OPENROUTER_API_KEY`
+  is used instead.
+- `ANTHROPIC_MODEL` selects the model (defaults to `claude-sonnet-5`, or
+  `anthropic/claude-sonnet-5` on OpenRouter).
 
 The grounding tools carry most of the reasoning load, so Sonnet is the
 starting point and `claude-opus-4-8` is an escalation to justify with
@@ -258,8 +262,11 @@ Base URL is hardcoded in `TmdbClient`.
 
 ### Anthropic
 
-- `ANTHROPIC_API_KEY` — API key for the reasoning model
+- `ANTHROPIC_API_KEY` — Anthropic API key for the reasoning model
+- `OPENROUTER_API_KEY` — fallback key, used when `ANTHROPIC_API_KEY` is
+  empty
 - `ANTHROPIC_MODEL` — Claude model ID; defaults to `claude-sonnet-5`
+  (`anthropic/claude-sonnet-5` on OpenRouter)
 
 ### Ollama
 
