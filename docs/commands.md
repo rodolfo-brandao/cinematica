@@ -24,6 +24,9 @@ See [`Makefile`](/Makefile).
 - `make down` — Stop Neo4j container
 - `make api` — Run the FastAPI agent API (`uvicorn` with reload)
 
+To move a populated database to another computer, see
+[`database-transfer.md`](database-transfer.md).
+
 ## Ollama (embeddings)
 
 Ollama serves the local embedding model used to build and query the Neo4j
